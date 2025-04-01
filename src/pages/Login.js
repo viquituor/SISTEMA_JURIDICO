@@ -80,7 +80,7 @@ const Login = () => {
       </main>
 
       <footer>
-        <Link to="/cadastroadv.js">CADASTRE UM ADVOGADO</Link>
+        <Link to="/cadastroadv">CADASTRE UM ADVOGADO</Link>
       </footer>
     </div>
   );
