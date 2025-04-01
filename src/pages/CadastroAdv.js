@@ -1,10 +1,11 @@
 import logo from "../style/assets/LOGO.png";
 import "../style/login.css";
+import { Link } from 'react-router-dom';
 
 
 
 
-const cadastroadv = () => {
+const CadastroAdv = () => {
 
   return (
     <div className="container">
@@ -23,10 +24,10 @@ const cadastroadv = () => {
       </main>
 
       <footer>
-        <a href="/login.js">ENTRAR</a>
+        <Link to="/">ENTRAR</Link>
       </footer>
     </div>
   );
 
 };
-export default cadastroadv;
+export default CadastroAdv;
