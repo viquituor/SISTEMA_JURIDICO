@@ -65,7 +65,7 @@ const Login = () => {
 
           {mostrarInfo && advogadoSelecionado && (
             <div id="hide">
-              <button onClick={() => setMostrarInfo(false)}>&times;</button>
+              <button className="exit" onClick={() => setMostrarInfo(false)}>&times;</button>
               <h1>OAB</h1>
               <p>{advogadoSelecionado.oab}</p>
 

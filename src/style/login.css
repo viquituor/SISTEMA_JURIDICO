@@ -2,6 +2,7 @@
     font-family: 'Segoe UI';
     font-weight: 200;
     box-sizing: border-box;
+    margin: 0;
     padding: 0;
     gap: 0;
 }
@@ -13,6 +14,7 @@ html{
 body{
     width: 99vw;
     height: 99vh;
+    
 }
 
 header{
@@ -59,7 +61,7 @@ main{
 
         input{
             all: unset;
-            display:none;
+            display:block;
         }
 
         input:placeholder{
@@ -107,14 +109,14 @@ main{
     justify-content: center;
 
 
-    button{
+    .exit{
         color: red;
         all: unset;
         display: relative;
         left: 10rem;
         top: -10rem;
     }
-    
+
     nav{
         display: flex;
         flex-direction: row;
