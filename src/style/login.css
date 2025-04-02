@@ -7,15 +7,6 @@
     gap: 0;
 }
 
-html{
-    height: 100vh;
-}
-
-body{
-    width: 99vw;
-    height: 99vh;
-    
-}
 
 header{
     width: 100vw;
@@ -24,7 +15,7 @@ header{
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 
     img{
@@ -33,8 +24,8 @@ header{
     }
 
     h1{
-        
-        font-size: 4rem;
+        font-weight: 100;
+        font-size: 3rem;
         color: #ffb801;
     }
 }
@@ -48,26 +39,32 @@ main{
     flex-direction: column;
     align-items: center;
 
+    
     .titulo{
+        width: 100vw;
         display: flex;
         flex-direction: row;
+        justify-content: left;
         align-items: center;
-        
+
 
         h3{
-            text-align: center;
+            position: absolute;
+            width: fit-content;
             text-transform: uppercase;
+            left: 44.5vw;
         }
 
         input{
             all: unset;
-            display:block;
+            width: 5vw;
+            
         }
-
-        input:placeholder{
+    
+        input::placeholder{
             font-family: 'Segoe UI';
             color: #fff;
-
+    
         }
     }
 
@@ -86,7 +83,7 @@ main{
         button{
             all: unset;
             font-weight: 100;
-            font-size: 1.5rem;
+            font-size: 2rem;
             text-align: center;
         }
     }
@@ -96,7 +93,7 @@ main{
     
 }
 
-#hide{
+.hide{
     background-color:#1f1e1e ;
     width: 40vw;
     height: 40vh;
@@ -136,13 +133,14 @@ footer{
     width: 100vw;
     background-color:#ffb801;
     text-align: center;
+    padding: 0.5rem;
 
     a{
        all: unset;
-       font-size: 1.2rem;
+       font-size: 1.5rem;
     }
     a:hover{
         color: #fff;
-        font-size: 1rem;
+        font-size: 1.6rem;
     }
 }

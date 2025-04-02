@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import logo from "../style/assets/LOGO.png";
+import logo from "../public/logo.png";
 import "../style/login.css";
 import { Link } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ const Login = () => {
   useEffect(() => {
     const carregarAdvogados = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/advogado");
+        const response = await axios.get("http://localhost:3001/advogados");
         setAdvogados(response.data);
       } catch (error) {
         console.error("Erro ao buscar advogados:", error);
@@ -64,7 +64,7 @@ const Login = () => {
           </div>
 
           {mostrarInfo && advogadoSelecionado && (
-            <div id="hide">
+            <div id="hide" className="hide">
               <button className="exit" onClick={() => setMostrarInfo(false)}>&times;</button>
               <h1>OAB</h1>
               <p>{advogadoSelecionado.oab}</p>
