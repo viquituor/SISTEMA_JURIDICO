@@ -1,9 +1,5 @@
 
-.meio{
-    color: #ffb801;
-    background-color: #555555;
-}
-    .meio{
+    .meio-edite{
     width: 100vw;
     height: 40vh;
     gap: 0rem;
@@ -12,8 +8,9 @@
     align-items: center;
     text-align: center;
     border-radius: 60px 60px 0px 0px ;
-    background-color: #2d2a26;
-    color: #fff;
+    color: #ffb801;
+    background-color: #555555;
+    box-shadow: 0px -6px 30px 2px #2d2a26;
 
     h3{  width: 100vw;
         padding-top: 0.5rem;
@@ -60,7 +57,7 @@ form{
 }
 
              input::placeholder{
-                color: #2d2a26;
+                color: #ffb801;
                 text-align: left;
                 font-weight: 400;
                 padding: 2rem;

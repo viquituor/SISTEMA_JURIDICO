@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import logo from "../public/logo.png";
-import "../style/login.css";
 import "../style/CadastroAdv.css"
+import "../style/global.css";
 import { Link, useNavigate } from 'react-router-dom';
 
 const CadastroAdv = () => {
@@ -34,18 +34,20 @@ const CadastroAdv = () => {
     setError(null);
     
     try {
-      // Validação básica
+      // Validação do frontend (OAB)
       if (!formData.oab.match(/^[A-Za-z]{2}\d{6}$/)) {
         throw new Error("OAB deve conter 2 letras e 6 números (ex: SP123456)");
       }
       
+      // Envia os dados para o backend
       const response = await axios.post("http://localhost:3001/advogados", formData);
-      console.log("Cadastro realizado:", response.data);
-      alert("Advogado cadastrado com sucesso!");
-      navigate("/"); // Redireciona para a página inicial após cadastro
+      
+      // Feedback para o usuário
+      alert(response.data.message || "Cadastro realizado com sucesso!");
+      navigate("/"); // Redireciona
     } catch (err) {
+      // Exibe erros do backend ou da conexão
       setError(err.response?.data?.error || err.message);
-      console.error("Erro no cadastro:", err);
     } finally {
       setLoading(false);
     }
@@ -54,11 +56,11 @@ const CadastroAdv = () => {
   return (
     <div className="container">
       <header>
-        <img src={logo} alt="logo" />
-        <h1>ADVOCACIA ALMEIDA</h1>
+        <Link to="/"><img src={logo} alt="logo" /></Link>
+        <Link to="/"><h1>ADVOCACIA ALMEIDA</h1></Link>
       </header>
 
-      <main>
+      <main className="meio">
         <h3>CADASTRE UM ADVOGADO</h3>
 
 

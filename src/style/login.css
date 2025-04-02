@@ -1,36 +1,5 @@
-*{
-    font-family: 'Segoe UI';
-    font-weight: 200;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    gap: 0;
-}
-
-
-header{
-    width: 100vw;
-    height: 55vh;
-    background-color: #fff;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-
-    img{
-        width: 10rem;
-        height: auto;
-    }
-
-    h1{
-        font-weight: 100;
-        font-size: 3rem;
-        color: #ffb801;
-    }
-}
-
 main{
+    border-radius: 0px;
     background-color: #555555;
     color: #fff;
     height: 40vh;
@@ -39,7 +8,6 @@ main{
     flex-direction: column;
     align-items: center;
 
-    
     .titulo{
         width: 100vw;
         display: flex;
@@ -103,16 +71,62 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-
-
+    
     .exit{
-        color: red;
+        height: 1vh;
         all: unset;
-        display: relative;
-        left: 10rem;
-        top: -10rem;
+        color: red;
+        position: relative;
+        font-size: 3rem;
+        left: 22rem;
     }
+
+    .conteudo{
+        height: 38vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        text-align: center;
+        gap: 5rem;
+
+        h1{
+            font-size: 2rem;
+        }
+
+        p{
+            font-size: 1.5rem;
+            font-weight: 300;
+
+        }
+
+        nav{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 5rem;
+
+            button, .editar{
+                all: unset;
+                font-weight: 100;
+                font-size: 1.8rem;
+            }
+
+            .editar:hover{
+                color: #ffb801;
+            }
+            .entrar:hover{
+                color: darkgreen;
+            }
+            .excluir:hover{
+                color: red;
+            }
+        }
+    }
+
+   
+    
 
     nav{
         display: flex;
@@ -122,25 +136,10 @@ main{
         gap: 2rem;
        
         button{
-            font-weight: 2rem;
+            all: unset;
+            font-weight: 100;
+            font-size: 1.5rem;
         }
     }
 
-}
-
-footer{
-    height: 5vh;
-    width: 100vw;
-    background-color:#ffb801;
-    text-align: center;
-    padding: 0.5rem;
-
-    a{
-       all: unset;
-       font-size: 1.5rem;
-    }
-    a:hover{
-        color: #fff;
-        font-size: 1.6rem;
-    }
 }

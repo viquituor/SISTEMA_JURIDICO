@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import logo from "../public/logo.png";
 import "../style/login.css";
+import "../style/global.css";
 import { Link } from 'react-router-dom';
 
 const Login = () => {
@@ -23,6 +24,26 @@ const Login = () => {
     carregarAdvogados();
   }, []);
 
+  const excluirAdvogado = async (oab) => {
+    try{
+        const confirmacao = window.confirm("tem certeza que deseja excluir este advogado?");
+        if(!confirmacao) return;
+
+        const response = await axios.delete(`http://localhost:3001/advogados/${oab}`);
+
+        if(response.data.success){
+          alert(response.data.message);
+
+          const updatedAdvogados = advogados.filter(adv => adv.oab !== oab);
+          setAdvogados(updatedAdvogados);
+          setMostrarInfo(false);
+        }
+    }catch(error){
+      console.error("Erro ao excluir advogado", error);
+      alert(error.response?.data?.error || "Erro ao excluir advogado");
+    }
+  };
+
   // Filtra advogados conforme o texto de busca
   const advogadosFiltrados = advogados.filter(advogado =>
     advogado.nome.toLowerCase().includes(busca.toLowerCase())
@@ -31,8 +52,8 @@ const Login = () => {
   return (
     <div className="container">
       <header>
-        <img src={logo} alt="logo" />
-        <h1>ADVOCACIA ALMEIDA</h1>
+        <Link to="/"><img src={logo} alt="logo" /></Link>
+        <Link to="/"><h1>ADVOCACIA ALMEIDA</h1></Link>
       </header>
 
       <main>
@@ -66,14 +87,16 @@ const Login = () => {
           {mostrarInfo && advogadoSelecionado && (
             <div id="hide" className="hide">
               <button className="exit" onClick={() => setMostrarInfo(false)}>&times;</button>
-              <h1>OAB</h1>
-              <p>{advogadoSelecionado.oab}</p>
+              <div className="conteudo">
+              <h1>{advogadoSelecionado.nome}</h1>
+              <p>OAB<br/>{advogadoSelecionado.oab}</p>
 
               <nav>
-                <button className="editar">EDITAR</button>
+                <Link className="editar" to="/EditeAdv">EDITAR</Link>
                 <button className="entrar">ENTRAR</button>
-                <button className="excluir">EXCLUIR</button>
+                <button className="excluir" onClick={() => excluirAdvogado(advogadoSelecionado.oab)}>EXCLUIR</button>
               </nav>
+              </div>
             </div>
           )}
         
