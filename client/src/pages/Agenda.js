@@ -3,7 +3,7 @@ import axios from "axios";
 import logo from "../public/logo.png";
 import "../style/agenda.css";
 import "../style/global.css";
-import { Link, useNavigate} from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 const Agenda = () => {
 
@@ -24,7 +24,7 @@ const Agenda = () => {
                 </nav>
             </header>
 
-            <main >
+            <main className="main-agenda">
                 <div className="buscar-add">
                     <input name="BUSCAR" placeholder="BUSCAR" value={busca} onChange={(e) => setBusca(e.target.value)} />
                     <button to="/cadastroadv">ADICIONAR</button>
