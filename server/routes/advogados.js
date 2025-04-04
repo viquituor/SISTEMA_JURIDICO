@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const advogadosController = require('../controllers/advogados');
 
+// Rotas dos Advogados
 router.get('/', advogadosController.listarAdvogados);
 router.get('/:oab', advogadosController.buscarAdvogado);
 router.post('/', advogadosController.criarAdvogado);
