@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/cadastroadv" element={<CadastroAdv />} />
-        <Route path='/editeadv' element={<EditeAdv />}/>
+        <Route path="/editeadv/:oab" element={<EditeAdv />}/>
       </Routes>
     </Router>
   );

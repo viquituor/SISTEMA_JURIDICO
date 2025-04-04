@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import logo from "../public/logo.png";
-import "../style/CadastroAdv.css"
+import"../style/editaradv.css";
 import "../style/global.css";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams  } from 'react-router-dom';
 
-const CadastroAdv = () => {
+const EditeAdv = () => {
+  const { oab } = useParams();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
@@ -18,10 +23,36 @@ const CadastroAdv = () => {
     numero: '',
     cep: ''
   });
+
+  // Busca os dados do advogado ao carregar
+  useEffect(() => {
+    const fetchAdvogado = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/advogados/${oab}`);
+        console.log('Dados recebidos:', response.data); // Para debug
+
+        setFormData({
+          nome: response.data.nome || '',
+          email: response.data.email || '',
+          oab: (response.data.OAB || response.data.oab || '').toString().padStart(6, '0'),
+          telefone: response.data.telefone || '', // Usa diretamente o campo telefone
+          cidade: response.data.cidade || '',
+          bairro: response.data.bairro || '',
+          logradouro: response.data.logradouro || '',
+          uf: response.data.UF || response.data.uf || '',
+          numero: response.data.numero || '',
+          cep: response.data.CEP || response.data.cep || ''
+        });
+      } catch (err) {
+        setError("Erro ao carregar dados do advogado");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
   
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+    fetchAdvogado();
+  }, [oab]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,36 +63,48 @@ const CadastroAdv = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    
+
     try {
-      // Validação do frontend (OAB)
-      if (!formData.oab.match(/^[A-Za-z]{2}\d{6}$/)) {
-        throw new Error("OAB deve conter 2 letras e 6 números (ex: SP123456)");
-      }
-      
-      // Envia os dados para o backend
-      const response = await axios.post("http://localhost:3001/advogados", formData);
-      
-      // Feedback para o usuário
-      alert(response.data.message || "Cadastro realizado com sucesso!");
-      navigate("/"); // Redireciona
+        // Validação do OAB
+        if (!formData.oab.match(/^\d{6}$/)) {
+            throw new Error("OAB deve conter 6 números");
+        }
+
+        const response = await axios.put(
+            `http://localhost:3001/advogados/${oab}`,
+            {
+                ...formData,
+                oab: formData.oab // Envia a OAB mesmo que seja a mesma
+            }
+        );
+
+        // Se a OAB foi alterada, redireciona para a nova URL
+        if (response.data.novaOAB && response.data.novaOAB !== oab) {
+            navigate(`/editeadv/${response.data.novaOAB}`, {
+                replace: true,
+                state: { advogado: formData }
+            });
+        } else {
+            alert("Advogado atualizado com sucesso!");
+            navigate("/");
+        }
     } catch (err) {
-      // Exibe erros do backend ou da conexão
-      setError(err.response?.data?.error || err.message);
+        setError(err.response?.data?.error || err.message);
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
 
   return (
     <div className="container">
+
       <header>
         <Link to="/"><img src={logo} alt="logo" /></Link>
         <Link to="/"><h1>ADVOCACIA ALMEIDA</h1></Link>
       </header>
 
-      <main className="meio">
-        <h3>CADASTRE UM ADVOGADO</h3>
+      <main className="meio-edite">
+        <h3>EDITE O ADVOGADO</h3>
 
 
         <form onSubmit={handleSubmit}>
@@ -89,9 +132,9 @@ const CadastroAdv = () => {
                   name="oab"
                   value={formData.oab}
                   onChange={handleChange}
+                  pattern="[0-9]{6}"
+                  title="Formato: números (ex: 123456)"
                   placeholder="OAB"
-                  pattern="[A-Za-z]{2}\d{6}"
-                  title="Formato: 2 letras e 6 números (ex: SP123456)"
                   required
                 />
                 <input
@@ -172,10 +215,10 @@ const CadastroAdv = () => {
       </main>
 
       <footer>
-        <Link to="/">ADVOGADO JÁ CADASTRATO</Link>
+        <Link to="/">VOLTAR</Link>
       </footer>
     </div>
   );
 };
 
-export default CadastroAdv;
+export default EditeAdv;

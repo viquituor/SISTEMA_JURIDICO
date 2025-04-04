@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import logo from "../public/logo.png";
-import"../style/editaradv.css";
+import "../style/CadastroAdv.css"
 import "../style/global.css";
 import { Link, useNavigate } from 'react-router-dom';
 
-const EditeAdv = () => {
+const CadastroAdv = () => {
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
@@ -35,8 +35,8 @@ const EditeAdv = () => {
     
     try {
       // Validação do frontend (OAB)
-      if (!formData.oab.match(/^[A-Za-z]{2}\d{6}$/)) {
-        throw new Error("OAB deve conter 2 letras e 6 números (ex: SP123456)");
+      if (!formData.oab.match(/^[0-9]{6}$/)) {
+        throw new Error("OAB deve conter 6 números (ex: 123456)");
       }
       
       // Envia os dados para o backend
@@ -55,14 +55,13 @@ const EditeAdv = () => {
 
   return (
     <div className="container">
-
       <header>
         <Link to="/"><img src={logo} alt="logo" /></Link>
         <Link to="/"><h1>ADVOCACIA ALMEIDA</h1></Link>
       </header>
 
-      <main className="meio-edite">
-        <h3>EDITE O ADVOGADO</h3>
+      <main className="meio">
+        <h3>CADASTRE UM ADVOGADO</h3>
 
 
         <form onSubmit={handleSubmit}>
@@ -91,8 +90,8 @@ const EditeAdv = () => {
                   value={formData.oab}
                   onChange={handleChange}
                   placeholder="OAB"
-                  pattern="[A-Za-z]{2}\d{6}"
-                  title="Formato: 2 letras e 6 números (ex: SP123456)"
+                  pattern="[0-9]]{6}"
+                  title="Formato:6 números (ex: 123456)"
                   required
                 />
                 <input
@@ -173,10 +172,10 @@ const EditeAdv = () => {
       </main>
 
       <footer>
-        <Link to="/">CADASTRAR ADVOGADO</Link>
+        <Link to="/">ADVOGADO JÁ CADASTRATO</Link>
       </footer>
     </div>
   );
 };
 
-export default EditeAdv;
+export default CadastroAdv;

@@ -29,14 +29,16 @@ form{
     justify-content: space-evenly;
 
         button{
+            width: auto;
             all: unset;
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 100;
             color: #fff;
      }
 
      button:hover{
         color: #ffb801;
+        font-style: italic;
      }
 
 }
@@ -53,18 +55,17 @@ form{
 
         input{
             all: unset;
+            text-align: left;
+                
             color: #2d2a26;
+            font-weight: 300;
+            padding-left: 2rem;
+            padding-bottom: 1rem;
+            padding-top: 0.01rem;
             background-color: #fff;
-            height: 40px;
+            height: 23px;
             border-radius:40px;
 }
-
-             input::placeholder{
-                color: #2d2a26;
-                text-align: left;
-                font-weight: 400;
-                padding: 2rem;
-             }
 
         .basico{
             display: flex;
@@ -79,12 +80,12 @@ form{
             }
 
             .numeros{
-                width: 600px;
+                width: 632px;
                 display: flex;
                 flex-direction: row;
-                justify-content: center;
+                justify-content: space-between;
                 align-items: center;
-                gap: 10rem;
+                gap: 5rem;
 
                 input{
                     width: 300px;

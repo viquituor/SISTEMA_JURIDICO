@@ -50,9 +50,12 @@ form{
 
         input{
             all: unset;
-            color: #2d2a26;
-            background-color: #fff;
-            height: 40px;
+            color: #ffb801;
+            text-align: left;
+            padding-left: 1rem;
+            background-color: #292626;
+            font-size: 1rem;
+            height: 43px;
             border-radius:40px;
 }
 
@@ -76,12 +79,12 @@ form{
             }
 
             .numeros{
-                width: 600px;
+                width: 616px;
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
                 align-items: center;
-                gap: 10rem;
+                gap: 5rem;
 
                 input{
                     width: 300px;

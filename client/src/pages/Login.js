@@ -3,13 +3,14 @@ import axios from "axios";
 import logo from "../public/logo.png";
 import "../style/login.css";
 import "../style/global.css";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 
 const Login = () => {
   const [advogados, setAdvogados] = useState([]);
   const [mostrarInfo, setMostrarInfo] = useState(false);
   const [advogadoSelecionado, setAdvogadoSelecionado] = useState(null);
   const [busca, setBusca] = useState("");
+  const navigate = useNavigate();
 
   // Busca os advogados da API
   useEffect(() => {
@@ -78,7 +79,7 @@ const Login = () => {
                   setMostrarInfo(true);
                 }}
               >
-                {advogado.nome}
+                {advogado.nome.toUpperCase()}
               </button>
               
             ))}
@@ -89,12 +90,12 @@ const Login = () => {
               <button className="exit" onClick={() => setMostrarInfo(false)}>&times;</button>
               <div className="conteudo">
               <h1>{advogadoSelecionado.nome}</h1>
-              <p>OAB<br/>{advogadoSelecionado.oab}</p>
+              <p>OAB<br/>{advogadoSelecionado.OAB}</p>
 
               <nav>
-                <Link className="editar" to="/EditeAdv">EDITAR</Link>
+                <button className="editar" onClick={() => navigate(`/EditeAdv/${advogadoSelecionado.OAB}`, {state: {advogado: advogadoSelecionado}})}>EDITAR</button>
                 <button className="entrar">ENTRAR</button>
-                <button className="excluir" onClick={() => excluirAdvogado(advogadoSelecionado.oab)}>EXCLUIR</button>
+                <button className="excluir" onClick={() => excluirAdvogado(advogadoSelecionado.OAB)}>EXCLUIR</button>
               </nav>
               </div>
             </div>
