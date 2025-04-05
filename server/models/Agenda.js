@@ -6,9 +6,18 @@ class Agenda {
         const connection = await pool.getConnection();
         try {
             const [results] = await connection.query(`
-                SELECT a.*, c.descricao as descricao_contrato 
+                SELECT 
+                    a.cod_compromisso,
+                    a.cod_contrato,
+                    a.data_compromisso,
+                    a.nome_compromisso,
+                    a.descricao,
+                    a.status_compromisso,
+                    c.descricao AS descricao_contrato,
+                    cli.nome AS nome_cliente
                 FROM agenda a
                 LEFT JOIN contrato c ON a.cod_contrato = c.cod_contrato
+                LEFT JOIN cliente cli ON c.CPF = cli.CPF
                 WHERE c.OAB = ?
                 ORDER BY a.data_compromisso
             `, [oab]);
@@ -38,32 +47,44 @@ class Agenda {
         const connection = await pool.getConnection();
         try {
             await connection.beginTransaction();
-
-            // Verifica se o contrato existe
-            const [contrato] = await connection.query(
-                "SELECT 1 FROM contrato WHERE cod_contrato = ?",
-                [dados.cod_contrato]
-            );
-
-            if (contrato.length === 0) {
-                throw new Error("Contrato não encontrado");
+    
+            // Verifica se o contrato existe (se foi fornecido)
+            if (dados.cod_contrato) {
+                const [contrato] = await connection.query(
+                    "SELECT 1 FROM contrato WHERE cod_contrato = ?",
+                    [dados.cod_contrato]
+                );
+    
+                if (contrato.length === 0) {
+                    throw new Error("Contrato não encontrado");
+                }
             }
-
+    
+            // Valida o status do compromisso
+            const statusValidos = ['agendado', 'confirmado', 'cancelado', 'concluido'];
+            if (!statusValidos.includes(dados.status_compromisso)) {
+                dados.status_compromisso = 'agendado'; // Valor padrão
+            }
+    
             const [result] = await connection.execute(
                 `INSERT INTO agenda 
                 (cod_contrato, data_compromisso, nome_compromisso, descricao, status_compromisso) 
                 VALUES (?, ?, ?, ?, ?)`,
                 [
-                    dados.cod_contrato,
-                    dados.data_compromisso,
+                    dados.cod_contrato || null,
+                    new Date(dados.data_compromisso).toISOString().slice(0, 19).replace('T', ' '),
                     dados.nome_compromisso,
                     dados.descricao,
-                    dados.status_compromisso || 'agendado'
+                    dados.status_compromisso
                 ]
             );
-
+    
             await connection.commit();
-            return { success: true, id: result.insertId };
+            return { 
+                success: true, 
+                id: result.insertId,
+                cod_compromisso: result.insertId
+            };
         } catch (err) {
             await connection.rollback();
             throw err;

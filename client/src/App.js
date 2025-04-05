@@ -5,6 +5,7 @@ import CadastroAdv from './pages/CadastroAdv';
 import EditeAdv from './pages/EditeAdv';
 import Agenda from './pages/Agenda';
 
+
 function App() {
   return (
     <Router>
@@ -12,7 +13,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/cadastroadv" element={<CadastroAdv />} />
         <Route path="/editeadv/:oab" element={<EditeAdv />}/>
-        <Route path="/Agenda/:oab" element={<Agenda/>}/>
+        <Route path="advogados/:oab/Agenda" element={<Agenda/>}/>
       </Routes>
     </Router>
   );

@@ -1,8 +1,57 @@
 const Agenda = require('../models/Agenda');
 
+exports.criarCompromisso = async (req, res, next) => {
+    try {
+        const { oab } = req.params;
+        
+        // Verifica se o advogado existe
+        const [advogado] = await pool.query(
+            "SELECT 1 FROM advogado WHERE OAB = ?",
+            [oab]
+        );
+        
+        if (advogado.length === 0) {
+            return res.status(404).json({
+                success: false,
+                error: "Advogado não encontrado"
+            });
+        }
+
+        const result = await Agenda.criar(req.body);
+        
+        res.status(201).json({
+            success: true,
+            cod_compromisso: result.cod_compromisso,
+            message: "Compromisso cadastrado com sucesso!"
+        });
+    } catch (err) {
+        if (err.message.includes("Contrato não encontrado")) {
+            return res.status(400).json({
+                success: false,
+                error: err.message
+            });
+        }
+        next(err);
+    }
+};
+
 exports.buscarCompromissos = async (req, res, next) => {
     try {
         const { oab } = req.params;
+        
+        // Verifica se o advogado existe
+        const [advogado] = await pool.query(
+            "SELECT 1 FROM advogado WHERE OAB = ?",
+            [oab]
+        );
+        
+        if (advogado.length === 0) {
+            return res.status(404).json({
+                success: false,
+                error: "Advogado não encontrado"
+            });
+        }
+
         const compromissos = await Agenda.buscarCompromissosPorAdvogado(oab);
         res.json(compromissos);
     } catch (err) {
@@ -26,30 +75,6 @@ exports.buscarContratosDisponiveis = async (req, res, next) => {
         const contratos = await Agenda.buscarContratosPorAdvogado(oab);
         res.json(contratos);
     } catch (err) {
-        next(err);
-    }
-};
-
-exports.criarCompromisso = async (req, res, next) => {
-    try {
-        const { oab } = req.params;
-        const result = await Agenda.criar({
-            ...req.body,
-            cod_contrato: req.body.cod_contrato
-        });
-        
-        res.status(201).json({
-            success: true,
-            id: result.id,
-            message: "Compromisso cadastrado com sucesso!"
-        });
-    } catch (err) {
-        if (err.message.includes("Contrato não encontrado")) {
-            return res.status(400).json({
-                success: false,
-                error: err.message
-            });
-        }
         next(err);
     }
 };

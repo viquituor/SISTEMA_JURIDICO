@@ -109,4 +109,5 @@ footer{
 
 .footer-principal{
     height: 3vh;
+    display: none;
 }

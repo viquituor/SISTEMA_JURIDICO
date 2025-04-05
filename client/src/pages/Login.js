@@ -94,7 +94,7 @@ const Login = () => {
 
               <nav>
                 <button className="editar" onClick={() => navigate(`/EditeAdv/${advogadoSelecionado.OAB}`, {state: {advogado: advogadoSelecionado}})}>EDITAR</button>
-                <button className="entrar" onClick={() => navigate(`/Agenda/${advogadoSelecionado.OAB}`,{state: {advogado: advogadoSelecionado}})}>ENTRAR</button>
+                <button className="entrar" onClick={() => navigate(`advogados/${advogadoSelecionado.OAB}/Agenda`,{state: {advogado: advogadoSelecionado}})}>ENTRAR</button>
                 <button className="excluir" onClick={() => excluirAdvogado(advogadoSelecionado.OAB)}>EXCLUIR</button>
               </nav>
               </div>

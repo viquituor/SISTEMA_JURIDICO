@@ -1,7 +1,12 @@
 .main-agenda{
     width: 100vw;
-    height: 83.6vh;
+    height: 86.2vh;
     background-color: #58462b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
 
     .buscar-add{
         width: 100vw;
@@ -75,4 +80,39 @@
             }
         }
     }
+}
+
+.aba{
+    background-color:#ffb801 ;
+    width: 40vw;
+    height: 60vh;
+    border-radius: 30px 30px 30px 30px;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+
+    .formulario-agenda{
+        .cont-input{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+    
+            input{
+                all: unset;
+                background-color: #555;
+                color: #fff;
+                text-align: left;
+                padding-left: 1rem;
+                padding-top: 1rem;
+    
+                .nome{
+                    width: 5vw;
+                }
+            }
+        }
+    }
+    
 }
