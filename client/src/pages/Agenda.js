@@ -3,15 +3,16 @@ import axios from "axios";
 import logo from "../public/logo.png";
 import "../style/agenda.css";
 import "../style/global.css";
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const Agenda = () => {
     const { oab } = useParams();
     const [busca, setBusca] = useState('');
+    const navigate = useNavigate();
     const [mostrarInfo, setMostrarInfo] = useState(false);
     const [mostrarAdd, setMostrarAdd] = useState(false);
     const [compromissos, setCompromissos] = useState([]);
-    const [ Contratos,setContratos] = useState([]);
+   // const [ Contratos,setContratos] = useState([]);
     const [compromissoSelecionado, setCompromissoSelecionado] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -175,7 +176,7 @@ const handleAddSubmit = async (e) => {
                     <button className="contratos">CONTRATOS</button>
                     <button className="processos">PROCESSOS</button>
                     <button className="pagamentos">PAGAMENTOS</button>
-                    <button className="clientes">CLIENTES</button>
+                    <button className="clientes" onClick={() => navigate (`advogados/${oab}/Clientes`)}>CLIENTES</button>
                 </nav>
             </header>
 
