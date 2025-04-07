@@ -62,7 +62,7 @@ const Clientes = () => {
             throw new Error("CPF deve conter 11 dígitos");
           }
       
-          const response = await axios.post(
+          await axios.post(
             `http://localhost:3001/advogados/${oab}/Clientes`,
             { ...formData, cpf: cpfFormatado }
           );
