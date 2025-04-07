@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const advogadosRouter = require('./routes/advogados');
+const clientesRouter = require('./routes/Clientes'); // Adicione esta linha
 const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(express.json());
 
 // Rotas
 app.use('/advogados', advogadosRouter);
+app.use('/advogados/:oab/', clientesRouter); // Adicione esta linha
 
 // Tratamento de erros
 app.use(errorHandler);

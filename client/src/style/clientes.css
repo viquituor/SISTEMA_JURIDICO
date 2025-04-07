@@ -1,0 +1,138 @@
+.clientes{
+    color: #ffb801;
+}
+
+.main-clientes{
+    width: 100vw;
+    height: 86.6vh;
+    background-color: #58462b;
+
+    .cont-cli{
+        gap: 2rem;
+        padding: 3rem;
+        width: 100vw;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+
+        .card-cli{
+            width: 20vw;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            text-align: center;
+            border-radius: 50px;
+            background-color: #fff;
+            color: #ffb801;
+            gap: 0;
+            button{
+                all: unset;
+                font-size: 1.5rem;
+                font-weight: 300;
+
+                span{
+                    font-size: 1.2rem;
+                    color: #000;
+                    font-weight: 400;
+                }
+            }
+
+            
+        }
+    }
+}
+
+
+
+.dados-cli{
+    position: fixed;
+    top: 25vh  ;
+    background-color: #555555;
+    width: 60vw;
+    height: 50vh;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+        h3{
+            font-size: 2rem;
+            font-weight: 200;
+            text-transform: uppercase;
+        }
+
+    .botoes{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        gap: 10rem;
+        padding-bottom: 2rem;
+
+        button{
+            all: unset;
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #ffb801;
+            
+        }
+
+        .editar:hover{
+            color: #fff;
+        }
+        .voltar:hover{
+            color: #58462b;
+        }
+        .excluir:hover{
+            color: red;
+        }
+    }
+}
+
+
+.info{
+    width: 60vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+
+    input{
+
+        background-color: #fff !important;
+        color: #58462b !important;
+        font-weight: 400 !important;
+        font-size: 1.2rem !important;
+        all: unset;
+        width: 17vw;
+        height: 2vh;
+        border-radius: 30px;
+        padding: 1rem; 
+    }
+
+
+    .basico{
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+
+        .numeros{
+            display: flex;
+            flex-direction: row;
+            input{
+            width: 6.8vw;
+            }
+        }
+    }
+    .endereco{
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+    }
+    .numeros{   
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+    }
+}

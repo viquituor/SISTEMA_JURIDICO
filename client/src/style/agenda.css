@@ -1,118 +1,14 @@
+.agenda{
+    color: #ffb801;
+}
+
 .main-agenda{
     width: 100vw;
-    height: 86.2vh;
+    height: 86.6vh;
     background-color: #58462b;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    
-
-    .buscar-add{
-        width: 100vw;
-        height: 5vh;
-        background-color: #000;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 2rem;
-
-
-        input{
-            all: unset;
-            width: 10vw;
-            height: 1vh;
-            border-radius: 30px;
-            padding: 1rem; 
-        }
-        input::placeholder{
-            color: #fff;
-            font-weight: 300;
-            font-size: 1.5rem;
-        }
-
-        input:focus{
-            outline: none;
-            border: 2px solid #ffb801;
-        }
-
-        button{
-            all: unset;
-            color: #fff;
-            
-            font-size: 1.5rem;
-        }
-        button:hover{
-            color: #ffb801;
-        }
-    }
-
-    .cont-agenda{
-        width: 100vw;
-        height: 78vh;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-        padding: 3rem;
-
-        .compromissos{
-            width: 15vw;
-            height: 20vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #2d2a26;
-            text-align: center;
-            border-radius: 30px;
-            h1{
-                width: 12vw;
-                background-color: #000;
-                border-radius: 30px;
-                padding: 0.5rem;
-                font-size: 1.5rem;
-                font-weight: 400;
-                color: #ffb801;
-}
-            p{
-                font-size: 2rem;
-                font-weight: 200;
-            }
-        }
-    }
-}
-
-.aba{
-    background-color:#ffb801 ;
-    width: 40vw;
-    height: 60vh;
-    border-radius: 30px 30px 30px 30px;
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-
-
-    .formulario-agenda{
-        .cont-input{
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-    
-            input{
-                all: unset;
-                background-color: #555;
-                color: #fff;
-                text-align: left;
-                padding-left: 1rem;
-                padding-top: 1rem;
-    
-                .nome{
-                    width: 5vw;
-                }
-            }
-        }
-    }
+    justify-content: start;
     
 }
