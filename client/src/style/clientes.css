@@ -87,6 +87,9 @@
         .excluir:hover{
             color: red;
         }
+        .salvar:hover{
+            color: green;
+        }
     }
 }
 
@@ -135,4 +138,98 @@
         flex-direction: column;
         gap: 3rem;
     }
+}
+
+
+.dados-cli-edit{
+    position: fixed;
+    top: 25vh  ;
+    background-color: #2d2a26;
+    width: 60vw;
+    height: 50vh;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+    h3{
+        font-size: 2rem;
+        font-weight: 200;
+        text-transform: uppercase;
+    }
+
+.botoes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 10rem;
+    padding-bottom: 2rem;
+
+    button{
+        all: unset;
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: #ffb801;
+        
+    }
+
+    .editar:hover{
+        color: #fff;
+    }
+    .voltar:hover{
+        color: #58462b;
+    }
+    .excluir:hover{
+        color: red;
+    }
+    .salvar:hover{
+        color: green;
+    }
+}
+
+    .edit-cli{
+        width: 60vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+
+    input{
+
+        background-color: #000 !important;
+        color: #ffb801!important;
+        font-weight: 400 !important;
+        font-size: 1.2rem !important;
+        all: unset;
+        width: 17vw;
+        height: 2vh;
+        border-radius: 30px;
+        padding: 1rem; 
+    }
+
+    .basico{
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+
+        .numeros{
+            display: flex;
+            flex-direction: row;
+            input{
+            width: 6.8vw;
+            }
+        }
+    }
+    .endereco{
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+    }
+    .numeros{   
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+    }
+}
 }

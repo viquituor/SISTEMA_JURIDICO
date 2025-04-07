@@ -318,7 +318,7 @@ useEffect(() => {
                             >
                             <button className="voltar" onClick={() => setMostrarAdd(false)} >VOLTAR</button>
                                 {error && <div className="error-message">{error}</div>}
-                                <button className="excluir" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "SALVAR"}</button>
+                                <button className="salvar" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "SALVAR"}</button>
                     
                             </div>
                             </form>
@@ -438,10 +438,10 @@ useEffect(() => {
 
                         {mostrarEdit && clienteSelecionado && (
                           
-                          <div className="dados-cli">
+                          <div className="dados-cli-edit">
                           <h3>EDITE AS INFORMAÇÕES</h3>
                           <form onSubmit={handleSubmitEdit}>
-                              <div className="info">
+                              <div className="edit-cli">
                           <div className="basico">
                             <input
                               type="text"
@@ -550,7 +550,7 @@ useEffect(() => {
                           >
                           <button className="voltar" onClick={() => {setMostarEdit(false); setMostrarInfo(true)}} >VOLTAR</button>
                               {error && <div className="error-message">{error}</div>}
-                              <button className="excluir" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "SALVAR"}</button>
+                              <button className="salvar" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "SALVAR"}</button>
                   
                           </div>
                           </form>
