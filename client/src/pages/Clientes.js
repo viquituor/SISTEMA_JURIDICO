@@ -176,7 +176,7 @@ useEffect(() => {
 
                 <nav>
                     <button className="agenda" onClick={() => navigate(`/advogados/${oab}/Agenda`, {replace: true})}>AGENDA</button>
-                    <button className="contratos">CONTRATOS</button>
+                    <button className="contratos" onClick={() => navigate(`/advogados/${oab}/Contratos`, {replace: true})}>CONTRATOS</button>
                     <button className="processos">PROCESSOS</button>
                     <button className="pagamentos">PAGAMENTOS</button>
                     <button className="clientes" onClick={() => navigate (`/advogados/${oab}/Clientes`)}>CLIENTES</button>
@@ -203,8 +203,8 @@ useEffect(() => {
                             <span>{cliente.CPF}</span></button>
                             </div>
                         ))}
-                        
-                        
+
+
                         {mostrarAdd && (
                             <div className="dados-cli">
                             <h3>CADASTRE O CLIENTE</h3>
@@ -437,7 +437,7 @@ useEffect(() => {
                         )}
 
                         {mostrarEdit && clienteSelecionado && (
-                          
+
                           <div className="dados-cli-edit">
                           <h3>EDITE AS INFORMAÇÕES</h3>
                           <form onSubmit={handleSubmitEdit}>

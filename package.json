@@ -3,6 +3,9 @@
     "concurrently": "^9.1.2"
   },
   "scripts": {
-  "dev": "concurrently \"cd client && npm run start\" \"cd server && npm run dev\""
-}
+    "dev": "concurrently \"cd client && npm run start\" \"cd server && npm run dev\""
+  },
+  "dependencies": {
+    "react-select": "^5.10.1"
+  }
 }
