@@ -47,7 +47,7 @@ table{
     }
 }
 
-.info-contrato{
+.aba{
     position: fixed;
     top: 25vh  ;
     background-color: #58462b;
@@ -59,9 +59,16 @@ table{
     align-items: center;
     justify-content: space-evenly;
 
-        h3{
+        h3{display: flex;
+            gap: 5rem;
             font-size: 2rem;
             font-weight: 200;
             text-transform: uppercase;
+            span{
+                color: red;
+                font-size: 5rem;
+                font-weight: 300;
+                pointer-events: stroke;
+            }
         }
 }

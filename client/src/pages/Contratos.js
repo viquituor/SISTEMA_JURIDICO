@@ -10,7 +10,7 @@ const Contratos = () => {
     const navigate = useNavigate();
     const [busca, setBusca] = useState("");
     const [contratos, setContratos] = useState([]);
-    const [contratoSeleconado, setContratoSelecionado] = useState(null);
+    const [contratoSelecionado, setContratoSelecionado] = useState(null);
     const [mostrarInfo, setMostrarInfo] = useState(false);
     
     
@@ -75,9 +75,21 @@ const Contratos = () => {
                         ))}
                         </tbody>
                     </table>
-                    {mostrarInfo && contratoSeleconado && (
-                        <div className="info-contrato">
+                    {mostrarInfo && contratoSelecionado && (
+                        <div className="aba">
                             <h3>INFORMAÇÕES DO CONTRATO <span onClick={() => setMostrarInfo(false)}>&times;</span></h3>
+                            <div className="info-contrato">
+                                <h4>Nome do Cliente: {contratoSelecionado.nome_cliente}</h4>
+                                <p>CPF: {contratoSelecionado.CPF}</p>
+                                <h4>ADVOGADO: {contratoSelecionado.nome_advogado}</h4>
+                                <p>OAB: {contratoSelecionado.OAB}</p>
+                                <p>Status: {contratoSelecionado.status_contrato}</p>
+                                <p>Tipo de Serviço: {contratoSelecionado.tipo_servico}</p>
+                                <p>Data de Início: {contratoSelecionado.data_inicio}</p>
+                                <p>Valor: {contratoSelecionado.valor}</p>
+                                <p>Descrição: {contratoSelecionado.descricao}</p>
+
+                            </div>
                         </div>
                     )}
                 </div>
