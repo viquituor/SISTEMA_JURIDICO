@@ -179,7 +179,7 @@ useEffect(() => {
                     <button className="contratos" onClick={() => navigate(`/advogados/${oab}/Contratos`, {replace: true})}>CONTRATOS</button>
                     <button className="processos">PROCESSOS</button>
                     <button className="pagamentos">PAGAMENTOS</button>
-                    <button className="clientes" onClick={() => navigate (`/advogados/${oab}/Clientes`)}>CLIENTES</button>
+                    <button className="clientesAtv" onClick={() => navigate (`/advogados/${oab}/Clientes`)}>CLIENTES</button>
                 </nav>
             </header>
 

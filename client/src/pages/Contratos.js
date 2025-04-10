@@ -42,7 +42,7 @@ const Contratos = () => {
 
                 <nav>
                     <button className="agenda" onClick={() => navigate(`/advogados/${oab}/Agenda`, {replace: true})}>AGENDA</button>
-                    <button className="contratos" onClick={() => navigate(`/advogados/${oab}/Contratos`, {replace: true})}>CONTRATOS</button>
+                    <button className="contratosAtv" onClick={() => navigate(`/advogados/${oab}/Contratos`, {replace: true})}>CONTRATOS</button>
                     <button className="processos">PROCESSOS</button>
                     <button className="pagamentos">PAGAMENTOS</button>
                     <button className="clientes" onClick={() => navigate (`/advogados/${oab}/Clientes`, {replace: true})}>CLIENTES</button>
@@ -77,18 +77,72 @@ const Contratos = () => {
                     </table>
                     {mostrarInfo && contratoSelecionado && (
                         <div className="aba">
-                            <h3>INFORMAÇÕES DO CONTRATO <span onClick={() => setMostrarInfo(false)}>&times;</span></h3>
+                            <h3>INFORMAÇÕES DO CONTRATO </h3>
                             <div className="info-contrato">
-                                <h4>Nome do Cliente: {contratoSelecionado.nome_cliente}</h4>
-                                <p>CPF: {contratoSelecionado.CPF}</p>
-                                <h4>ADVOGADO: {contratoSelecionado.nome_advogado}</h4>
-                                <p>OAB: {contratoSelecionado.OAB}</p>
-                                <p>Status: {contratoSelecionado.status_contrato}</p>
-                                <p>Tipo de Serviço: {contratoSelecionado.tipo_servico}</p>
-                                <p>Data de Início: {contratoSelecionado.data_inicio}</p>
-                                <p>Valor: {contratoSelecionado.valor}</p>
-                                <p>Descrição: {contratoSelecionado.descricao}</p>
+                                <div className="basico">
+                                    <input
+                                       name="nome_cliente"
+                                       value={contratoSelecionado.nome_cliente}
+                                        label="Nome do Cliente"
+                                    />
+                                    <input
+                                       name="CPF"
+                                       value={contratoSelecionado.CPF}
+                                    />
+                                    
+                                    <input
+                                       name="OAB"
+                                       value={contratoSelecionado.OAB}
 
+                                    />
+                                    <input
+                                       name="nome_advogado"
+                                       value={contratoSelecionado.nome_advogado}
+                                    />
+
+                                    <input
+                                       className="descricao"
+                                       name="descricao"
+                                       value={contratoSelecionado.descricao}
+                                    />
+                                </div>
+                                <div className="dados">
+                                    <input
+                                       name="tipo_servico"
+                                       value={contratoSelecionado.tipo_servico}
+                                    />
+                                    <input
+                                       name="status_contrato"
+                                       value={contratoSelecionado.status_contrato}
+                                    />
+                                    <input
+                                       name="valor"
+                                       value={contratoSelecionado.valor}
+                                    />
+                                    <input
+                                       name="data_inicio"
+                                       value={contratoSelecionado.data_inicio}
+                                    />
+                                </div>
+                                <div className="listas">
+                                    <input
+                                       name="documentos"
+                                       value={contratoSelecionado.documentos}
+                                    />
+                                    <input
+                                       name="pagamentos"
+                                       value={contratoSelecionado.documentos}
+                                    />
+                                    <input
+                                       name="compromissos"
+                                       value={contratoSelecionado.documentos}
+                                    />
+                                </div>
+                            </div>
+                            <div className="botoes">
+                                <button className="editar" >EDITAR</button>
+                                <button className="voltar" onClick={() => setMostrarInfo(false)} >VOLTAR</button>
+                                <button className="excluir"  >EXCLUIR</button>
                             </div>
                         </div>
                     )}

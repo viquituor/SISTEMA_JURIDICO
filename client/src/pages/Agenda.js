@@ -18,7 +18,7 @@ const Agenda = () => {
                 <Link to="/"><h1>ADVOCACIA ALMEIDA</h1></Link>
 
                 <nav>
-                    <button className="agenda" onClick={() => navigate(`/advogados/${oab}/Agenda`, {replace: true})}>AGENDA</button>
+                    <button className="agendaAtv" onClick={() => navigate(`/advogados/${oab}/Agenda`, {replace: true})}>AGENDA</button>
                     <button className="contratos" onClick={() => navigate(`/advogados/${oab}/Contratos`, {replace: true})}>CONTRATOS</button>
                     <button className="processos">PROCESSOS</button>
                     <button className="pagamentos">PAGAMENTOS</button>
