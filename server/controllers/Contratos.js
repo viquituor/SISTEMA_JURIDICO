@@ -10,3 +10,15 @@ exports.listarContratosPorOAB = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.listarCompromissosPorContrato = async (req, res, next) => {
+    try {
+        const compromissos = await Contratos.buscarCompromissos(req.params.cod_contrato);
+        console.log("Código de contrato recebido no back:", req.params.cod_contrato);
+        res.json(compromissos); // Corrigido para retornar a variável correta
+    } catch (err) {
+        console.error("Erro no controller de compromissos:", err);
+        next(err);
+    }
+};
+

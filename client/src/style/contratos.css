@@ -55,26 +55,26 @@ table{
     position: fixed;
     top: 20vh  ;
     background-color: #262626;
-    width: 70vw;
+    width: 80vw;
     height: 75vh;
     border-radius: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    padding: 1rem;
 
     .info-contrato{
-        width: 70vw;
+        width: 75vw;
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: space-evenly;
-        gap: 1rem;
+        justify-content: space-between;
+        
         
     }
 
-        h3{display: flex;
-            gap: 5rem;
+        h3{
             font-size: 2rem;
             font-weight: 200;
             text-transform: uppercase;
@@ -84,12 +84,35 @@ table{
             all: unset;
             background-color: #555555;
             color: #ffb801;
-            width: 10vw;
+            width: 20vw;
             height: 6vh;
             text-align: center;
             border-radius: 10px;
             font-size: 1.8rem;
             font-weight: 400;
+        }
+
+        .lista-agenda{
+            width:  20vw;
+            height: 25vh;
+            list-style: none;
+            padding: 1rem;
+            background-color: #555555;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            h4{
+                text-align: center;
+                text-transform: uppercase;
+                font-size: 1.5rem;
+            }
+        }
+        ul{
+                list-style: none;
+            li{
+                color: #ffb801;
+                font-weight: 300;
+
+            }
         }
 
         .basico{
@@ -102,23 +125,28 @@ table{
             gap: 1rem;
 
             .descricao{
-                 width: 21vw;
+                 width: 20vw;
                 height: 25vh;
             }
         }
         .dados{
+            width: 21vw;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 1rem;
+            
         }
         .listas{
+            width: 21vw;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 1rem;
+
+            
         }
 
         .botoes{
@@ -130,8 +158,8 @@ table{
     
             button{
                 all: unset;
-                font-size: 2.5rem;
-                font-weight: 300;
+                font-size: 3rem;
+                font-weight: 400;
                 color: #ffb801;
                 
             }

@@ -18,6 +18,23 @@ class Contratos {
             throw error;
         }
     }
+
+    static async buscarCompromissos(cod_contrato) {
+        try {
+            const [results] = await pool.query(`
+                SELECT * FROM agenda 
+                WHERE cod_contrato = ?
+            `, [cod_contrato]);
+            
+            console.log("Resultados da query:", results);
+            return results
+
+        } catch (error) {
+            console.error("Erro ao buscar contratos:", error);
+            throw error;
+        }
+    }
+    
 }
 
 module.exports = Contratos;
