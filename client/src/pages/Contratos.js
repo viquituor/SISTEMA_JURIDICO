@@ -14,6 +14,7 @@ const Contratos = () => {
     const [cod_contratoSelecionado, setCod_contratoSelecionado] = useState(null);
     const [contratoSelecionado, setContratoSelecionado] = useState(null);
     const [mostrarInfo, setMostrarInfo] = useState(false);
+    const [mostrarAdd, setMostrarAdd] = useState(false);
     
     // Carrega agendas quando um contrato é selecionado
     useEffect(() => {
@@ -80,7 +81,7 @@ const Contratos = () => {
                         onChange={(e) => setBusca(e.target.value)}
                         className="input-busca"
                     />
-                    <button>ADICIONAR</button>
+                    <button onClick={() => setMostrarAdd(true)}>ADICIONAR</button>
                 </div>
                 <div className="tabela-contrato">
                     <table>
@@ -182,6 +183,64 @@ const Contratos = () => {
                                 <button className="editar">EDITAR</button>
                                 <button className="voltar" onClick={() => setMostrarInfo(false)}>VOLTAR</button>
                                 <button className="excluir">EXCLUIR</button>
+                            </div>
+                        </div>
+                    )}
+                    {mostrarAdd &&(
+                        <div className="aba-add">
+                            <h1>CRIE UM CONTRATO</h1>
+                            <form className="form-add">
+                                <div className="basico">
+                                <input
+                                    name="OAB"
+                                    placeholder="OAB"
+                                    required
+                                />
+                                <input
+                                    name="CPF"
+                                    placeholder="CPF"
+                                    required
+                                />
+                                <input
+                                    name="nome_cliente"
+                                    placeholder="Nome do cliente"
+                                    required
+                                />
+                                <input
+                                    name="data_inicio"
+                                    type="date"
+                                    required
+                                />
+                                <input
+                                    name="valor"
+                                    placeholder="Valor do contrato"
+                                    required
+                                />
+                                </div>
+                                <div className="tipo-desc">
+                                    <div className="tipo">
+                                <input
+                                    name="tipo_servico"
+                                    placeholder="Tipo de serviço"
+                                    required
+                                />
+                                <input
+                                    name="status_contrato"
+                                    placeholder="Status do contrato"
+                                    required
+                                />
+                                </div>
+                                <input
+                                    className="descricao"
+                                    name="descricao"
+                                    placeholder="Descrição do contrato"
+                                    required
+                                />
+                                </div>
+                            </form>
+                            <div className="botoes">
+                                <button className="voltar" onClick={() => setMostrarAdd(false)}>VOLTAR</button>
+                                <button className="salvar">SALVAR</button>
                             </div>
                         </div>
                     )}

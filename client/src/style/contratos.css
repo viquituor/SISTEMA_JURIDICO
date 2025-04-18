@@ -23,9 +23,11 @@
 table{
     width: 80vw;
     height: auto;
+    border-collapse: collapse;
     thead{
         background-color:#ffb801;
         th{
+            border: #fff solid 1px;
             text-transform: uppercase;
             text-align: center;
             font-weight: 400;
@@ -41,7 +43,7 @@ table{
             height: 5vh;
             td{ 
                 
-                border: 0.5px solid #000;
+                border: 1px solid #ffb801;
                 text-align: center;
                 font-size: 1.4rem;
                 font-weight: 400;
@@ -51,12 +53,41 @@ table{
     }
 }
 
+.botoes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 10rem;
+
+    button{
+        all: unset;
+        font-size: 2rem;
+        font-weight: 200;
+        color: #ffb801;
+        
+    }
+
+    .editar:hover{
+        color: #fff;
+    }
+    .voltar:hover{
+        color: #000;
+    }
+    .excluir:hover{
+        color: red;
+    }
+    .salvar:hover{
+        color: green;
+    }
+}
+
+
 .aba{
     position: fixed;
-    top: 20vh  ;
+    top: 22vh  ;
     background-color: #262626;
     width: 80vw;
-    height: 75vh;
+    height: 70vh;
     border-radius: 50px;
     display: flex;
     flex-direction: column;
@@ -149,32 +180,69 @@ table{
             
         }
 
-        .botoes{
+        
+}
+
+.aba-add{
+    position: fixed;
+    top: 22vh  ;
+    background-color: #58462b;
+    width: 50vw;
+    height: 50vh;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 1rem;
+
+    form{
+        width: 50vw;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+
+        input{
+            all: unset;
+            background-color: #000;
+            color: #ffb801 !important;
+            width: 15vw;
+            height:4vh;
+            text-align: center;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 4300;
+        }
+
+    }
+
+    .basico{
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .tipo-desc{
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        align-items: center;
+
+        .descricao{
+            width: 30vw;
+            height: 26vh;
+            text-align:center;
+        }
+        .tipo{
+
+            input{
+                width: 14.5vw;
+            }
             display: flex;
             flex-direction: row;
-            justify-content: space-evenly;
-            gap: 10rem;
-            padding-bottom: 2rem;
-    
-            button{
-                all: unset;
-                font-size: 3rem;
-                font-weight: 400;
-                color: #ffb801;
-                
-            }
-    
-            .editar:hover{
-                color: #fff;
-            }
-            .voltar:hover{
-                color: #58462b;
-            }
-            .excluir:hover{
-                color: red;
-            }
-            .salvar:hover{
-                color: green;
-            }
-        }
+            gap: 1rem;
+       }
+    }
+
 }
