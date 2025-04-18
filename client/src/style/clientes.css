@@ -43,7 +43,33 @@
     }
 }
 
+.botoes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 10rem;
 
+    button{
+        all: unset;
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: #ffb801;
+        
+    }
+
+    .editar:hover{
+        color: #fff;
+    }
+    .voltar:hover{
+        color: #58462b;
+    }
+    .excluir:hover{
+        color: red;
+    }
+    .salvar:hover{
+        color: green;
+    }
+}
 
 .dados-cli{
     position: fixed;
@@ -63,34 +89,7 @@
             text-transform: uppercase;
         }
 
-    .botoes{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        gap: 10rem;
-        padding-bottom: 2rem;
-
-        button{
-            all: unset;
-            font-size: 2.5rem;
-            font-weight: 300;
-            color: #ffb801;
-            
-        }
-
-        .editar:hover{
-            color: #fff;
-        }
-        .voltar:hover{
-            color: #58462b;
-        }
-        .excluir:hover{
-            color: red;
-        }
-        .salvar:hover{
-            color: green;
-        }
-    }
+    
 }
 
 
@@ -159,34 +158,6 @@
         text-transform: uppercase;
     }
 
-.botoes{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    gap: 10rem;
-    padding-bottom: 2rem;
-
-    button{
-        all: unset;
-        font-size: 2.5rem;
-        font-weight: 300;
-        color: #ffb801;
-        
-    }
-
-    .editar:hover{
-        color: #fff;
-    }
-    .voltar:hover{
-        color: #58462b;
-    }
-    .excluir:hover{
-        color: red;
-    }
-    .salvar:hover{
-        color: green;
-    }
-}
 
     .edit-cli{
         width: 60vw;
@@ -232,4 +203,24 @@
         gap: 3rem;
     }
 }
+}
+
+.dados-cli-add{
+    position: fixed;
+    top: 25vh  ;
+    background-color: #000;
+    width: 60vw;
+    height: 50vh;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+        h3{
+            font-size: 2rem;
+            font-weight: 200;
+            text-transform: uppercase;
+        }
+
 }

@@ -206,7 +206,7 @@ useEffect(() => {
 
 
                         {mostrarAdd && (
-                            <div className="dados-cli">
+                            <div className="dados-cli-add">
                             <h3>CADASTRE O CLIENTE</h3>
                             <form onSubmit={handleSubmit}>
                                 <div className="info">
