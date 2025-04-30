@@ -5,6 +5,7 @@ import "../style/contratos.css";
 import "../style/global.css";
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
+
 const Contratos = () => {
     const { oab } = useParams();
     const navigate = useNavigate();
@@ -15,7 +16,81 @@ const Contratos = () => {
     const [contratoSelecionado, setContratoSelecionado] = useState(null);
     const [mostrarInfo, setMostrarInfo] = useState(false);
     const [mostrarAdd, setMostrarAdd] = useState(false);
+    const [clientes, setClientes] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const [formData, setFormData] = useState({
+        OAB:oab,
+        CPF:'',
+        data_inicio:'',
+        tipo_servico:'',
+        status_contrato:'',
+        descricao:'',
+        valor:''
+    });
+
+    const excluirContrato = async (cod_contrato) => {
+        try {
+          const confirmacao = window.confirm("Tem certeza que deseja excluir este contrato?");
+          if (!confirmacao) return;
+      
+          const response = await axios.delete(`http://localhost:3001/advogados/${oab}/Contratos/${cod_contrato}`);
+      
+          if (response.data.success) {
+            alert(response.data.message);
+            // Atualiza a lista localmente
+            const res = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos`);
+            setContratos(res.data);
+            setMostrarInfo(false);
+          }
+        } catch (error) {
+          const mensagem = error.response?.data?.error || 
+            (error.message.includes("contratos associados" ) ? "Não é possível excluir o contrato" : error.message);
+          alert(mensagem);
+        }
+        };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
     
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        
+        try {          
+          await axios.post(`http://localhost:3001/advogados/${oab}/Contratos`, formData);
+      
+          alert("contrato cadastrado!");
+          setMostrarAdd(false);
+          // Recarrega a lista
+          const res = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos`);
+          setContratos(res.data);
+        } catch (err) {
+          setError(err.response?.data?.error || err.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+    
+    useEffect(() => {
+        const carregarClientes = async () => {
+          try {
+            const response = await axios.get(`http://localhost:3001/advogados/${oab}/Clientes`);
+            setClientes(response.data);
+          } catch (error) {
+            console.error("Erro ao buscar advogados:", error);
+          }
+        };
+        carregarClientes();
+      }, [oab]);
+
     // Carrega agendas quando um contrato é selecionado
     useEffect(() => {
         const carregarAgendas = async () => {
@@ -182,66 +257,92 @@ const Contratos = () => {
                             <div className="botoes">
                                 <button className="editar">EDITAR</button>
                                 <button className="voltar" onClick={() => setMostrarInfo(false)}>VOLTAR</button>
-                                <button className="excluir">EXCLUIR</button>
+                                <button className="excluir" onClick={() => excluirContrato(contratoSelecionado.cod_contrato)} >EXCLUIR</button>
                             </div>
                         </div>
                     )}
                     {mostrarAdd &&(
                         <div className="aba-add">
                             <h1>CRIE UM CONTRATO</h1>
-                            <form className="form-add">
-                                <div className="basico">
+
+                            <form onSubmit={handleSubmit} className="form-add">
+                                <div className="form-cont">
+                                        <div className="basico">
                                 <input
                                     name="OAB"
-                                    placeholder="OAB"
+                                    defaultValue={oab}
+                                    onChange={handleChange}
+                                    value={oab}
+                                    readOnly
                                     required
                                 />
-                                <input
-                                    name="CPF"
-                                    placeholder="CPF"
-                                    required
-                                />
-                                <input
-                                    name="nome_cliente"
-                                    placeholder="Nome do cliente"
-                                    required
-                                />
+
+                                <select name="CPF" onChange={handleChange} value={formData.CPF} required>
+                                    <option value="" >-Nome do cliente-</option>
+                                    {clientes.map((cliente) => (
+                                        <option key={cliente.CPF} value={cliente.CPF}>{cliente.nome}</option>
+                                    ))}
+                                </select>
+
                                 <input
                                     name="data_inicio"
                                     type="date"
+                                    onChange={handleChange}
+                                    value={formData.data_inicio}
                                     required
                                 />
                                 <input
                                     name="valor"
+                                    onChange={handleChange}
+                                    value={formData.valor}
                                     placeholder="Valor do contrato"
                                     required
                                 />
-                                </div>
-                                <div className="tipo-desc">
+                                    </div>
+                                        <div className="tipo-desc">
                                     <div className="tipo">
-                                <input
-                                    name="tipo_servico"
-                                    placeholder="Tipo de serviço"
-                                    required
-                                />
-                                <input
-                                    name="status_contrato"
-                                    placeholder="Status do contrato"
-                                    required
-                                />
+                                
+                                <select name="tipo_servico" placeholder="Tipo de serviço" onChange={handleChange} value={formData.tipo_servico} required>
+                                        <option value="">-Tipo de serviço-</option>
+                                        <option value="civil">civil</option>
+                                        <option value="trabalho">trabalho</option>
+                                        <option value="previdenciario">previdenciario</option>
+                                        <option value="criminal">criminal</option>
+                                        <option value="consumidor">consumidor</option>
+                                        <option value="assesoria e consultoria">assesoria e consultoria</option>
+                                        <option value="acompanhamentos">acompanhamentos</option>
+                                        <option value="correspondencia juridica">correspondencia juridica</option>
+                                        
+                                 </select>
+
+                                <select name="status_contrato" placeholder="Status do contrato" onChange={handleChange} value={formData.status_contrato} required>
+                                        <option value="">-Status do contrato-</option>
+                                        <option value="ganho">GANHO</option>
+                                        <option value="perdido">PERDIDO</option>
+                                        <option value="cancelado">CANCELADO</option>
+                                        <option value="em andamento">EM ANDAMENTO</option>
+                                 </select>
                                 </div>
                                 <input
                                     className="descricao"
                                     name="descricao"
+                                    onChange={handleChange}
+                                    value={formData.descricao}
+                                    type="text"
                                     placeholder="Descrição do contrato"
                                     required
                                 />
+                                
+                                    </div>
+                                </div>
+
+                                <div className="botoes">
+                                    <button className="voltar" onClick={() => setMostrarAdd(false)}>VOLTAR</button>
+                                 {error && <div className="error-message">{error}</div>}
+                                    <button className="salvar" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "SALVAR"}</button>
                                 </div>
                             </form>
-                            <div className="botoes">
-                                <button className="voltar" onClick={() => setMostrarAdd(false)}>VOLTAR</button>
-                                <button className="salvar">SALVAR</button>
-                            </div>
+                            
                         </div>
                     )}
                 </div>

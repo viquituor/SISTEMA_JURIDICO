@@ -128,7 +128,7 @@ const Clientes = () => {
       };
 
 // Função para carregar dados
-useEffect(() => {
+      useEffect(() => {
     const carregarClientes = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/advogados/${oab}/Clientes`);
@@ -138,9 +138,9 @@ useEffect(() => {
       }
     };
     carregarClientes();
-  }, [oab]);
+     }, [oab]);
 
-  const excluirCliente = async (cpf) => {
+    const excluirCliente = async (cpf) => {
     try {
       const confirmacao = window.confirm("Tem certeza que deseja excluir este cliente?");
       if (!confirmacao) return;
@@ -162,7 +162,7 @@ useEffect(() => {
           : "Erro ao excluir cliente");
       alert(mensagem);
     }
-  };
+    };
 
   const clientesFiltrados = clientes.filter(cliente =>
     cliente.nome.toLowerCase().includes(busca.toLowerCase())

@@ -22,3 +22,65 @@ exports.listarCompromissosPorContrato = async (req, res, next) => {
     }
 };
 
+exports.criarContrato = async (req, res, next) => {
+    try {
+        // Validação completa
+        const { OAB, CPF, data_inicio, tipo_servico, status_contrato, descricao, valor } = req.body;
+        
+        if (!OAB || !CPF || !data_inicio || !tipo_servico || !status_contrato || !valor) {
+            return res.status(400).json({ 
+                success: false,
+                error: "Campos obrigatórios faltando" 
+            });
+        }
+
+        if (isNaN(valor) || valor <= 0) {
+            return res.status(400).json({
+                success: false,
+                error: "Valor deve ser um número positivo"
+            });
+        }
+
+        const result = await Contratos.criarContrato({
+            OAB,
+            CPF,
+            data_inicio,
+            tipo_servico,
+            status_contrato,
+            descricao: descricao || '',
+            valor
+        });
+        
+        res.status(201).json({
+            success: true,
+            message: "Contrato criado com sucesso",
+            cod_contrato: result.insertId
+        });
+
+    } catch (err) {
+        console.error("Erro ao criar contrato:", err);
+        next(err);
+    }
+};
+
+exports.deletarContrato = async (req, res, next) => {
+    try {
+        const result = await Contratos.deletarContrato(req.params.cod_contrato);
+        
+        if (result.affectedRows === 0) { // Verifica se alguma linha foi afetada
+            return res.status(404).json({
+                success: false,
+                error: "Contrato não encontrado"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Contrato excluído com sucesso"
+        });
+
+    } catch (err) {
+        console.error("Erro ao deletar contrato:", err);
+        next(err);
+    }
+}
