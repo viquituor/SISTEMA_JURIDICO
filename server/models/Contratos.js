@@ -21,11 +21,15 @@ class Contratos {
         }
     }
 
-    static async buscarCompromissos(cod_contrato) {
+    static async buscarListas(cod_contrato) {
         try {
             const [results] = await pool.query(`
-                SELECT * FROM agenda 
-                WHERE cod_contrato = ?
+                SELECT * FROM contrato ct
+                JOIN documento d on d.cod_contrato = ct.cod_contrato
+                JOIN agenda a on a.cod_contrato = ct.cod_contrato
+                JOIN pagamento p on p.cod_contrato = ct.cod_contrato
+                WHERE ct.cod_contrato = ?
+
             `, [cod_contrato]);
             
             console.log("Resultados da query:", results);

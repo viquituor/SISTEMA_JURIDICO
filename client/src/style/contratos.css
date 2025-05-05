@@ -84,25 +84,76 @@ table{
 
 .aba{
     position: fixed;
-    top: 22vh  ;
+    top: 18vh  ;
     background-color: #262626;
-    width: 80vw;
-    height: 70vh;
+    width: 70vw;
+    height: 80vh;
     border-radius: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
+    justify-content: space-evenly;
+   
 
     .info-contrato{
-        width: 75vw;
+        width: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: space-between;
+        gap: 5rem;
+        justify-content: center;
         
         
+    }
+.colunas{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    .descricao, textarea{
+        all: unset;
+        background-color: #555555;
+        color: #ffb801;
+        border-radius: 10px;
+        font-size: 1.5rem;
+        padding-left: 1rem;
+        width: 30.54vw;
+        height: 33vh;
+        
+}
+
+    .doc{
+    all: unset;
+    background-color: #000;
+    color: #ffb801 !important;
+    width: 30.7vw;
+    height:3.5vh;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 300;
+    
+}
+
+input[type="file"]::file-selector-button {
+    all: unset;
+    background-color: #58462b;
+    color: #fff !important;
+    width: 10vw;
+    height:3.5vh;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 300;
+    
+}
+}
+    .inputes{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 2rem;
     }
 
         h3{
@@ -111,21 +162,29 @@ table{
             text-transform: uppercase;
         }
 
+        label{
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            font-weight: 200;
+            color: #f5bf6d;
+        }
+
         input{
             all: unset;
             background-color: #555555;
             color: #ffb801;
-            width: 20vw;
-            height: 6vh;
+            width: 15vw;
+            height: 3vh;
             text-align: center;
             border-radius: 10px;
-            font-size: 1.8rem;
-            font-weight: 400;
+            font-size: 1.3rem;
+            font-weight: 300;
         }
 
-        .lista-agenda{
+        ul{
             width:  20vw;
-            height: 25vh;
+            height: 20vh;
             list-style: none;
             padding: 1rem;
             background-color: #555555;
@@ -136,8 +195,6 @@ table{
                 text-transform: uppercase;
                 font-size: 1.5rem;
             }
-        }
-        ul{
                 list-style: none;
             li{
                 color: #ffb801;
@@ -146,27 +203,15 @@ table{
             }
         }
 
-        .basico{
-            width: 21vw;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-evenly;
-            gap: 1rem;
-
-            .descricao{
-                 width: 20vw;
-                height: 25vh;
-            }
-        }
-        .dados{
-            width: 21vw;
+        .basico, .dados{
+            
             display: flex;
             flex-direction: column;
+            flex-wrap: wrap;
             align-items: center;
-            justify-content: center;
+
             gap: 1rem;
+
             
         }
         .listas{
@@ -176,14 +221,16 @@ table{
             align-items: center;
             justify-content: center;
             gap: 1rem;
-
+        a{
+            all: unset;
+        }
             
         }
 
         
 }
 
-.aba-add{
+.aba-add, .aba-edit{
     position: fixed;
     top: 22vh  ;
     background-color: #58462b;
@@ -218,7 +265,7 @@ table{
             text-transform: uppercase;
         }
 
-        input, select{
+        select, input, textarea{
             all: unset;
             background-color: #000;
             color: #ffb801 !important;
@@ -229,7 +276,6 @@ table{
             font-size: 1.2rem;
             font-weight: 4300;
         }
-
 
     }
 
@@ -261,6 +307,16 @@ table{
             flex-direction: row;
             gap: 1rem;
        }
+    }
+
+}
+
+.aba-edit{
+    background-color: #58462b;
+    color: #fff;
+
+    input{
+        background-color: #000;
     }
 
 }

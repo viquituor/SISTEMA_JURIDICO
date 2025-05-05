@@ -36,8 +36,8 @@ CREATE TABLE contrato (
     CPF CHAR(11),
     data_inicio DATE NOT NULL,
     tipo_servico ENUM('civil','trabalho','previdenciario','criminal','consumidor','assesoria e consultoria','acompanhamentos','correspondencia juridica') NOT NULL,
-    status_contrato ENUM('ganho', 'perdido','cancelado'),
-    descricao VARCHAR(50) NOT NULL,
+    status_contrato ENUM('ganho', 'perdido','cancelado', 'em andamento'),
+    descricao VARCHAR(1000) NOT NULL,
     data_distrato DATE,
     valor DECIMAL(10,2) NOT NULL
 );

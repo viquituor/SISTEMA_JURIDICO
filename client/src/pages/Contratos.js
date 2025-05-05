@@ -11,11 +11,12 @@ const Contratos = () => {
     const navigate = useNavigate();
     const [busca, setBusca] = useState("");
     const [contratos, setContratos] = useState([]);
-    const [agendas, setAgendas] = useState([]);
+    const [listas, setlistas] = useState([]);
     const [cod_contratoSelecionado, setCod_contratoSelecionado] = useState(null);
     const [contratoSelecionado, setContratoSelecionado] = useState(null);
     const [mostrarInfo, setMostrarInfo] = useState(false);
     const [mostrarAdd, setMostrarAdd] = useState(false);
+    const [mostrarEdit, setMostrarEdit] = useState(false);
     const [clientes, setClientes] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -93,17 +94,17 @@ const Contratos = () => {
 
     // Carrega agendas quando um contrato é selecionado
     useEffect(() => {
-        const carregarAgendas = async () => {
+        const carregarListas = async () => {
             try {
                 if (cod_contratoSelecionado) {
                     const response = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos/${cod_contratoSelecionado}`);
-                    setAgendas(response.data);
+                    setlistas(response.data);
                 }
             } catch (error) {
                 console.error("Erro ao buscar agenda:", error.response?.data || error.message);
             }
         };
-        carregarAgendas();
+        carregarListas();
     }, [cod_contratoSelecionado, oab]);
 
     // Carrega contratos quando o componente monta ou OAB muda
@@ -123,14 +124,7 @@ const Contratos = () => {
         contrato.nome_cliente.toLowerCase().includes(busca.toLowerCase())
     );
 
-    const agendasFiltrados = agendas.filter(agenda => {
-        // Converte o código do contrato para string e o valor de busca para minúsculas
-        const codContratoStr = String(agenda.cod_contrato);
-        const buscaLower = busca.toLowerCase();
-        
-        // Verifica se o código do contrato inclui o termo de busca
-        return codContratoStr.toLowerCase().includes(buscaLower);
-      });
+   
 
     return(
         <div className="container">
@@ -177,85 +171,126 @@ const Contratos = () => {
                         <div className="aba">
                             <h3>INFORMAÇÕES DO CONTRATO</h3>
                             <div className="info-contrato">
+                                <div className="colunas">
+                                <div className="inputes">
                                 <div className="basico">
-                                    <input
+                                    <label>
+                                        nome do cliente<br/>
+                                        <input
                                         name="nome_cliente"
                                         defaultValue={contratoSelecionado.nome_cliente}
                                         readOnly
                                     />
-                                    <input
+                                    </label>
+                                    <label>
+                                        cpf<br/>
+                                        <input
                                         name="CPF"
                                         defaultValue={contratoSelecionado.CPF}
                                         readOnly
                                     />
-                                    <input
-                                        name="OAB"
-                                        defaultValue={contratoSelecionado.OAB}
-                                        readOnly
-                                    />
-                                    <input
+                                    </label>
+                                    <label>
+                                        nome do advogado<br/>
+                                        <input
                                         name="nome_advogado"
                                         defaultValue={contratoSelecionado.nome_advogado}
                                         readOnly
                                     />
-                                    <input
-                                        className="descricao"
-                                        name="descricao"
-                                        defaultValue={contratoSelecionado.descricao}
+                                    </label>
+                                    <label>
+                                        oab<br/>
+                                        <input
+                                        name="OAB"
+                                        defaultValue={contratoSelecionado.OAB}
                                         readOnly
                                     />
+                                    </label>
+
+                                    
                                 </div>
                                 <div className="dados">
-                                    <input
+                                    <label>
+                                        Tipo de serviço<br/>
+                                        <input
                                         name="tipo_servico"
                                         defaultValue={contratoSelecionado.tipo_servico}
                                         readOnly
                                     />
+                                    </label>
+                                    <label>
+                                    Status do contrato<br/>
                                     <input
                                         name="status_contrato"
                                         defaultValue={contratoSelecionado.status_contrato}
                                         readOnly
                                     />
+                                    </label>
+                                    <label>
+                                    Valor do contrato<br/>
                                     <input
                                         name="valor"
                                         defaultValue={contratoSelecionado.valor}
                                         readOnly
                                     />
-                                    <input
+                                    </label>
+
+                                    <label>
+                                        data de inicio<br/>
+                                        <input
                                         name="data_inicio"
                                         defaultValue={new Date (contratoSelecionado.data_inicio).toLocaleDateString()}
                                         readOnly
                                     />
+                                    </label>
+                                    
+                                    
                                 </div>
+                                </div>
+                                
+                                <textarea
+                                        className="descricao"
+                                        name="descricao"
+                                        defaultValue={contratoSelecionado.descricao}
+                                        readOnly
+                                    />
+                                    <input
+                                    className="doc"
+                                    name="documentos"
+                                    type="file"
+                                    defaultValue={contratoSelecionado.documentos}
+                                    />
+                               </div>
                                 <div className="listas">
-                                    <input
-                                        name="documentos"
-                                        defaultValue={contratoSelecionado.documentos}
-                                        readOnly
-                                    />
-                                    <input
-                                        name="pagamentos"
-                                        defaultValue={contratoSelecionado.documentos}
-                                        readOnly
-                                    />
-                                    <div className="lista-agenda">
-                                    <h4>compromissos</h4>
                                     <ul>
-                                        {agendasFiltrados.length > 0 ? (
-                                            agendasFiltrados.map((agenda) => (
+                                        <h4>DOCUMENTOS</h4>
+                                        {listas.map((documento) => (
+                                            <li key={documento.cod_doc}><a href="{documento.link}">{documento.nome}</a></li>
+                                        ))}
+
+                                        
+                                    </ul>
+                                    <ul>
+                                    <h4>PAGAMENTOS</h4>
+                                    {listas.map((listaPag) => (
+                                                <li key={listaPag.cod_pag}>
+                                                    {listaPag.valorPago} - {new Date(listaPag.data_pag).toLocaleDateString()} - {listaPag.metodo}
+                                                </li>
+                                            ))}
+                                    </ul>
+                                    
+                                    <ul>
+                                    <h4>compromissoS</h4>
+                                        {listas.map((agenda) => (
                                                 <li key={agenda.cod_compromisso}>
                                                     {agenda.nome_compromisso} - {new Date(agenda.data_compromisso).toLocaleDateString()} - {agenda.status_compromisso}
                                                 </li>
-                                            ))
-                                        ) : (
-                                            <li>Nenhum compromisso encontrado</li>
-                                        )}
+                                            ))}
                                     </ul>
-                                    </div>
                                 </div>
                             </div>
                             <div className="botoes">
-                                <button className="editar">EDITAR</button>
+                                <button className="editar" onClick={() => {setMostrarEdit(true); setMostrarInfo(false)}}>EDITAR</button>
                                 <button className="voltar" onClick={() => setMostrarInfo(false)}>VOLTAR</button>
                                 <button className="excluir" onClick={() => excluirContrato(contratoSelecionado.cod_contrato)} >EXCLUIR</button>
                             </div>
@@ -323,7 +358,7 @@ const Contratos = () => {
                                         <option value="em andamento">EM ANDAMENTO</option>
                                  </select>
                                 </div>
-                                <input
+                                <textarea
                                     className="descricao"
                                     name="descricao"
                                     onChange={handleChange}
@@ -344,6 +379,92 @@ const Contratos = () => {
                             </form>
                             
                         </div>
+                    )}
+                    {mostrarEdit && contratoSelecionado && (
+                     
+                     <div className="aba-edit">
+                     <h1>EDITE O CONTRATO</h1>
+
+                     <form onSubmit={handleSubmit} className="form-add">
+                         <div className="form-cont">
+                                 <div className="basico">
+                         <input
+                             name="OAB"
+                             defaultValue={oab}
+                             onChange={handleChange}
+                             value={oab}
+                             readOnly
+                             required
+                         />
+
+                         <select name="CPF" onChange={handleChange} value={contratoSelecionado.CPF} required>
+                             <option value="" >-Nome do cliente-</option>
+                             {clientes.map((cliente) => (
+                                 <option key={cliente.CPF} value={cliente.CPF}>{cliente.nome}</option>
+                             ))}
+                         </select>
+
+                         <input
+                             name="data_inicio"
+                             type="date"
+                             onChange={handleChange}
+                             value={new Date(contratoSelecionado.data_inicio).toLocaleDateString()}
+                             required
+                         />
+                         <input
+                             name="valor"
+                             onChange={handleChange}
+                             value={contratoSelecionado.valor}
+                             placeholder="Valor do contrato"
+                             required
+                         />
+                             </div>
+                                 <div className="tipo-desc">
+                             <div className="tipo">
+                         
+                         <select name="tipo_servico" placeholder="Tipo de serviço" onChange={handleChange} value={contratoSelecionado.tipo_servico} required>
+                                 <option value="">-Tipo de serviço-</option>
+                                 <option value="civil">civil</option>
+                                 <option value="trabalho">trabalho</option>
+                                 <option value="previdenciario">previdenciario</option>
+                                 <option value="criminal">criminal</option>
+                                 <option value="consumidor">consumidor</option>
+                                 <option value="assesoria e consultoria">assesoria e consultoria</option>
+                                 <option value="acompanhamentos">acompanhamentos</option>
+                                 <option value="correspondencia juridica">correspondencia juridica</option>
+                                 
+                          </select>
+
+                         <select name="status_contrato" placeholder="Status do contrato" onChange={handleChange} value={contratoSelecionado.status_contrato} required>
+                                 <option value="">-Status do contrato-</option>
+                                 <option value="ganho">GANHO</option>
+                                 <option value="perdido">PERDIDO</option>
+                                 <option value="cancelado">CANCELADO</option>
+                                 <option value="em andamento">EM ANDAMENTO</option>
+                          </select>
+                         </div>
+                         <textarea
+                             className="descricao"
+                             name="descricao"
+                             onChange={handleChange}
+                             value={contratoSelecionado.descricao}
+                             type="text"
+                             placeholder="Descrição do contrato"
+                             required
+                         />
+                         
+                             </div>
+                         </div>
+
+                         <div className="botoes">
+                             <button className="voltar" onClick={() => {setMostrarEdit(false); setMostrarInfo(true)}}>VOLTAR</button>
+                          {error && <div className="error-message">{error}</div>}
+                             <button className="salvar" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "SALVAR"}</button>
+                         </div>
+                     </form>
+                     
+                 </div>
+                
                     )}
                 </div>
 

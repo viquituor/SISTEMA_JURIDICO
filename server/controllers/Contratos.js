@@ -11,16 +11,17 @@ exports.listarContratosPorOAB = async (req, res, next) => {
     }
 };
 
-exports.listarCompromissosPorContrato = async (req, res, next) => {
+exports.listarPorContrato = async (req, res, next) => {
     try {
-        const compromissos = await Contratos.buscarCompromissos(req.params.cod_contrato);
+        const compromissos = await Contratos.buscarListas(req.params.cod_contrato);
         console.log("Código de contrato recebido no back:", req.params.cod_contrato);
         res.json(compromissos); // Corrigido para retornar a variável correta
     } catch (err) {
-        console.error("Erro no controller de compromissos:", err);
+        console.error("Erro no controller de listar:", err);
         next(err);
     }
 };
+
 
 exports.criarContrato = async (req, res, next) => {
     try {
