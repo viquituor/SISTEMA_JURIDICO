@@ -22,7 +22,6 @@ exports.listarPorContrato = async (req, res, next) => {
     }
 };
 
-
 exports.criarContrato = async (req, res, next) => {
     try {
         // Validação completa
@@ -84,4 +83,28 @@ exports.deletarContrato = async (req, res, next) => {
         console.error("Erro ao deletar contrato:", err);
         next(err);
     }
+};
+
+exports.atualizarContrato = async (req, res, next) => {
+try {
+    const result = await Contratos.atualizarContrato(req.params.cod_contrato, req.body);
+
+    if (result.affectedRows === 0) { // Verifica se alguma linha foi afetada
+        return res.status(404).json({
+            success: false,
+            error: "Contrato não encontrado"
+        });
+    }
+    res.json({
+        success: true,
+        message: "Contrato atualizado com sucesso"
+    });
+} catch (error) {
+    console.error("Erro ao atualizar contrato:", error);
+    res.status(500).json({
+        success: false,
+        error: "Erro interno do servidor"
+    });
+    
 }
+};

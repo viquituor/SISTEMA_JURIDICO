@@ -59,6 +59,25 @@ const Contratos = () => {
             [name]: value
         }));
     };
+
+    const handleEdit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        
+        try {          
+          await axios.put(`http://localhost:3001/advogados/${oab}/Contratos/${cod_contratoSelecionado}`, formData);
+      
+          alert("contrato editado!");
+          setMostrarEdit(false);
+          // Recarrega a lista
+          const res = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos`);
+          setContratos(res.data);
+        } catch (err) {
+          setError(err.response?.data?.error || err.message);
+        } finally {
+          setLoading(false);
+        }
+    };
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -121,7 +140,12 @@ const Contratos = () => {
     }, [oab]);
     
     const contratosFiltrados = contratos.filter(contrato =>
-        contrato.nome_cliente.toLowerCase().includes(busca.toLowerCase())
+        contrato.nome_cliente.toLowerCase().includes(busca.toLowerCase()) ||
+        contrato.status_contrato.toLowerCase().includes(busca.toLowerCase()) ||
+        contrato.tipo_servico.toLowerCase().includes(busca.toLowerCase()) ||
+        contrato.data_inicio.toLowerCase().includes(busca.toLowerCase()) ||
+        contrato.valor.toString().includes(busca.toLowerCase())||
+        contrato.CPF.toString().includes(busca.toLowerCase())
     );
 
    
@@ -380,7 +404,7 @@ const Contratos = () => {
                      <div className="aba-edit">
                      <h1>EDITE O CONTRATO</h1>
 
-                     <form onSubmit={handleSubmit} className="form-add">
+                     <form onSubmit={handleEdit} className="form-add">
                          <div className="form-cont">
                                  <div className="basico">
                          <input

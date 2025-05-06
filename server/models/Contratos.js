@@ -80,6 +80,31 @@ class Contratos {
         }
     }
 
+    static async atualizarContrato(cod_contrato, contrato) {
+        try {
+            const [result] = await pool.query(`
+                UPDATE contrato 
+                SET OAB = ?, CPF = ?, data_inicio = ?, tipo_servico = ?, status_contrato = ?, descricao = ?, valor = ? 
+                WHERE cod_contrato = ?
+            `, [
+                contrato.OAB, 
+                contrato.CPF, 
+                contrato.data_inicio, 
+                contrato.tipo_servico, 
+                contrato.status_contrato, 
+                contrato.descricao, 
+                contrato.valor,
+                cod_contrato
+            ]);
+            
+            return result;
+    
+        } catch (error) {
+            console.error("Erro ao atualizar contrato:", error);
+            throw error;
+        }
+    }
+
 }
 
 module.exports = Contratos;
