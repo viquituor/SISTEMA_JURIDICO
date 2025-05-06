@@ -12,3 +12,123 @@
     justify-content: start;
     
 }
+
+button{
+    all: unset;
+}
+
+ul{
+    padding: 2rem;
+    gap: 2rem;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    
+    
+    li{
+        padding: 0.2rem 2rem 1rem;
+        text-align: center;
+        background-color: #2d2a26;
+        border-radius: 30px;
+        color: #fff;
+        font-size: 1.3rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: pointer;
+
+        hr{
+            border: none;
+            height: 0.08px;
+            background-color: #ffb801;
+        }
+
+        .data{
+            padding: 0rem 4rem;
+            background-color: #000;
+            color: #ffb801;
+            border-radius: 20px;
+            font-size: 1.5rem;
+            font-weight: 100;
+            
+}
+    }
+}
+
+.aba-comp{
+    position: fixed;
+    border-radius: 30px;
+    top: 25vh;
+    width: 40vw;
+    height: 60vh;
+    background-color:#262626;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border: #fff solid 1px;
+
+    h3{
+        color: #ffb801;
+        font-size: 2rem;
+        font-weight: 100;
+    }
+
+
+    .info{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+
+        input{
+            border: #ffb801 solid 1px !important;
+            width: 15vw !important;
+            font-size: 1.3rem !important;
+            font-weight: 100 !important;
+            all: unset;
+            border-radius: 20px;
+            background-color: #000 !important;
+            color: #fff !important;
+            
+        }
+
+        label{
+            color: #ffb801;
+            font-size: 0.8rem;
+            font-weight: 100;
+        }
+
+        textarea{
+            all: unset;
+            padding-left: 1rem;
+            border-radius: 20px;
+            background-color: #000 !important;
+            border: #ffb801 solid 1px !important;
+            color: #fff;
+            width: 30vw;
+            height: 20vh;
+        }
+
+        .inputers{
+           
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+
+            .basicoc, .dadosc{
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;                
+            }
+            
+        }
+    }
+}

@@ -15,16 +15,10 @@ INSERT INTO cliente (CPF, nome, UF, cidade, bairro, logradouro, numero, CEP, ema
 
 -- INSERÇÕES NA TABELA: advogado  
 INSERT INTO advogado (OAB, nome, email, logradouro, cidade, bairro, UF, numero, CEP) VALUES
-('123456', 'Dr. João Almeida', 'joao.almeida@advocacia.com', 'Rua das Palmeiras', 'São Paulo', 'Centro', 'SP', '120', '01001000'),
-('234567', 'Dra. Maria Souza', 'maria.souza@advocacia.com', 'Av. Brasil', 'Rio de Janeiro', 'Copacabana', 'RJ', '320', '22041000'),
-('345678', 'Dr. Ricardo Lima', 'ricardo.lima@advocacia.com', 'Rua XV de Novembro', 'Curitiba', 'Centro', 'PR', '45', '80020000'),
-('456789', 'Dra. Ana Beatriz', 'ana.beatriz@advocacia.com', 'Av. Paulista', 'São Paulo', 'Bela Vista', 'SP', '500', '01310000'),
-('567890', 'Dr. Felipe Costa', 'felipe.costa@advocacia.com', 'Rua das Acácias', 'Belo Horizonte', 'Funcionários', 'MG', '210', '30140000'),
-('678901', 'Dra. Letícia Rocha', 'leticia.rocha@advocacia.com', 'Av. Ipiranga', 'Porto Alegre', 'Moinhos', 'RS', '88', '90020100'),
-('789012', 'Dr. Marcelo Pinto', 'marcelo.pinto@advocacia.com', 'Rua das Orquídeas', 'Campinas', 'Cambuí', 'SP', '75', '13015000'),
-('890123', 'Dra. Sônia Pereira', 'sonia.pereira@advocacia.com', 'Av. Atlântica', 'Niterói', 'Icaraí', 'RJ', '60', '24310000'),
-('901234', 'Dr. Marcos Oliveira', 'marcos.oliveira@advocacia.com', 'Rua Central', 'Uberlândia', 'Centro', 'MG', '102', '38400000'),
-('012345', 'Dra. Carla Mota', 'carla.mota@advocacia.com', 'Rua do Comércio', 'Santos', 'Embaré', 'SP', '34', '11015000');
+('123456', 'JOSE CASTRO', 'joao.almeida@advocacia.com', 'Rua das Palmeiras', 'São Paulo', 'Centro', 'SP', '120', '01001000'),
+('234567', 'AMELIA BITTECOURT', 'maria.souza@advocacia.com', 'Av. Brasil', 'Rio de Janeiro', 'Copacabana', 'RJ', '320', '22041000'),
+('345678', 'TULIO SENA', 'ricardo.lima@advocacia.com', 'Rua XV de Novembro', 'Curitiba', 'Centro', 'PR', '45', '80020000');
+
 
 -- INSERÇÕES NA TABELA: contrato  
 -- Aqui, os valores de OAB e CPF referenciam os advogados e clientes inseridos anteriormente.
@@ -32,12 +26,12 @@ INSERT INTO contrato (OAB, CPF, data_inicio, tipo_servico, status_contrato, desc
 ('123456', '12345678901', '2023-01-15', 'civil', 'ganho', 'Ação de indenização', NULL, 5000.00),
 ('234567', '98765432109', '2023-02-20', 'trabalho', 'cancelado', 'Reintegração', '2023-05-01', 7500.00),
 ('123456', '45678912300', '2023-03-10', 'criminal', 'perdido', 'Defesa criminal', '2023-09-15', 12000.00),
-('456789', '32165498700', '2023-04-05', 'previdenciario', 'ganho', 'Revisão de benefício', NULL, 3000.00),
-('123456', '15975348620', '2023-05-12', 'consumidor', 'ganho', 'Ação contra empresa', NULL, 4500.00),
+('123456', '32165498700', '2023-04-05', 'previdenciario', 'ganho', 'Revisão de benefício', NULL, 3000.00),
+('567890', '15975348620', '2023-05-12', 'consumidor', 'ganho', 'Ação contra empresa', NULL, 4500.00),
 ('678901', '75315948620', '2023-06-18', 'assesoria e consultoria', 'perdido', 'Consultoria jurídica', NULL, 6500.00),
-('789012', '85296374102', '2023-07-22', 'acompanhamentos', 'perdido', 'Acompanhamento processual', '2023-10-10', 5200.00),
+('123456', '85296374102', '2023-07-22', 'acompanhamentos', 'perdido', 'Acompanhamento processual', '2023-10-10', 5200.00),
 ('890123', '96385274103', '2023-08-30', 'correspondencia juridica', 'ganho', 'Envio de documentos', NULL, 3800.00),
-('901234', '74185296304', '2023-09-25', 'civil', 'cancelado', 'Ação de divórcio', '2023-11-30', 8100.00),
+('123456', '74185296304', '2023-09-25', 'civil', 'cancelado', 'Ação de divórcio', '2023-11-30', 8100.00),
 ('012345', '15935748620', '2023-10-14', 'trabalho', 'ganho', 'Ação trabalhista', NULL, 6900.00);
 
 -- INSERÇÕES NA TABELA: documento  
@@ -83,13 +77,13 @@ INSERT INTO pagamento (cod_contrato, data_pag, data_vencimento, descricao, statu
 -- INSERÇÕES NA TABELA: agenda  
 INSERT INTO agenda (cod_contrato, data_compromisso, nome_compromisso, descricao, status_compromisso) VALUES
 (1, '2023-04-05', 'Audiência Cível', 'Tribunal de Justiça - SP', 'comparecido'),
-(1, '2023-05-10', 'Reunião Trabalhista', 'Escritório - RJ', 'remarcado'),
-(1, '2023-06-15', 'Julgamento Criminal', 'Fórum Central - BH', 'cancelado'),
-(1, '2023-07-20', 'Consulta Previdenciária', 'Reunião com cliente - POA', 'comparecido'),
-(1, '2023-08-25', 'Sessão de Mediação', 'Mediação entre as partes', 'remarcado'),
-(6, '2023-09-30', 'Audiência de Instrução', 'Audiência para coleta de provas', 'comparecido'),
+(3, '2023-05-10', 'Reunião Trabalhista', 'Escritório - RJ', 'remarcado'),
+(3, '2023-06-15', 'Julgamento Criminal', 'Fórum Central - BH', 'cancelado'),
+(4, '2023-07-20', 'Consulta Previdenciária', 'Reunião com cliente - POA', 'comparecido'),
+(4, '2023-08-25', 'Sessão de Mediação', 'Mediação entre as partes', 'remarcado'),
+(7, '2023-09-30', 'Audiência de Instrução', 'Audiência para coleta de provas', 'comparecido'),
 (7, '2023-10-15', 'Reunião Estratégica', 'Discussão de estratégia', 'comparecido'),
-(8, '2023-11-20', 'Vistoria Técnica', 'Local do fato', 'cancelado'),
+(9, '2023-11-20', 'Vistoria Técnica', 'Local do fato', 'cancelado'),
 (9, '2023-12-05', 'Reunião de Conciliação', 'Tentativa de acordo', 'comparecido'),
 (10, '2024-01-10', 'Audiência Final', 'Julgamento final do processo', 'remarcado');
 
@@ -120,3 +114,6 @@ INSERT INTO telefone_ADV (telefone, OAB) VALUES
 ('81989012345', '890123'),
 ('91990123456', '901234'),
 ('01901234567', '012345');
+
+
+
