@@ -254,12 +254,7 @@ const Contratos = () => {
                                         defaultValue={contratoSelecionado.descricao}
                                         readOnly
                                     />
-                                    <input
-                                    className="doc"
-                                    name="documentos"
-                                    type="file"
-                                    defaultValue={contratoSelecionado.documentos}
-                                    />
+                                    
                                </div>
                                 <div className="listas">
                                     <ul>
@@ -290,7 +285,7 @@ const Contratos = () => {
                                 </div>
                             </div>
                             <div className="botoes">
-                                <button className="editar" onClick={() => {setMostrarEdit(true); setMostrarInfo(false)}}>EDITAR</button>
+                                <button className="editar" onClick={() => {setMostrarEdit(true); setMostrarInfo(false);setFormData({...contratoSelecionado,OAB:oab})}}>EDITAR</button>
                                 <button className="voltar" onClick={() => setMostrarInfo(false)}>VOLTAR</button>
                                 <button className="excluir" onClick={() => excluirContrato(contratoSelecionado.cod_contrato)} >EXCLUIR</button>
                             </div>
@@ -397,7 +392,7 @@ const Contratos = () => {
                              required
                          />
 
-                         <select name="CPF" onChange={handleChange} value={contratoSelecionado.CPF} required>
+                         <select name="CPF" onChange={handleChange} value={formData.CPF} required>
                              <option value="" >-Nome do cliente-</option>
                              {clientes.map((cliente) => (
                                  <option key={cliente.CPF} value={cliente.CPF}>{cliente.nome}</option>
@@ -408,13 +403,13 @@ const Contratos = () => {
                              name="data_inicio"
                              type="date"
                              onChange={handleChange}
-                             value={new Date(contratoSelecionado.data_inicio).toLocaleDateString()}
+                             value={formData.data_inicio.split('T')[0]}
                              required
                          />
                          <input
                              name="valor"
                              onChange={handleChange}
-                             value={contratoSelecionado.valor}
+                             value={formData.valor}
                              placeholder="Valor do contrato"
                              required
                          />
@@ -422,7 +417,7 @@ const Contratos = () => {
                                  <div className="tipo-desc">
                              <div className="tipo">
                          
-                         <select name="tipo_servico" placeholder="Tipo de serviço" onChange={handleChange} value={contratoSelecionado.tipo_servico} required>
+                         <select name="tipo_servico" placeholder="Tipo de serviço" onChange={handleChange} value={formData.tipo_servico} required>
                                  <option value="">-Tipo de serviço-</option>
                                  <option value="civil">civil</option>
                                  <option value="trabalho">trabalho</option>
@@ -435,7 +430,7 @@ const Contratos = () => {
                                  
                           </select>
 
-                         <select name="status_contrato" placeholder="Status do contrato" onChange={handleChange} value={contratoSelecionado.status_contrato} required>
+                         <select name="status_contrato" placeholder="Status do contrato" onChange={handleChange} value={formData.status_contrato} required>
                                  <option value="">-Status do contrato-</option>
                                  <option value="ganho">GANHO</option>
                                  <option value="perdido">PERDIDO</option>
@@ -447,7 +442,7 @@ const Contratos = () => {
                              className="descricao"
                              name="descricao"
                              onChange={handleChange}
-                             value={contratoSelecionado.descricao}
+                             value={formData.descricao||''}
                              type="text"
                              placeholder="Descrição do contrato"
                              required

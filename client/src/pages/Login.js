@@ -74,10 +74,7 @@ const Login = () => {
               <button
                 key={advogado.oab}
                 className="adv-nome"
-                onClick={() => {
-                  setAdvogadoSelecionado(advogado);
-                  setMostrarInfo(true);
-                }}
+                onClick={() => {setAdvogadoSelecionado(advogado);setMostrarInfo(true);}}
               >
                 {advogado.nome.toUpperCase()}
               </button>
