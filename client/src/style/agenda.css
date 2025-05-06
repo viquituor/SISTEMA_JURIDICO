@@ -28,7 +28,7 @@ ul{
     justify-content: space-evenly;
     
     
-    li{
+    .li-comp{
         padding: 0.2rem 2rem 1rem;
         text-align: center;
         background-color: #2d2a26;

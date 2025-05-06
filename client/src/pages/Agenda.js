@@ -59,7 +59,7 @@ const Agenda = () => {
 
                     <ul>
                             {compromissos.map((compromisso) => (
-                                <li key={compromisso.cod_compromisso}>
+                                <li className="li-comp" key={compromisso.cod_compromisso}>
                                     <button onClick={() => {
                                         setMostrarInfo(true);
                                         setCompromissoSelecionado(compromisso)}}>
