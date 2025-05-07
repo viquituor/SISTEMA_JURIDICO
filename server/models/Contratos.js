@@ -10,6 +10,7 @@ class Contratos {
                 JOIN cliente cli ON c.CPF = cli.CPF
                 JOIN advogado adv ON c.OAB = adv.OAB
                 WHERE c.OAB = ?
+                group by c.cod_contrato
             `, [oab]);
             
             console.log("Resultados da query:", results);
@@ -23,18 +24,16 @@ class Contratos {
 
     static async buscarListas(cod_contrato) {
         try {
-            const [results] = await pool.query(`
-                SELECT * FROM contrato ct
-                JOIN documento d on d.cod_contrato = ct.cod_contrato
-                JOIN agenda a on a.cod_contrato = ct.cod_contrato
-                JOIN pagamento p on p.cod_contrato = ct.cod_contrato
-                WHERE ct.cod_contrato = ?
-
-            `, [cod_contrato]);
+            // Consultas separadas para cada tipo de dado
+            const [documentos] = await pool.query(`SELECT * FROM documento WHERE cod_contrato = ?`, [cod_contrato]);
+            const [pagamentos] = await pool.query(`SELECT * FROM pagamento WHERE cod_contrato = ?`, [cod_contrato]);
+            const [compromissos] = await pool.query(`SELECT * FROM agenda WHERE cod_contrato = ?`, [cod_contrato]);
             
-            console.log("Resultados da query:", results);
-            return results
-
+            return {
+                documentos,
+                pagamentos,
+                compromissos
+            };
         } catch (error) {
             console.error("Erro ao buscar contratos:", error);
             throw error;

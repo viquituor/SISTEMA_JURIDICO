@@ -11,7 +11,9 @@ const Contratos = () => {
     const navigate = useNavigate();
     const [busca, setBusca] = useState("");
     const [contratos, setContratos] = useState([]);
-    const [listas, setlistas] = useState([]);
+    const [documentos, setDocumentos] = useState([]);
+    const [pagamentos, setPagamentos] = useState([]);
+    const [compromissos, setCompromissos] = useState([]);
     const [cod_contratoSelecionado, setCod_contratoSelecionado] = useState(null);
     const [contratoSelecionado, setContratoSelecionado] = useState(null);
     const [mostrarInfo, setMostrarInfo] = useState(false);
@@ -111,20 +113,22 @@ const Contratos = () => {
         carregarClientes();
       }, [oab]);
 
-    // Carrega agendas quando um contrato é selecionado
     useEffect(() => {
-        const carregarListas = async () => {
-            try {
-                if (cod_contratoSelecionado) {
-                    const response = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos/${cod_contratoSelecionado}`);
-                    setlistas(response.data);
+            const carregarListas = async () => {
+                try {
+                    if (cod_contratoSelecionado) {
+                        const response = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos/${cod_contratoSelecionado}`);
+
+            setDocumentos(response.data.documentos);
+            setPagamentos(response.data.pagamentos);
+            setCompromissos(response.data.compromissos);
                 }
             } catch (error) {
                 console.error("Erro ao buscar agenda:", error.response?.data || error.message);
+                }
             }
-        };
         carregarListas();
-    }, [cod_contratoSelecionado, oab]);
+            }, [cod_contratoSelecionado, oab]);
 
     // Carrega contratos quando o componente monta ou OAB muda
     useEffect(() => {
@@ -168,11 +172,11 @@ const Contratos = () => {
             <main className="main-contrato">
             <div className="buscar-add">
                     <input
+                        name="input-busca"
                         type="text"
                         placeholder="Buscar"
                         value={busca}
                         onChange={(e) => setBusca(e.target.value)}
-                        className="input-busca"
                     />
                     <button onClick={() => setMostrarAdd(true)}>ADICIONAR</button>
                 </div>
@@ -283,7 +287,7 @@ const Contratos = () => {
                                 <div className="listas">
                                     <ul>
                                         <h4>DOCUMENTOS</h4>
-                                        {listas.map((documento) => (
+                                        {documentos.map((documento) => (
                                             <li key={documento.cod_doc}><a href="{documento.link}">{documento.nome}</a></li>
                                         ))}
 
@@ -291,7 +295,7 @@ const Contratos = () => {
                                     </ul>
                                     <ul>
                                     <h4>PAGAMENTOS</h4>
-                                    {listas.map((listaPag) => (
+                                    {pagamentos.map((listaPag) => (
                                                 <li key={listaPag.cod_pag}>
                                                     {listaPag.valorPago} - {new Date(listaPag.data_pag).toLocaleDateString()} - {listaPag.metodo}
                                                 </li>
@@ -299,8 +303,8 @@ const Contratos = () => {
                                     </ul>
                                     
                                     <ul>
-                                    <h4>compromissoS</h4>
-                                        {listas.map((agenda) => (
+                                    <h4>compromissos</h4>
+                                        {compromissos.map((agenda) => (
                                                 <li key={agenda.cod_compromisso}>
                                                     {agenda.nome_compromisso} - {new Date(agenda.data_compromisso).toLocaleDateString()} - {agenda.status_compromisso}
                                                 </li>

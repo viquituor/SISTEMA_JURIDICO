@@ -11,7 +11,7 @@ class Agenda {
                 LEFT JOIN contrato c ON a.cod_contrato = c.cod_contrato
                 LEFT JOIN cliente cli ON c.CPF = cli.CPF
                 WHERE c.OAB = ?
-                ORDER BY a.data_compromisso
+                ORDER BY a.data_compromisso desc
             `, [oab]);
             return results;
         } finally {
@@ -34,6 +34,24 @@ class Agenda {
             connection.release(); // Libera a conexão
         }
     };
+
+    static async deletarCompromisso(cod_compromisso) {
+        const connection = await pool.getConnection();
+        try {
+            const [results] = await connection.query(`
+                DELETE FROM agenda WHERE cod_compromisso = ?
+            `, [cod_compromisso]);
+            if (results.affectedRows === 0) {
+                throw new Error("Nenhum compromisso encontrado com o codigo de compromisso fornecido.");
+            }
+            return results.affectedRows; // Retorna o número de linhas afetadas
+        } catch (error) {
+            console.error("Erro ao deletar compromisso:", error);
+            throw error;
+        } finally {
+            connection.release(); // Libera a conexão
+        }
+    }
 
 }
 

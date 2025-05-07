@@ -4,7 +4,8 @@ const agendaController = require('../controllers/Agenda');
 
 // Rotas da Agenda
 router.get('/Agenda', agendaController.buscarCompromissos);
-router.post('/Agenda', agendaController.criarCompromisso)
+router.post('/Agenda', agendaController.criarCompromisso);
+router.delete('/Agenda/:cod_compromisso', agendaController.deletarCompromisso);
 
 
 module.exports = router;

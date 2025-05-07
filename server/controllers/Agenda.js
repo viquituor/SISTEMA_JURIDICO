@@ -37,3 +37,17 @@ exports.criarCompromisso = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.deletarCompromisso = async (req, res, next) => {
+    try {
+        const { cod_compromisso } = req.params;
+        const resultado = await Agenda.deletarCompromisso(cod_compromisso);
+        res.status(200).json({ 
+            success: true,
+            message: 'Compromisso deletado com sucesso',
+            affectedRows: resultado 
+        });
+    } catch (err) {
+        next(err);
+    }
+};

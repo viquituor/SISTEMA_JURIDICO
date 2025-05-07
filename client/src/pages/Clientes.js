@@ -186,11 +186,11 @@ const Clientes = () => {
             <main className="main-clientes">
             <div className="buscar-add">
                     <input
+                        name="input-busca"
                         type="text"
                         placeholder="Buscar"
                         value={busca}
                         onChange={(e) => setBusca(e.target.value)}
-                        className="input-busca"
                     />
                     <button onClick={() => setMostrarAdd(true)}>ADICIONAR</button>
                 </div>

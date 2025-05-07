@@ -78,6 +78,25 @@ const Agenda = () => {
             setLoading(false);
         }
     };
+
+    const deletarCompromisso = async (cod_compromisso) => {
+
+        try {
+            const confirmar = window.confirm("Tem certeza que deseja excluir este compromisso?");
+            if (!confirmar) return;
+
+            const response = await axios.delete(`http://localhost:3001/advogados/${oab}/Agenda/${cod_compromisso}`);
+
+            if (response.status === 200) {
+                alert("Compromisso excluído com sucesso!");
+                setMostrarInfo(false);
+                setCompromissos(prev => prev.filter(comp => comp.cod_compromisso !== cod_compromisso));
+            }
+        } catch (error) {
+            const errorMessage = error.response?.data?.error || "Erro ao excluir compromisso";
+            alert(errorMessage);
+        }
+    }
     
     useEffect(() => {
             const carregarContratos = async () => {
@@ -194,7 +213,7 @@ const Agenda = () => {
                         <div className="botoes">
                                 <button className="editar" onClick={() => {setMostrarEdit(true); setMostrarInfo(false)}}>EDITAR</button>
                                 <button className="voltar" onClick={() => setMostrarInfo(false)}>VOLTAR</button>
-                                <button className="excluir" >EXCLUIR</button>
+                                <button className="excluir" onClick={() => deletarCompromisso(compromissoSelecionado.cod_compromisso)}>EXCLUIR</button>
                             </div>
 
                     </div>
