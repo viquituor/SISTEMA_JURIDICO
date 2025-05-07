@@ -17,6 +17,12 @@ button{
     all: unset;
 }
 
+h3{
+    color: #ffb801;
+    font-size: 2rem;
+    font-weight: 100;
+}
+
 .ul-comp{
     padding: 2rem;
     gap: 2rem;
@@ -70,13 +76,6 @@ button{
     align-items: center;
     justify-content: space-evenly;
     border: #fff solid 1px;
-
-    h3{
-        color: #ffb801;
-        font-size: 2rem;
-        font-weight: 100;
-    }
-
 
     .info{
         display: flex;
@@ -146,11 +145,7 @@ button{
     justify-content: space-evenly;
     border: #fff solid 1px;
 
-    h3{
-        color: #ffb801;
-        font-size: 2rem;
-        font-weight: 100;
-    }
+    
 
     .contratos-compromisso{
         width: 60vw;
@@ -174,6 +169,7 @@ button{
     
             tr{
                 height: 4.5vh;
+                cursor: pointer;
                 td{ 
                     
                     border: 1px solid #ffb801;
@@ -185,5 +181,59 @@ button{
             }
         }
 
+    }
+}
+
+.aba-add-compromisso{
+    position: fixed;
+    width: 40vw;
+    height: 60vh;
+    top: 15rem;
+    border-radius: 30px;
+    border: #000 solid 3px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    form{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3rem;
+
+
+        .campos{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            width: 35vw;
+        }
+        label{
+            color: #58462b;
+            font-weight: 600;
+            text-align: center;
+        }
+        input, select, textarea{
+            all: unset;
+            width: 8vw;
+            height: 3.5vh;
+            text-align: center;
+            font-size: 1.3rem;
+            color: #ffb801;
+            font-weight: 200;
+            background-color: #000;
+            border-radius: 30px;
+            cursor: pointer;
+        }           
+        textarea{
+            width: 35vw;
+            height: 20vh;
+        }
+        
     }
 }

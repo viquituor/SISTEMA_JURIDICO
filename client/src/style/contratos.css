@@ -11,6 +11,7 @@
 
 
 }
+
 .tabela-contrato{
     display: flex;
     flex-direction: column;
@@ -20,6 +21,7 @@
     background-color: #555;
     padding: 1rem;
 }
+
 table{
     width: 80vw;
     height: auto;
@@ -41,6 +43,7 @@ table{
 
         tr{
             height: 5vh;
+            cursor: pointer;
             td{ 
                 
                 border: 1px solid #ffb801;
@@ -80,7 +83,6 @@ table{
         color: green;
     }
 }
-
 
 .aba{
     position: fixed;

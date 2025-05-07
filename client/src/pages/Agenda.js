@@ -245,10 +245,12 @@ const Agenda = () => {
                     </div>
                 )}
                 {mostrarAdd && contratoSelecionado && (
-                    <div className="aba-add">
+                    <div className="aba-add-compromisso">
                         <h3>ADICIONAR COMPROMISSO</h3>
 
                         <form onSubmit={handleSubmit}>
+                            <div className="campos">
+
                             <label>
                                 codigo do contrato
                             <input
@@ -268,6 +270,7 @@ const Agenda = () => {
                             required
                             />
                             </label>
+
                             <label>
                                 data
                             <input
@@ -280,7 +283,20 @@ const Agenda = () => {
                             </label>
 
                             <label>
-                                descricao 
+                                status do compromisso
+                            <select name="status_compromisso" onChange={handleChange} value={formData.status_compromisso} required> 
+                             <option value="">SELECIONE</option>
+                             <option value="comparecido">COMPARECIDO</option>
+                             <option value="marcado">MARCADO</option>
+                             <option value="remarcado">REMARCADO</option>
+                             <option value="perdido">PERDIDO</option>
+                             <option value="cancelado">CANCELADO</option>
+
+                            </select>
+                            </label>
+
+                            </div>
+
                                 <textarea
                                     className="descricao"
                                     name="descricao"
@@ -290,24 +306,12 @@ const Agenda = () => {
                                     placeholder="Descrição do contrato"
                                     required
                                 />
-                            </label>
-
-
-                            <select name="status_compromisso" onChange={handleChange} value={formData.status_compromisso} required> 
-                             <option value="">status do compromisso</option>
-                             <option value="comparecido">COMPARECIDO</option>
-                             <option value="marcado">MARCADO</option>
-                             <option value="remarcado">REMARCADO</option>
-                             <option value="perdido">PERDIDO</option>
-                             <option value="cancelado">CANCELADO</option>
-
-                            </select>
 
                             <div className="botoes">
                                     <button className="voltar" onClick={() => {setMostrarAdd(false); setMostrarContrato(true)}}>VOLTAR</button>
                                  {error && <div className="error-message">{error}</div>}
                                     <button className="salvar" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "SALVAR"}</button>
-                                </div>
+                            </div>
 
                         </form>
                     </div>
