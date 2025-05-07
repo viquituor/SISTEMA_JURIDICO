@@ -124,6 +124,18 @@ const Agenda = () => {
         CarregarCompromissos();
     },[oab]);
     
+    const compromissosFiltrados = compromissos.filter(compromisso => {
+        const buscaLower = busca.toLowerCase();
+        return (
+            compromisso.nome_compromisso.toLowerCase().includes(buscaLower) ||
+            compromisso.nome_cliente.toLowerCase().includes(buscaLower) ||
+            compromisso.status_compromisso.toString().toLowerCase().includes(buscaLower) ||
+            compromisso.cod_contrato.toString().includes(busca) ||
+            compromisso.data_compromisso.toString().includes(busca)
+        );
+    });
+
+
 
     return(
         <div className="container">
@@ -154,7 +166,7 @@ const Agenda = () => {
                 </div>
 
                     <ul className="ul-comp">
-                            {compromissos.map((compromisso) => (
+                            {compromissosFiltrados.map((compromisso) => (
                                 <li className="li-comp" key={compromisso.cod_compromisso}>
                                     <button onClick={() => {
                                         setMostrarInfo(true);

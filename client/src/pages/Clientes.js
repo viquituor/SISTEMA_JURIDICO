@@ -165,7 +165,8 @@ const Clientes = () => {
     };
 
   const clientesFiltrados = clientes.filter(cliente =>
-    cliente.nome.toLowerCase().includes(busca.toLowerCase())
+    cliente.nome.toLowerCase().includes(busca.toLowerCase()) ||
+    cliente.CPF.toLowerCase().includes(busca.toLowerCase())
   );
 
     return(

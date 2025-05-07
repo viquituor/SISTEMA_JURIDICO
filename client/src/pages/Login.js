@@ -65,7 +65,7 @@ const Login = () => {
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
           />
-          <h3>SELECIONE UM ADVOGADO</h3>
+          <h3 className="select-adv">SELECIONE UM ADVOGADO</h3>
         </div>
 
         <div className="advs">

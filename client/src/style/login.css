@@ -16,11 +16,15 @@ main{
         align-items: center;
 
 
-        h3{
+        .select-adv{
+            color: #fff;
+            font-weight: 100;
+            font-size: 1.5rem;
+            letter-spacing: 3px;
             position: absolute;
             width: fit-content;
             text-transform: uppercase;
-            left: 44.5vw;
+            left: 43vw;
         }
 
         input{
@@ -64,6 +68,7 @@ main{
 
 .hide{
     background-color:#2d2a26 ;
+    border: #ffb801 solid 2px;
     width: 40vw;
     height: 40vh;
     position: fixed;
