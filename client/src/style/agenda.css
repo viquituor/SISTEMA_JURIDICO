@@ -132,3 +132,58 @@ button{
         }
     }
 }
+
+.aba-contrato-compromisso{
+    position: fixed;
+    border-radius: 30px;
+    top: 23vh;
+    width: 70vw;
+    height: auto;
+    background-color:#262626;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border: #fff solid 1px;
+
+    h3{
+        color: #ffb801;
+        font-size: 2rem;
+        font-weight: 100;
+    }
+
+    .contratos-compromisso{
+        width: 60vw;
+        height: auto;
+        border-collapse: collapse;
+        thead{
+            background-color:#262626;
+            th{
+                border: #58462b solid 1px;
+                text-transform: uppercase;
+                letter-spacing: 10px;
+                text-align: center;
+                font-weight: 400;
+                font-size: 1.5rem;
+            }
+    
+        }
+        tbody{
+            
+           background-color: #58462b;
+    
+            tr{
+                height: 4.5vh;
+                td{ 
+                    
+                    border: 1px solid #ffb801;
+                    text-align: center;
+                    font-size: 1.3rem;
+                    font-weight: 300;
+                    color: #fff;
+                }
+            }
+        }
+
+    }
+}

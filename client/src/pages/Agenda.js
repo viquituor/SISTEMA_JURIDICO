@@ -42,6 +42,7 @@ const Agenda = () => {
             cod_contrato: contrato.cod_contrato
         }));
         setMostrarAdd(true);
+        setMostrarContrato(false);
     };
 
     const handleSubmit = async (e) => {
@@ -123,11 +124,12 @@ const Agenda = () => {
             <main className="main-agenda">
             <div className="buscar-add">
                     <input
+                        name="input-busca"
                         type="text"
                         placeholder="Buscar"
                         value={busca}
                         onChange={(e) => setBusca(e.target.value)}
-                        className="input-busca"
+                        
                     />
                     <button onClick={() => {setMostrarContrato(true)}}>ADICIONAR</button>
                 </div>
@@ -145,28 +147,7 @@ const Agenda = () => {
                                     </li>
                             ))}
                     </ul>
-                {mostrarContrato && (
-                    <div className="aba-contrato-compromisso">
-                        <h3>SELECIONE O CONTRATO</h3>
-                        <table>
-                      <thead><tr><th>nome</th><th>status</th><th>tipo</th><th>data de inicio</th><th>valor</th></tr></thead>
-                        <tbody>
-                        {contratos.map((contrato) => (
-                            <tr key={contrato.cod_contrato} onClick={() => {selecionarContrato(contrato)}}>
-                                <td>{contrato.nome_cliente}</td>
-                                <td>{contrato.status_contrato}</td>
-                                <td>{contrato.tipo_servico}</td>
-                                <td>{new Date (contrato.data_inicio).toLocaleDateString()}</td>
-                                <td>{contrato.valor}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-
-                    <button className="voltar" onClick={() => setMostrarContrato(false)}>VOLTAR</button>
-
-                    </div>
-                )}
+                
                 {mostrarInfo && compromissoSelecionado && (
                     <div className="aba-comp">
                         <h3>COMPROMISSO</h3>
@@ -220,7 +201,30 @@ const Agenda = () => {
                 )}
                 {mostrarEdit && compromissoSelecionado && (
                     <div className="aba-edit-comp"></div>
-                )} 
+                )}
+                {mostrarContrato && (
+                    <div className="aba-contrato-compromisso">
+                        <h3>SELECIONE O CONTRATO</h3>
+                        <table className="contratos-compromisso">
+                      <thead><tr><th>nome</th><th>status</th><th>tipo</th><th>data de inicio</th><th>valor</th></tr></thead>
+                        <tbody>
+                        {contratos.map((contrato) => (
+                            <tr key={contrato.cod_contrato} onClick={() => {selecionarContrato(contrato)}}>
+                                <td>{contrato.nome_cliente}</td>
+                                <td>{contrato.status_contrato}</td>
+                                <td>{contrato.tipo_servico}</td>
+                                <td>{new Date (contrato.data_inicio).toLocaleDateString()}</td>
+                                <td>{contrato.valor}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+
+                    <div className="botoes">
+                    <button className="voltar" onClick={() => setMostrarContrato(false)}>VOLTAR</button>
+                    </div>
+                    </div>
+                )}
                 {mostrarAdd && contratoSelecionado && (
                     <div className="aba-add">
                         <h3>ADICIONAR COMPROMISSO</h3>
@@ -229,6 +233,7 @@ const Agenda = () => {
                             <label>
                                 codigo do contrato
                             <input
+                            name="cod_contrato"
                             value={formData.cod_contrato}
                             readOnly
                             />
@@ -280,7 +285,7 @@ const Agenda = () => {
                             </select>
 
                             <div className="botoes">
-                                    <button className="voltar" onClick={() => setMostrarAdd(false)}>VOLTAR</button>
+                                    <button className="voltar" onClick={() => {setMostrarAdd(false); setMostrarContrato(true)}}>VOLTAR</button>
                                  {error && <div className="error-message">{error}</div>}
                                     <button className="salvar" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "SALVAR"}</button>
                                 </div>
