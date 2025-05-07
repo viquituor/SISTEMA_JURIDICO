@@ -10,10 +10,70 @@ const Agenda = () => {
     const navigate = useNavigate();
     const [busca, setBusca] = useState("");
     const [compromissos, setCompromissos] = useState([]);
+    const [contratos, setContratos] = useState([]);
+    const [contratoSelecionado, setContratoSelecionado] = useState(null);
     const [mostrarInfo, setMostrarInfo] = useState(false);
-    const [compromissoSelecionado, setCompromissoSelecionado] = useState(null);
     const [mostrarEdit, setMostrarEdit] = useState(false);
+    const [mostrarAdd, setMostrarAdd] = useState(false);
+    const [mostrarContrato, setMostrarContrato] = useState(false);
+    const [compromissoSelecionado, setCompromissoSelecionado] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [formData, setFormData] = useState ({
+        cod_contrato:'',
+        nome_compromisso:'',
+        data_compromisso:'',
+        descricao:'',
+        status_compromisso:''
+    })
     
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const selecionarContrato = (contrato) => {
+        setContratoSelecionado(contrato);
+        setFormData(prev => ({
+            ...prev,
+            cod_contrato: contrato.cod_contrato
+        }));
+        setMostrarAdd(true);
+    };
+
+    const handleSubmit = async (e) => {
+            e.preventDefault();
+            setLoading(true);
+            
+            try {          
+              await axios.post(`http://localhost:3001/advogados/${oab}/Agenda`, formData);
+          
+              alert("compromisso cadastrado!");
+              setMostrarAdd(false);
+              // Recarrega a lista
+              const res = await axios.get(`http://localhost:3001/advogados/${oab}/Agenda`);
+              setCompromissos(res.data);
+            } catch (err) {
+              setError(err.response?.data?.error || err.message);
+            } finally {
+              setLoading(false);
+            }
+        };
+    
+    useEffect(() => {
+            const carregarContratos = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos`);
+                    setContratos(response.data);
+                } catch (error) {
+                    console.error("Erro ao buscar contratos:", error.response?.data || error.message);
+                }
+            };
+            carregarContratos();
+        }, [oab]);
 
     useEffect(() => {
         const CarregarCompromissos = async () => {
@@ -54,10 +114,10 @@ const Agenda = () => {
                         onChange={(e) => setBusca(e.target.value)}
                         className="input-busca"
                     />
-                    <button>ADICIONAR</button>
+                    <button onClick={() => {setMostrarContrato(true)}}>ADICIONAR</button>
                 </div>
 
-                    <ul>
+                    <ul className="ul-comp">
                             {compromissos.map((compromisso) => (
                                 <li className="li-comp" key={compromisso.cod_compromisso}>
                                     <button onClick={() => {
@@ -70,7 +130,28 @@ const Agenda = () => {
                                     </li>
                             ))}
                     </ul>
+                {mostrarContrato && (
+                    <div className="aba-contrato-compromisso">
+                        <h3>SELECIONE O CONTRATO</h3>
+                        <table>
+                      <thead><tr><th>nome</th><th>status</th><th>tipo</th><th>data de inicio</th><th>valor</th></tr></thead>
+                        <tbody>
+                        {contratos.map((contrato) => (
+                            <tr key={contrato.cod_contrato} onClick={() => {selecionarContrato(contrato)}}>
+                                <td>{contrato.nome_cliente}</td>
+                                <td>{contrato.status_contrato}</td>
+                                <td>{contrato.tipo_servico}</td>
+                                <td>{new Date (contrato.data_inicio).toLocaleDateString()}</td>
+                                <td>{contrato.valor}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
 
+                    <button className="voltar" onClick={() => setMostrarContrato(false)}>VOLTAR</button>
+
+                    </div>
+                )}
                 {mostrarInfo && compromissoSelecionado && (
                     <div className="aba-comp">
                         <h3>COMPROMISSO</h3>
@@ -123,7 +204,74 @@ const Agenda = () => {
                     </div>
                 )}
                 {mostrarEdit && compromissoSelecionado && (
-                    <div className="aba-edit"></div>
+                    <div className="aba-edit-comp"></div>
+                )} 
+                {mostrarAdd && contratoSelecionado && (
+                    <div className="aba-add">
+                        <h3>ADICIONAR COMPROMISSO</h3>
+
+                        <form onSubmit={handleSubmit}>
+                            <label>
+                                codigo do contrato
+                            <input
+                            value={formData.cod_contrato}
+                            readOnly
+                            />
+                            </label>
+
+                            <label>
+                                nome do compromisso
+                            <input
+                            type="text"
+                            name="nome_compromisso"
+                            onChange={handleChange}
+                            value={formData.nome_compromisso}
+                            required
+                            />
+                            </label>
+                            <label>
+                                data
+                            <input
+                            type="date"
+                            name="data_compromisso"
+                            onChange={handleChange}
+                            value={formData.data_compromisso}
+                            required
+                            />
+                            </label>
+
+                            <label>
+                                descricao 
+                                <textarea
+                                    className="descricao"
+                                    name="descricao"
+                                    onChange={handleChange}
+                                    value={formData.descricao}
+                                    type="text"
+                                    placeholder="Descrição do contrato"
+                                    required
+                                />
+                            </label>
+
+
+                            <select name="status_compromisso" onChange={handleChange} value={formData.status_compromisso} required> 
+                             <option value="">status do compromisso</option>
+                             <option value="comparecido">COMPARECIDO</option>
+                             <option value="marcado">MARCADO</option>
+                             <option value="remarcado">REMARCADO</option>
+                             <option value="perdido">PERDIDO</option>
+                             <option value="cancelado">CANCELADO</option>
+
+                            </select>
+
+                            <div className="botoes">
+                                    <button className="voltar" onClick={() => setMostrarAdd(false)}>VOLTAR</button>
+                                 {error && <div className="error-message">{error}</div>}
+                                    <button className="salvar" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "SALVAR"}</button>
+                                </div>
+
+                        </form>
+                    </div>
                 )}
 
             </main>

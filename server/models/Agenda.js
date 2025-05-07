@@ -17,7 +17,23 @@ class Agenda {
         } finally {
             connection.release();
         }
-    }
+    };
+
+    static async criarCompromisso(){
+        const connection = await pool.getConnection();
+        try {
+            const [results] = await connection.query(`
+                INSERT INTO agenda 
+                INSERT INTO agenda (cod_contrato, data_compromisso, nome_compromisso, descricao, status_compromisso) 
+                VALUES (?, ?, ?, ?, ?)
+            `, [cod_contrato, data_compromisso, nome_compromisso, descricao, status_compromisso]);
+            return results;
+        }  catch (error) {
+            console.error("Erro ao criar contrato:", error);
+            throw error;
+        }
+
+    };
 
 }
 

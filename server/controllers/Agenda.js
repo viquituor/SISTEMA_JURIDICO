@@ -11,3 +11,11 @@ exports.buscarCompromissos = async (req, res, next) => {
     }
 };
 
+exports.criarCompromisso = async (req, res, next) => {
+    try{
+        const compromissos = await Agenda.criarCompromisso();
+        res.json(compromissos);
+    }catch(err) {
+        next(err);
+    }
+}

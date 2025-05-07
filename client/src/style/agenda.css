@@ -17,7 +17,7 @@ button{
     all: unset;
 }
 
-ul{
+.ul-comp{
     padding: 2rem;
     gap: 2rem;
     list-style: none;
@@ -42,7 +42,7 @@ ul{
 
         hr{
             border: none;
-            height: 0.08px;
+            height: 0.9px;
             background-color: #ffb801;
         }
 
