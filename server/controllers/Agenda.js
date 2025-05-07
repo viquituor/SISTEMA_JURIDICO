@@ -12,10 +12,28 @@ exports.buscarCompromissos = async (req, res, next) => {
 };
 
 exports.criarCompromisso = async (req, res, next) => {
-    try{
-        const compromissos = await Agenda.criarCompromisso();
-        res.json(compromissos);
-    }catch(err) {
+    try {
+        const { oab } = req.params;
+        const { cod_contrato, data_compromisso, nome_compromisso, descricao, status_compromisso } = req.body;
+        
+        // Validação básica
+        if (!cod_contrato || !data_compromisso || !nome_compromisso) {
+            return res.status(400).json({ error: 'Campos obrigatórios faltando' });
+        }
+
+        const resultado = await Agenda.criarCompromisso(
+            cod_contrato,
+            data_compromisso,
+            nome_compromisso,
+            descricao,
+            status_compromisso || 'marcado' // Valor padrão
+        );
+        
+        res.status(201).json({ 
+            success: true,
+            id: resultado 
+        });
+    } catch (err) {
         next(err);
     }
-}
+};

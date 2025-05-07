@@ -19,20 +19,20 @@ class Agenda {
         }
     };
 
-    static async criarCompromisso(){
+    static async criarCompromisso(cod_contrato, data_compromisso, nome_compromisso, descricao, status_compromisso) {
         const connection = await pool.getConnection();
         try {
             const [results] = await connection.query(`
-                INSERT INTO agenda 
                 INSERT INTO agenda (cod_contrato, data_compromisso, nome_compromisso, descricao, status_compromisso) 
                 VALUES (?, ?, ?, ?, ?)
             `, [cod_contrato, data_compromisso, nome_compromisso, descricao, status_compromisso]);
-            return results;
-        }  catch (error) {
-            console.error("Erro ao criar contrato:", error);
+            return results.insertId; // Retorna o ID do novo registro
+        } catch (error) {
+            console.error("Erro ao criar compromisso:", error);
             throw error;
+        } finally {
+            connection.release(); // Libera a conexão
         }
-
     };
 
 }

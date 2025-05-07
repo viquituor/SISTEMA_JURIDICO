@@ -45,23 +45,38 @@ const Agenda = () => {
     };
 
     const handleSubmit = async (e) => {
-            e.preventDefault();
-            setLoading(true);
-            
-            try {          
-              await axios.post(`http://localhost:3001/advogados/${oab}/Agenda`, formData);
-          
-              alert("compromisso cadastrado!");
-              setMostrarAdd(false);
-              // Recarrega a lista
-              const res = await axios.get(`http://localhost:3001/advogados/${oab}/Agenda`);
-              setCompromissos(res.data);
-            } catch (err) {
-              setError(err.response?.data?.error || err.message);
-            } finally {
-              setLoading(false);
+        e.preventDefault();
+        setLoading(true);
+        
+        try {
+            // Validação adicional no frontend
+            if (!formData.cod_contrato || !formData.data_compromisso || !formData.nome_compromisso) {
+                throw new Error("Preencha todos os campos obrigatórios");
             }
-        };
+    
+            await axios.post(`http://localhost:3001/advogados/${oab}/agenda`, formData);
+        
+            alert("Compromisso cadastrado com sucesso!");
+            setMostrarAdd(false);
+            
+            // Recarrega a lista
+            const res = await axios.get(`http://localhost:3001/advogados/${oab}/agenda`);
+            setCompromissos(res.data);
+            
+            // Reseta o formulário
+            setFormData({
+                cod_contrato: '',
+                nome_compromisso: '',
+                data_compromisso: '',
+                descricao: '',
+                status_compromisso: ''
+            });
+        } catch (err) {
+            setError(err.response?.data?.error || err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
     
     useEffect(() => {
             const carregarContratos = async () => {
