@@ -300,7 +300,7 @@ input[type="file"]::file-selector-button {
             display: flex;
             width: 30vw;
             height: 18.7vh;
-            text-align:center;
+            text-align:left;
             align-items: center;
         }
         .tipo{

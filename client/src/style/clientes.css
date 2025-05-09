@@ -44,33 +44,7 @@
     }
 }
 
-.botoes{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    gap: 10rem;
 
-    button{
-        all: unset;
-        font-size: 2.5rem;
-        font-weight: 300;
-        color: #ffb801;
-        
-    }
-
-    .editar:hover{
-        color: #fff;
-    }
-    .voltar:hover{
-        color: #58462b;
-    }
-    .excluir:hover{
-        color: red;
-    }
-    .salvar:hover{
-        color: green;
-    }
-}
 
 .dados-cli{
     position: fixed;

@@ -390,6 +390,9 @@ const Contratos = () => {
                                     placeholder="Descrição do contrato"
                                     required
                                 />
+                                <input
+                                type="file"
+                                />
                                 
                                     </div>
                                 </div>
@@ -475,7 +478,9 @@ const Contratos = () => {
                              placeholder="Descrição do contrato"
                              required
                          />
-                         
+                         <input
+                                type="file"
+                                />
                              </div>
                          </div>
 

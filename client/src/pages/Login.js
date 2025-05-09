@@ -60,6 +60,7 @@ const Login = () => {
       <main>
         <div className="titulo">
           <input
+            className="input-busca"
             name="BUSCAR"
             placeholder="BUSCAR"
             value={busca}
@@ -89,11 +90,11 @@ const Login = () => {
               <h1>{advogadoSelecionado.nome}</h1>
               <p>OAB<br/>{advogadoSelecionado.OAB}</p>
 
-              <nav>
+              <div className="botoes">
                 <button className="editar" onClick={() => navigate(`/EditeAdv/${advogadoSelecionado.OAB}`, {state: {advogado: advogadoSelecionado}})}>EDITAR</button>
                 <button className="entrar" onClick={() => navigate(`advogados/${advogadoSelecionado.OAB}/Agenda`,{state: {advogado: advogadoSelecionado}})}>ENTRAR</button>
                 <button className="excluir" onClick={() => excluirAdvogado(advogadoSelecionado.OAB)}>EXCLUIR</button>
-              </nav>
+              </div>
               </div>
             </div>
           )}

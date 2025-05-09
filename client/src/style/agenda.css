@@ -231,8 +231,10 @@ h3{
             cursor: pointer;
         }           
         textarea{
+            padding-left: 1rem;
             width: 35vw;
             height: 20vh;
+            text-align: left;
         }
         
     }
