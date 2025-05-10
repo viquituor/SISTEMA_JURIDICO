@@ -51,3 +51,41 @@ exports.deletarCompromisso = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.editarCompromisso = async (req, res) => {  // Certifique-se de receber req e res
+    try {
+        const { cod_compromisso } = req.params;
+        const { 
+            data_compromisso, 
+            nome_compromisso, 
+            descricao, 
+            status_compromisso 
+        } = req.body;
+
+        // Validação básica
+        if (!data_compromisso || !nome_compromisso) {
+            return res.status(400).json({ 
+                error: 'Data e nome do compromisso são obrigatórios' 
+            });
+        }
+
+        const resultado = await Agenda.editarCompromisso(
+            cod_compromisso,
+            data_compromisso,
+            nome_compromisso,
+            descricao,
+            status_compromisso
+        );
+        
+        res.status(200).json({ 
+            success: true,
+            resultado 
+        });
+    } catch (err) {
+        console.error("Erro no controller:", err);
+        res.status(500).json({ 
+            success: false,
+            error: err.message 
+        });
+    }
+};

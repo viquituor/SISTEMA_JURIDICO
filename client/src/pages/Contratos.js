@@ -130,7 +130,6 @@ const Contratos = () => {
         carregarListas();
             }, [cod_contratoSelecionado, oab]);
 
-    // Carrega contratos quando o componente monta ou OAB muda
     useEffect(() => {
         const carregarContratos = async () => {
             try {

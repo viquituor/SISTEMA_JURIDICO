@@ -51,8 +51,31 @@ class Agenda {
         } finally {
             connection.release(); // Libera a conexão
         }
-    }
+    };
 
+    static async editarCompromisso(cod_compromisso, data_compromisso, nome_compromisso, descricao, status_compromisso) {
+    const connection = await pool.getConnection();
+    try {
+        const [results] = await connection.query(`
+            UPDATE agenda SET
+                data_compromisso = ?,
+                nome_compromisso = ?,
+                descricao = ?,
+                status_compromisso = ?
+            WHERE cod_compromisso = ?
+        `, [
+            new Date(data_compromisso),
+            nome_compromisso,
+            descricao,
+            status_compromisso,
+            cod_compromisso
+        ]);
+        
+        return results;
+    } finally {
+        connection.release();
+    }
+}
 }
 
 module.exports = Agenda;

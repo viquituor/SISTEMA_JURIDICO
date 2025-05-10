@@ -26,7 +26,7 @@ const Agenda = () => {
         descricao:'',
         status_compromisso:''
     })
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({
@@ -79,6 +79,46 @@ const Agenda = () => {
         }
     };
 
+    const editarCompromisso = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    
+    try {
+        // Formata os dados antes de enviar
+        const dadosParaEnviar = {
+            ...formData,
+            data_compromisso: new Date(formData.data_compromisso).toISOString()
+        };
+
+        const response = await axios.put(
+            `http://localhost:3001/advogados/${oab}/Agenda/${compromissoSelecionado.cod_compromisso}`,
+            dadosParaEnviar,
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+
+        if (response.data.success) {
+            alert("Compromisso editado com sucesso!");
+            // Atualiza a lista local sem precisar recarregar do servidor
+            setCompromissos(prev => prev.map(item => 
+                item.cod_compromisso === compromissoSelecionado.cod_compromisso 
+                    ? { ...item, ...formData } 
+                    : item
+            ));
+            setMostrarEdit(false);
+        }
+    } catch (err) {
+        console.error("Erro detalhado:", err.response?.data);
+        setError(err.response?.data?.error || "Erro ao editar compromisso");
+    } finally {
+        setLoading(false);
+    }
+    };
+
     const deletarCompromisso = async (cod_compromisso) => {
 
         try {
@@ -97,7 +137,24 @@ const Agenda = () => {
             alert(errorMessage);
         }
     }
-    
+
+    useEffect(() => {
+    if (mostrarEdit && compromissoSelecionado) {
+        // Formata a data para o input type="date" (YYYY-MM-DD)
+        const dataFormatada = compromissoSelecionado.data_compromisso 
+            ? new Date(compromissoSelecionado.data_compromisso).toISOString().split('T')[0]
+            : '';
+            
+        setFormData({
+            cod_contrato: compromissoSelecionado.cod_contrato || '',
+            nome_compromisso: compromissoSelecionado.nome_compromisso || '',
+            data_compromisso: dataFormatada,
+            descricao: compromissoSelecionado.descricao || '',
+            status_compromisso: compromissoSelecionado.status_compromisso || 'marcado'
+        });
+    }
+    }, [mostrarEdit, compromissoSelecionado]);
+
     useEffect(() => {
             const carregarContratos = async () => {
                 try {
@@ -108,7 +165,7 @@ const Agenda = () => {
                 }
             };
             carregarContratos();
-        }, [oab]);
+    }, [oab]);
 
     useEffect(() => {
         const CarregarCompromissos = async () => {
@@ -123,7 +180,7 @@ const Agenda = () => {
         }
         CarregarCompromissos();
     },[oab]);
-    
+
     const compromissosFiltrados = compromissos.filter(compromisso => {
         const buscaLower = busca.toLowerCase();
         return (
@@ -231,7 +288,78 @@ const Agenda = () => {
                     </div>
                 )}
                 {mostrarEdit && compromissoSelecionado && (
-                    <div className="aba-edit-comp"></div>
+                    <div className="aba-edit-comp">
+
+                        <h3>ADICIONAR COMPROMISSO</h3>
+
+                        <form onSubmit={editarCompromisso}>
+                            <div className="campos">
+
+                            <label>
+                                codigo do contrato
+                            <input
+                            name="cod_contrato"
+                            value={formData.cod_contrato}
+                            readOnly
+                            />
+                            </label>
+
+                            <label>
+                                nome do compromisso
+                            <input
+                            type="text"
+                            name="nome_compromisso"
+                            onChange={handleChange}
+                            value={formData.nome_compromisso||''}
+                            required
+                            />
+                            </label>
+
+                            <label>
+                                data
+                            <input
+                            type="date"
+                            name="data_compromisso"
+                            onChange={handleChange}
+                            value={formData.data_compromisso|| ''}
+                            required
+                            />
+                            </label>
+
+                            <label>
+                                status
+                            <select name="status_compromisso" onChange={handleChange} value={formData.status_compromisso} required> 
+                             <option value="">SELECIONE</option>
+                             <option value="comparecido">COMPARECIDO</option>
+                             <option value="marcado">MARCADO</option>
+                             <option value="remarcado">REMARCADO</option>
+                             <option value="perdido">PERDIDO</option>
+                             <option value="cancelado">CANCELADO</option>
+
+                            </select>
+                            </label>
+
+                            </div>
+
+                                <textarea
+                                    className="descricao"
+                                    name="descricao"
+                                    onChange={handleChange}
+                                    value={formData.descricao}
+                                    type="text"
+                                    placeholder="Descrição do contrato"
+                                    required
+                                />
+
+                            <div className="botoes">
+                                    <button className="voltar" onClick={() => {setMostrarEdit(false)}}>VOLTAR</button>
+                                 {error && <div className="error-message">{error}</div>}
+                                    <button className="salvar" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "SALVAR"}</button>
+                            </div>
+
+                        </form>
+
+                    </div>
                 )}
                 {mostrarContrato && (
                     <div className="aba-contrato-compromisso">
@@ -295,7 +423,7 @@ const Agenda = () => {
                             </label>
 
                             <label>
-                                status do compromisso
+                                status
                             <select name="status_compromisso" onChange={handleChange} value={formData.status_compromisso} required> 
                              <option value="">SELECIONE</option>
                              <option value="comparecido">COMPARECIDO</option>

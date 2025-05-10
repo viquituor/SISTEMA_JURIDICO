@@ -35,7 +35,7 @@ const Login = () => {
         if(response.data.success){
           alert(response.data.message);
 
-          const updatedAdvogados = advogados.filter(adv => adv.oab !== oab);
+          const updatedAdvogados = await axios.get("http://localhost:3001/advogados");
           setAdvogados(updatedAdvogados);
           setMostrarInfo(false);
         }

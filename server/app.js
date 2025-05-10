@@ -17,7 +17,7 @@ app.use(express.json());
 app.use('/advogados', advogadosRouter);
 app.use('/advogados/:oab/', clientesRouter);
 app.use('/advogados/:oab/', contratosRouter );
-app.use('/advogados/:oab', agendaRouter);
+app.use('/advogados/:oab/', agendaRouter);
 
 
 // Tratamento de erros
