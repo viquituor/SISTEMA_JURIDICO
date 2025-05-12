@@ -16,8 +16,8 @@ const Login = () => {
   useEffect(() => {
     const carregarAdvogados = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/advogados");
-        setAdvogados(response.data);
+        const advogadosResponse = await axios.get("http://localhost:3001/advogados");
+        setAdvogados(advogadosResponse.data);
       } catch (error) {
         console.error("Erro ao buscar advogados:", error);
       }
@@ -35,8 +35,8 @@ const Login = () => {
         if(response.data.success){
           alert(response.data.message);
 
-          const updatedAdvogados = await axios.get("http://localhost:3001/advogados");
-          setAdvogados(updatedAdvogados);
+          const atualizado = await axios.get("http://localhost:3001/advogados");
+          setAdvogados(atualizado.data);
           setMostrarInfo(false);
         }
     }catch(error){
