@@ -12,8 +12,7 @@ class Contratos {
                 WHERE c.OAB = ?
                 group by c.cod_contrato
             `, [oab]);
-            
-            console.log("Resultados da query:", results);
+
             return results
 
         } catch (error) {

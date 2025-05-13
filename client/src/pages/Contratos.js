@@ -163,7 +163,7 @@ const Contratos = () => {
                     <button className="agenda" onClick={() => navigate(`/advogados/${oab}/Agenda`, {replace: true})}>AGENDA</button>
                     <button className="contratosAtv" onClick={() => navigate(`/advogados/${oab}/Contratos`, {replace: true})}>CONTRATOS</button>
                     <button className="processos">PROCESSOS</button>
-                    <button className="pagamentos">PAGAMENTOS</button>
+                    <button className="pagamentos" onClick={() => navigate(`/advogados/${oab}/Pagamentos`, {replace: true})}>PAGAMENTOS</button>
                     <button className="clientes" onClick={() => navigate (`/advogados/${oab}/Clientes`, {replace: true})}>CLIENTES</button>
                 </nav>
             </header>
@@ -181,10 +181,11 @@ const Contratos = () => {
                 </div>
                 <div className="tabela-contrato">
                     <table>
-                      <thead><tr><th>nome</th><th>status</th><th>tipo</th><th>data de inicio</th><th>valor</th></tr></thead>
+                      <thead><tr><th>codigo</th><th>nome</th><th>status</th><th>tipo</th><th>data de inicio</th><th>valor</th></tr></thead>
                         <tbody>
                         {contratosFiltrados.map((contrato) => (
                             <tr key={contrato.cod_contrato} onClick={() => {setMostrarInfo(true) ;setContratoSelecionado(contrato); setCod_contratoSelecionado(contrato.cod_contrato)}}>
+                                <td>{contrato.cod_contrato}</td>
                                 <td>{contrato.nome_cliente}</td>
                                 <td>{contrato.status_contrato}</td>
                                 <td>{contrato.tipo_servico}</td>

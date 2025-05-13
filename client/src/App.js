@@ -6,6 +6,7 @@ import EditeAdv from './pages/EditeAdv';
 import Agenda from './pages/Agenda';
 import Clientes from './pages/Clientes';
 import Contratos from './pages/Contratos';
+import Pagamentos from './pages/pagamentos';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="advogados/:oab/Agenda" element={<Agenda/>}/>
         <Route path="advogados/:oab/Clientes" element={<Clientes/>}/>
         <Route path="advogados/:oab/Contratos" element={<Contratos/>}/>
+        <Route path="advogados/:oab/Pagamentos" element={<Pagamentos/>} />
       </Routes>
     </Router>
   );

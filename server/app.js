@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const advogadosRouter = require('./routes/advogados');
-const clientesRouter = require('./routes/Clientes'); // Adicione esta linha
+const clientesRouter = require('./routes/Clientes'); 
 const contratosRouter = require('./routes/Contratos');
+const PagamentosRouter = require('./routes/Pagamentos');
 const agendaRouter = require('./routes/Agenda');
 const errorHandler = require('./middlewares/errorHandler');
 
@@ -18,6 +19,7 @@ app.use('/advogados', advogadosRouter);
 app.use('/advogados/:oab/', clientesRouter);
 app.use('/advogados/:oab/', contratosRouter );
 app.use('/advogados/:oab/', agendaRouter);
+app.use('/advogados/:oab/', PagamentosRouter);
 
 
 // Tratamento de erros

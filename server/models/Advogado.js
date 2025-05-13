@@ -1,6 +1,7 @@
 const pool = require('../config/database');
 
 class Advogado {
+
     static async buscarTodos() {
         const [results] = await pool.query("SELECT * FROM advogado");
         return results;
@@ -79,6 +80,13 @@ class Advogado {
                 await connection.query(
                     'UPDATE telefone_ADV SET telefone = ? WHERE OAB = ?',
                     [telefone, novaOAB || oabAntiga]
+                );
+            }
+
+            if(novaOAB){
+                await connection.query(
+                    'UPDATE telefone_ADV SET OAB = ? WHERE OAB = ?',
+                    [novaOAB, oabAntiga]
                 );
             }
 

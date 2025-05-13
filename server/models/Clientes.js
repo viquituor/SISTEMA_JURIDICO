@@ -1,5 +1,5 @@
 const pool = require('../config/database');
-const { deletarCliente } = require('../controllers/Clientes');
+
 
 class Cliente {
 
