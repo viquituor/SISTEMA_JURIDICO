@@ -365,10 +365,11 @@ const Agenda = () => {
                     <div className="aba-contrato-compromisso">
                         <h3>SELECIONE O CONTRATO</h3>
                         <table className="contratos-compromisso">
-                      <thead><tr><th>nome</th><th>status</th><th>tipo</th><th>data de inicio</th><th>valor</th></tr></thead>
+                      <thead><tr><th>cod</th><th>nome</th><th>status</th><th>tipo</th><th>data de inicio</th><th>valor</th></tr></thead>
                         <tbody>
                         {contratos.map((contrato) => (
                             <tr key={contrato.cod_contrato} onClick={() => {selecionarContrato(contrato)}}>
+                                <td>{contrato.cod_contrato}</td>
                                 <td>{contrato.nome_cliente}</td>
                                 <td>{contrato.status_contrato}</td>
                                 <td>{contrato.tipo_servico}</td>

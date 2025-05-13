@@ -72,6 +72,19 @@ const Clientes = () => {
           // Recarrega a lista
           const res = await axios.get(`http://localhost:3001/advogados/${oab}/Clientes`);
           setClientes(res.data);
+
+          setFormData({
+            nome: '',
+            email: '',
+            cpf: '',
+            telefone: '',
+            cidade: '',
+            bairro: '',
+            logradouro: '',
+            uf: '',
+            numero: '',
+            cep: ''
+          });
         } catch (err) {
           setError(err.response?.data?.error || err.message);
         } finally {

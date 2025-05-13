@@ -10,13 +10,118 @@ const Pagamentos = () => {
     const navigate = useNavigate();
     const [busca, setBusca] = useState("");
     const [contratos, setContratos] = useState([]);
+    const [contratosAll, setContratosAll] = useState([]);
     const [mostrarInfo, setMostrarInfo] = useState(false);
     const [mostrarInfoPag, setMostrarInfoPag] = useState(false);
+    const [mostrarContrato, setMostrarContrato] = useState(false);
+    const [mostrarAdd, setMostrarAdd] = useState(false);
+    const [mostrarEdit, setMostrarEdit] = useState(false);
     const [pagamentoSelecionado, setPagamentoSelecionado] = useState(null);
     const [contratoSelecionado, setContratoSelecionado] = useState(null);
     const [listaPagamentos, setListaPagamentos] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [formData, setFormData] = useState({
+        cod_contrato: "",
+        data_pag: "",
+        data_vencimento: "",
+        descricao: "",
+        status_pag: "",
+        metodo: "",
+        valorPago: ""})
+
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const criarPagamento = async (e) => {
+        e.preventDefault();
+        try {
+            setLoading(true);
+            const response = await axios.post(`http://localhost:3001/advogados/${oab}/Pagamentos`,{...formData, cod_contrato: contratoSelecionado.cod_contrato});
+            console.log("Pagamento criado com sucesso:", response.data);
+            setError(null);
+            const contAtualizado = await axios.get(`http://localhost:3001/advogados/${oab}/Pagamentos`);
+            setContratos(contAtualizado.data);
+            const pagAtualizado = await axios.get(`http://localhost:3001/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`);
+                setListaPagamentos(pagAtualizado.data);
+            setMostrarAdd(false);
+            setMostrarInfo(true);
+            setFormData({
+                cod_contrato: "",
+                data_pag: "",
+                data_vencimento: "",
+                descricao: "",
+                status_pag: "",
+                metodo: "",
+                valorPago: ""
+            });
+            
+        } catch (error) {
+            console.error("Erro ao criar pagamento:", error);
+            setError("Erro ao criar pagamento");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const deletarPagamento = async (cod_pagamento) => {
+        try {
+            const confirmacao = window.confirm("Tem certeza que deseja excluir este pagamento?");
+            if (!confirmacao) return;
+            setLoading(true);
+            const response = await axios.delete(`http://localhost:3001/advogados/${oab}/Pagamentos/${cod_pagamento}`);
+            console.log("Pagamento deletado com sucesso:", response.data);
+            setError(null);
+            const contAtualizado = await axios.get(`http://localhost:3001/advogados/${oab}/Pagamentos`);
+            setContratos(contAtualizado.data);
+            const pagAtualizado = await axios.get(`http://localhost:3001/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`);
+                setListaPagamentos(pagAtualizado.data);
+            setMostrarInfo(true);
+            setMostrarInfoPag(false);
+        } catch (error) {   
+            console.error("Erro ao deletar pagamento:", error);
+            setError("Erro ao deletar pagamento");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const atualizarPagamento = async (cod_pagamento) => {
+    try {
+        setLoading(true);
+        // Converter datas para o formato esperado pelo backend
+        const dadosAtualizados = {
+            ...pagamentoSelecionado,
+            data_pag: new Date(pagamentoSelecionado.data_pag).toISOString(),
+            data_vencimento: new Date(pagamentoSelecionado.data_vencimento).toISOString()
+        };
+
+        const response = await axios.put(`http://localhost:3001/advogados/${oab}/Pagamentos/${cod_pagamento}`, dadosAtualizados);
+        if(response.data.success) {
+            console.log("Pagamento atualizado com sucesso:", response.data);   
+        };
+        // Atualizar a lista de pagamentos
+        const contAtualizado = await axios.get(`http://localhost:3001/advogados/${oab}/Pagamentos`);
+        setContratos(contAtualizado.data);
+        const pagAtualizado = await axios.get(`http://localhost:3001/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`);
+        setListaPagamentos(pagAtualizado.data);
+        
+        // Fechar o formulário de edição
+        setMostrarEdit(false);
+        setMostrarInfoPag(true);
+    } catch (error) {
+        console.error("Erro ao atualizar pagamento:", error);
+        setError("Erro ao atualizar pagamento");
+    } finally {
+        setLoading(false);
+    }
+};
 
     // Carrega pagamentos quando um contrato é selecionado
     useEffect(() => {
@@ -43,7 +148,7 @@ const Pagamentos = () => {
 
     // Carrega lista de contratos inicial
     useEffect(() => {
-        const carregarContratos = async () => {
+        const carregarContratosComPagamentos = async () => {
             try {
                 setLoading(true);
                 const response = await axios.get(
@@ -59,17 +164,41 @@ const Pagamentos = () => {
             }
         };
 
-        carregarContratos();
+        carregarContratosComPagamentos();
     }, [oab]);
 
-    const contratosFiltrados = contratos.filter(contrato =>
-        contrato.nome_cliente.toLowerCase().includes(busca.toLowerCase()) ||
-        contrato.status_contrato.toLowerCase().includes(busca.toLowerCase()) ||
-        contrato.tipo_servico.toLowerCase().includes(busca.toLowerCase()) ||
-        contrato.data_inicio.toLowerCase().includes(busca.toLowerCase()) ||
-        contrato.valor.toString().includes(busca.toLowerCase()) ||
-        contrato.CPF.toString().includes(busca.toLowerCase())
+    useEffect(() => {
+            const carregarContratos = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos`);
+                    setContratosAll(response.data);
+                } catch (error) {
+                    console.error("Erro ao buscar contratos:", error.response?.data || error.message);
+                }
+            };
+            carregarContratos();
+    }, [oab]);
+
+    const contratosFiltrados = contratos.filter(contrato => {
+    // Defina valores padrão para todos os campos
+    const nome = contrato.nome_cliente || '';
+    const status = contrato.status_contrato || '';
+    const tipo = contrato.tipo_servico || '';
+    const statusPag = contrato.status_pag || '';
+    const valor = contrato.valor ? contrato.valor.toString() : '';
+    const cpf = contrato.CPF ? contrato.CPF.toString() : '';
+    
+    const buscaLower = busca.toLowerCase();
+    
+    return (
+        nome.toLowerCase().includes(buscaLower) ||
+        status.toLowerCase().includes(buscaLower) ||
+        tipo.toLowerCase().includes(buscaLower) ||
+        statusPag.toLowerCase().includes(buscaLower) ||
+        valor.includes(buscaLower) ||
+        cpf.includes(buscaLower)
     );
+});
 
     return (
         <div className="container">
@@ -95,7 +224,7 @@ const Pagamentos = () => {
                         value={busca}
                         onChange={(e) => setBusca(e.target.value)}
                     />
-                    <button>ADICIONAR</button>
+                    <button onClick={()=> {setMostrarContrato(true)}}>ADICIONAR</button>
                 </div>
 
                 {error && <div className="error-message">{error}</div>}
@@ -211,7 +340,7 @@ const Pagamentos = () => {
                             </table>
                         )}
                         <div className="botoes">
-                        <button>ADICIONAR</button>
+                        <button className="salva" onClick={()=>{setContratoSelecionado(contratoSelecionado); setMostrarInfo(false); setMostrarAdd(true)}}>ADICIONAR</button>
                         <button className="voltar" onClick={()=> setMostrarInfo(false)}>VOLTAR</button>
                         </div>
                     </div>
@@ -269,11 +398,181 @@ const Pagamentos = () => {
                         readOnly
                         />
                         <div className="botoes">
-                            <button className="editar">EDITAR</button>
+                            <button className="editar" onClick={()=> {setMostrarEdit(true); setMostrarInfoPag(false);setPagamentoSelecionado(pagamentoSelecionado)}}>EDITAR</button>
                             <button className="voltar" onClick={()=> {setMostrarInfoPag(false);setMostrarInfo(true)}}>VOLTAR</button>
-                            <button className="excluir">EXCLUIR</button>
+                            <button className="excluir" onClick={()=> {deletarPagamento(pagamentoSelecionado.cod_pag)}}>EXCLUIR</button>
                         </div>
                     </div>
+                )}
+                {mostrarContrato && (
+                    <div className="aba-contrato-compromisso">
+                        <h3>SELECIONE O CONTRATO</h3>
+                        <table className="contratos-compromisso">
+                      <thead><tr><th>cod</th><th>nome</th><th>status</th><th>tipo</th><th>data de inicio</th><th>valor</th></tr></thead>
+                        <tbody>
+                        {contratosAll.map((contrato) => (
+                            <tr key={contrato.cod_contrato} onClick={() => {setContratoSelecionado(contrato); setMostrarContrato(false); setMostrarAdd(true)}}>
+                                <td>{contrato.cod_contrato}</td>
+                                <td>{contrato.nome_cliente}</td>
+                                <td>{contrato.status_contrato}</td>
+                                <td>{contrato.tipo_servico}</td>
+                                <td>{new Date (contrato.data_inicio).toLocaleDateString()}</td>
+                                <td>{contrato.valor}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+
+                    <div className="botoes">
+                    <button className="voltar" onClick={() => setMostrarContrato(false)}>VOLTAR</button>
+                    </div>
+                    </div>
+                )}
+                {mostrarAdd && contratoSelecionado && (
+                    <div className="adicionar-pagamento">
+                        <h3>ADICIONAR PAGAMENTO</h3>
+                        <form onSubmit={criarPagamento}>
+                        <div className="basico">
+                            <label>codigo do contrato <br/>
+                            <input
+                                type="text"
+                                value={contratoSelecionado.cod_contrato}
+                                readOnly
+                                name="cod_contrato"
+                            />
+                            </label>
+                            <label > data do pagamento<br/>
+                            <input
+                                type="date"
+                                value={formData.data_pag}
+                                onChange={handleChange}
+                                name="data_pag"
+                            />
+                            </label>
+                            <label> data de vencimento<br/>
+                            <input
+                                type="date"
+                                value={formData.data_vencimento}
+                                onChange={handleChange}
+                                name="data_vencimento"
+                            /> 
+                            </label>
+                            <label> status do pagamento<br/>
+                            <select name="status_pag" onChange={handleChange} value={formData.status_pag}>
+                                <option value=''></option>
+                                <option value='concluido'>CONCLUIDO</option>
+                                <option value='em andamento'>EM ANDAMENTO</option>
+                                <option value='em atraso'>EM ATRASO</option>
+                            </select>
+                            </label>
+                            <label> metodo de pagamento<br/>
+                            <select name="metodo" onChange={handleChange} value={formData.metodo}>
+                                <option value=''></option>
+                                <option value='pix'>PIX</option>
+                                <option value='especie'>ESPECIE</option>
+                                <option value='parcelado'>PARCELADO</option>
+                                <option value='boleto'>BOLETO</option>
+                                <option value='credito'>CREDITO</option>
+                                <option value='debito'>DEBITO</option>
+                            </select>
+                            </label>
+                            <label> valor pago <br/>
+                            <input
+                                type="text"
+                                value={formData.valorPago}
+                                onChange={handleChange}
+                                name="valorPago"
+                                
+                            />
+                            </label>
+                        </div>
+                        <textarea
+                        value={formData.descricao}
+                        onChange={handleChange}
+                        name="descricao"
+                        />
+                        
+                        <div className="botoes">
+                                    <button className="voltar" onClick={() => {setMostrarAdd(false); setMostrarContrato(true)}}>VOLTAR</button>
+                                 {error && <div className="error-message">{error}</div>}
+                                    <button className="salvar" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "SALVAR"}</button>
+                        </div>
+                        </form>
+                    </div>
+                )}
+                {mostrarEdit && pagamentoSelecionado && (
+                    
+                    <div className="adicionar-pagamento">
+                        <h3>ADICIONAR PAGAMENTO</h3>
+                        <form onSubmit={(e) => {e.preventDefault();atualizarPagamento(pagamentoSelecionado.cod_pag);}}>
+                        <div className="basico">
+                            <label>codigo do contrato <br/>
+                            <input
+                                type="text"
+                                value={pagamentoSelecionado.cod_contrato}
+                                readOnly
+                                name="cod_contrato"
+                            />
+                            </label>
+                            <label > data do pagamento<br/>
+                            <input
+                                type="date"
+                                value={pagamentoSelecionado.data_pag.split('T')[0]}
+                                onChange={(e) => setPagamentoSelecionado({...pagamentoSelecionado,data_pag: e.target.value})}
+                                name="data_pag"
+                            />
+                            </label>
+                            <label> data de vencimento<br/>
+                            <input
+                                type="date"
+                                value={pagamentoSelecionado.data_vencimento.split('T')[0]}
+                                onChange={(e) => setPagamentoSelecionado({...pagamentoSelecionado,data_vencimento: e.target.value})}
+                                name="data_vencimento"
+                            /> 
+                            </label>
+                            <label> status do pagamento<br/>
+                            <select name="status_pag" onChange={(e) => setPagamentoSelecionado({...pagamentoSelecionado,status_pag: e.target.value})} value={pagamentoSelecionado.status_pag}>
+                                <option value=''></option>
+                                <option value='concluido'>CONCLUIDO</option>
+                                <option value='em andamento'>EM ANDAMENTO</option>
+                                <option value='em atraso'>EM ATRASO</option>
+                            </select>
+                            </label>
+                            <label> metodo de pagamento<br/>
+                            <select name="metodo" onChange={(e) => setPagamentoSelecionado({...pagamentoSelecionado,metodo: e.target.value})} value={pagamentoSelecionado.metodo}>
+                                <option value=''></option>
+                                <option value='pix'>PIX</option>
+                                <option value='especie'>ESPECIE</option>
+                                <option value='parcelado'>PARCELADO</option>
+                                <option value='boleto'>BOLETO</option>
+                                <option value='credito'>CREDITO</option>
+                                <option value='debito'>DEBITO</option>
+                            </select>
+                            </label>
+                            <label> valor pago <br/>
+                            <input
+                                type="text"
+                                value={pagamentoSelecionado.valorPago}
+                                onChange={(e) => setPagamentoSelecionado({...pagamentoSelecionado,valorPago: e.target.value})}
+                                name="valorPago"
+                                
+                            />
+                            </label>
+                        </div>
+                        <textarea
+                        value={pagamentoSelecionado.descricao}
+                        onChange={(e) => setPagamentoSelecionado({...pagamentoSelecionado,descricao: e.target.value})}
+                        name="descricao"
+                        />
+                        
+                        <div className="botoes">
+                                    <button className="voltar" onClick={() => {setMostrarEdit(false); setMostrarInfo(true)}}>VOLTAR</button>
+                                 {error && <div className="error-message">{error}</div>}
+                                    <button className="salvar" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "SALVAR"}</button>
+                        </div>
+                        </form>
+                    </div>
+                
                 )}
             </main>
         </div>

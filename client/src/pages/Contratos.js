@@ -93,6 +93,15 @@ const Contratos = () => {
           // Recarrega a lista
           const res = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos`);
           setContratos(res.data);
+          setFormData({
+            OAB:oab,
+            CPF:'',
+            data_inicio:'',
+            tipo_servico:'',
+            status_contrato:'',
+            descricao:'',
+            valor:''
+        });
         } catch (err) {
           setError(err.response?.data?.error || err.message);
         } finally {
