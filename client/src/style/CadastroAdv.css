@@ -55,16 +55,18 @@ form{
 
         input{
             all: unset;
+            color: #ffb801;
             text-align: left;
-                
-            color: #2d2a26;
-            font-weight: 300;
-            padding-left: 2rem;
-            padding-bottom: 1rem;
-            padding-top: 0.01rem;
+            padding-left: 1rem;
             background-color: #fff;
-            height: 23px;
+            font-size: 1.5rem;
+            height: 43px;
             border-radius:40px;
+}
+
+    input::placeholder{
+        color: #ffb801 ;
+        font-weight: 500;
 }
 
         .basico{
@@ -80,7 +82,7 @@ form{
             }
 
             .numeros{
-                width: 632px;
+                width: 620px;
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
