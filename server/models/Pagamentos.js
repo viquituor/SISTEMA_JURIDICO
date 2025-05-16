@@ -9,7 +9,7 @@ class Pagamentos {
             const [results] = await pool.query(`
                 
                 SELECT 
-                    c.cod_contrato, 
+                    c.cod_contrato AS cod_cont,   
                     cli.nome AS nome_cliente, 
                     c.tipo_servico, 
                     c.status_contrato, 
@@ -21,8 +21,7 @@ class Pagamentos {
                 LEFT JOIN pagamento p ON c.cod_contrato = p.cod_contrato
                 JOIN cliente cli ON c.CPF = cli.CPF
                 WHERE c.OAB = ?
-                GROUP BY c.cod_contrato
-                HAVING valor_pago > 0;
+                GROUP BY c.cod_contrato;
             `, [oab]);
             
             return results;
