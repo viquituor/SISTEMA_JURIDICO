@@ -252,11 +252,11 @@ const Pagamentos = () => {
                                     setContratoSelecionado(contrato);
                                 }}
                             >
-                                <td>{contrato.cod_contrato}</td>
+                                <td>{contrato.cod_cont}</td>
                                 <td>{contrato.nome_cliente}</td>
                                 <td>{contrato.status_contrato}</td>
                                 <td>{contrato.tipo_servico}</td>
-                                <td>{contrato.status_pag}</td>
+                                <td>{contrato.status_pag||'ainda não pago'}</td>
                                 <td className="falta-lista">{contrato.faltante}</td>
                                 <td className="pago-lista">{contrato.valor_pago}</td>
                                 <td>{contrato.valor}</td>
@@ -272,7 +272,7 @@ const Pagamentos = () => {
                             <label> codigo do contrato<br/>
                             <input
                                 type="text"
-                                value={contratoSelecionado.cod_contrato}
+                                value={contratoSelecionado.cod_cont}
                                 readOnly
                             />
                             </label>
@@ -436,8 +436,9 @@ const Pagamentos = () => {
                             <label>codigo do contrato <br/>
                             <input
                                 type="text"
-                                value={contratoSelecionado.cod_contrato}
+                                value={contratoSelecionado.cod_cont}
                                 readOnly
+                                required
                                 name="cod_contrato"
                             />
                             </label>
