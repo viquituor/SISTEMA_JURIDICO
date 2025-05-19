@@ -48,7 +48,7 @@ CREATE TABLE documento (
     cod_doc SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     cod_contrato SMALLINT UNSIGNED,
     nome VARCHAR(50) NOT NULL,
-    link VARCHAR(100) NOT NULL
+    link VARCHAR(200) NOT NULL
 );
 
 CREATE TABLE processo (

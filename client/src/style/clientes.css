@@ -6,7 +6,9 @@
     width: 100vw;
     height: 86.6vh;
     background-color: #58462b;
+    overflow: hidden;
 
+    
     .cont-cli{
         gap: 2rem;
         padding: 3rem;
@@ -16,6 +18,7 @@
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
+        overflow: scroll;
 
         .card-cli{
             width: 20vw;

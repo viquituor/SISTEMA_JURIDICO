@@ -1,3 +1,4 @@
+
 const pool = require('../config/database');
 
 class Contratos {
@@ -103,6 +104,20 @@ class Contratos {
         }
     }
 
-}
+    static async addArquivo(documento) {
+  try {
+    const [result] = await pool.query(
+      'INSERT INTO documento (cod_contrato, nome, link) VALUES (?, ?, ?)',
+      [documento.cod_contrato, documento.nome, documento.link]
+    );
+    return result;
+  } catch (error) {
+    console.error('Erro ao adicionar documento:', error);
+    throw error;
+  }
+    }
+
+
+    }
 
 module.exports = Contratos;

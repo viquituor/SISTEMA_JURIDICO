@@ -9,11 +9,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: start;
+    overflow: hidden;
 }
 
 
 .table-pagamentos {
     margin-top: 2rem;
+    overflow: scroll;
   
     th{
         background-color: #58462b;

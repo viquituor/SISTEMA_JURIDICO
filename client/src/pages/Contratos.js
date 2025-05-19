@@ -19,9 +19,11 @@ const Contratos = () => {
     const [mostrarInfo, setMostrarInfo] = useState(false);
     const [mostrarAdd, setMostrarAdd] = useState(false);
     const [mostrarEdit, setMostrarEdit] = useState(false);
+    const [mostrarAddDocumento, setMostrarAddDocumento] = useState(false);
     const [clientes, setClientes] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [uploadProgress, setUploadProgress] = useState(0);
 
     const [formData, setFormData] = useState({
         OAB:oab,
@@ -31,7 +33,7 @@ const Contratos = () => {
         status_contrato:'',
         descricao:'',
         valor:''
-    });
+        });
 
     const excluirContrato = async (cod_contrato) => {
         try {
@@ -60,7 +62,7 @@ const Contratos = () => {
             ...prev,
             [name]: value
         }));
-    };
+        };
 
     const handleEdit = async (e) => {
         e.preventDefault();
@@ -79,7 +81,7 @@ const Contratos = () => {
         } finally {
           setLoading(false);
         }
-    };
+        };
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -107,9 +109,72 @@ const Contratos = () => {
         } finally {
           setLoading(false);
         }
-      };
+        };
 
+    const addDoc = async (e) => {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append('documento', e.target.documento.files[0]);
+
+  try {
+    setLoading(true);
+    setUploadProgress(0);
     
+    await axios.post(
+      `http://localhost:3001/advogados/${oab}/Contratos/${cod_contratoSelecionado}/doc`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress(percentCompleted);
+        }
+      }
+    );
+
+    // Atualiza a lista de documentos
+    const res = await axios.get(
+      `http://localhost:3001/advogados/${oab}/Contratos/${cod_contratoSelecionado}`
+    );
+    setDocumentos(res.data.documentos);
+    
+    alert('Documento adicionado com sucesso!');
+    setMostrarAddDocumento(false);
+  } catch (error) {
+    console.error('Erro no upload:', error);
+    alert(error.response?.data?.error || 'Erro ao enviar documento');
+  } finally {
+    setLoading(false);
+    setUploadProgress(0);
+  }
+        };
+
+    const excluirDocumento = async (cod_doc) => {
+  try {
+    const confirmacao = window.confirm("Tem certeza que deseja excluir este documento?");
+    if (!confirmacao) return;
+
+    await axios.delete(
+      `http://localhost:3001/advogados/${oab}/documentos/${cod_doc}`
+    );
+    
+    // Atualiza a lista de documentos
+    const res = await axios.get(
+      `http://localhost:3001/advogados/${oab}/Contratos/${cod_contratoSelecionado}`
+    );
+    setDocumentos(res.data.documentos);
+    
+    alert('Documento excluído com sucesso!');
+  } catch (error) {
+    console.error('Erro ao excluir documento:', error);
+    alert('Erro ao excluir documento');
+  }
+        };
+
     useEffect(() => {
         const carregarClientes = async () => {
           try {
@@ -120,7 +185,7 @@ const Contratos = () => {
           }
         };
         carregarClientes();
-      }, [oab]);
+        }, [oab]);
 
     useEffect(() => {
             const carregarListas = async () => {
@@ -137,7 +202,7 @@ const Contratos = () => {
                 }
             }
         carregarListas();
-            }, [cod_contratoSelecionado, oab]);
+        }, [cod_contratoSelecionado, oab]);
 
     useEffect(() => {
         const carregarContratos = async () => {
@@ -149,8 +214,8 @@ const Contratos = () => {
             }
         };
         carregarContratos();
-    }, [oab]);
-    
+        }, [oab]);
+
     const contratosFiltrados = contratos.filter(contrato =>
         contrato.nome_cliente.toLowerCase().includes(busca.toLowerCase()) ||
         contrato.status_contrato.toLowerCase().includes(busca.toLowerCase()) ||
@@ -158,9 +223,9 @@ const Contratos = () => {
         contrato.data_inicio.toLowerCase().includes(busca.toLowerCase()) ||
         contrato.valor.toString().includes(busca.toLowerCase())||
         contrato.CPF.toString().includes(busca.toLowerCase())
-    );
+        );
 
-   
+
 
     return(
         <div className="container">
@@ -291,17 +356,23 @@ const Contratos = () => {
                                         defaultValue={contratoSelecionado.descricao}
                                         readOnly
                                     />
+
+                                    <button className="doc" onClick={()=> {setMostrarAddDocumento(true);setMostrarInfo(false)}} >adicionar documentos</button>
                                     
                                </div>
                                 <div className="listas">
                                     <ul>
-                                        <h4>DOCUMENTOS</h4>
-                                        {documentos.map((documento) => (
-                                            <li key={documento.cod_doc}><a href="{documento.link}">{documento.nome}</a></li>
-                                        ))}
-
-                                        
+                                         <h4>DOCUMENTOS <br/> <em>clique para baixar</em></h4>
+                                    {documentos.map((documento) => (
+                                        <li key={documento.cod_doc}>
+                            <a href={`http://localhost:3001${documento.link}`} target="_blank" rel="noopener noreferrer" download={documento.nome}>
+                                         {documento.nome}
+                            </a>
+                            <button className="red" onClick={() => excluirDocumento(documento.cod_doc)}>x</button>
+    </li>
+                                    ))}
                                     </ul>
+
                                     <ul>
                                     <h4>PAGAMENTOS</h4>
                                     {pagamentos.map((listaPag) => (
@@ -399,10 +470,7 @@ const Contratos = () => {
                                     placeholder="Descrição do contrato"
                                     required
                                 />
-                                <input
-                                type="file"
-                                />
-                                
+
                                     </div>
                                 </div>
 
@@ -418,7 +486,7 @@ const Contratos = () => {
                     {mostrarEdit && contratoSelecionado && (
                      
                      <div className="aba-edit">
-                     <h1>EDITE O CONTRATO</h1>
+                     <h3>EDITE O CONTRATO</h3>
 
                      <form onSubmit={handleEdit} className="form-add">
                          <div className="form-cont">
@@ -502,6 +570,25 @@ const Contratos = () => {
                      
                  </div>
                 
+                    )}
+                    {mostrarAddDocumento && contratoSelecionado && (
+                        <div className="addDoc">
+                            <h1>ADICIONE UM DOCUMENTO</h1>
+                            <form className="form-add" onSubmit={addDoc}>
+                                <input
+                                    type="file"
+                                    name="documento"
+                                    required
+                                />
+
+
+                                <div className="botoes">
+                                {error && <div className="error-message">{error}</div>}
+                             <button className="salvar" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "ADICIONAR"}</button>
+                                <button onClick={() => {setMostrarAddDocumento(false); setMostrarInfo(true)}}>VOLTAR</button>
+                                </div>
+                            </form>
+                        </div>
                     )}
                 </div>
 

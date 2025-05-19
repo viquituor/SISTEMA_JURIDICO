@@ -1,4 +1,8 @@
 const Contratos = require('../models/Contratos');
+const pool = require('../config/database');
+const upload = require('../middlewares/upload');
+const fs = require('fs');
+const path = require('path');
 
 exports.listarContratosPorOAB = async (req, res, next) => {
     try {
@@ -106,4 +110,101 @@ try {
     });
     
 }
+};
+
+exports.addArquivos = [
+  upload.single('documento'),
+  async (req, res, next) => {
+    try {
+      const { cod_contrato } = req.params;
+      
+      if (!req.file) {
+        return res.status(400).json({ error: 'Nenhum arquivo enviado' });
+      }
+
+      // Cria o objeto com os dados do documento
+      const documento = {
+        cod_contrato: cod_contrato,
+        nome: req.file.originalname,
+        link: `/uploads/contrato_${cod_contrato}/${req.file.filename}`
+      };
+
+      // Salva no banco de dados
+      const result = await Contratos.addArquivo(documento);
+
+      res.status(201).json({
+        success: true,
+        documento: {
+          cod_doc: result.insertId,
+          ...documento
+        }
+      });
+    } catch (error) {
+      // Remove o arquivo se houve erro
+      if (req.file && fs.existsSync(req.file.path)) {
+        fs.unlinkSync(req.file.path);
+      }
+      next(error);
+    }
+  }
+];
+
+exports.downloadDocumento = async (req, res, next) => {
+  try {
+    const { cod_doc } = req.params;
+    
+    // Busca o documento no banco de dados
+    const [rows] = await pool.query(
+      'SELECT nome, link FROM documento WHERE cod_doc = ?',
+      [cod_doc]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Documento não encontrado' });
+    }
+
+    const documento = rows[0];
+    const filePath = path.join(__dirname, '..', documento.link);
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ error: 'Arquivo não encontrado no servidor' });
+    }
+
+    // Configura os headers para download
+    res.setHeader('Content-Disposition', `attachment; filename="${documento.nome}"`);
+    res.sendFile(filePath);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.excluirDocumento = async (req, res, next) => {
+  try {
+    const { cod_doc } = req.params;
+    
+    // Primeiro obtém o documento para pegar o caminho
+    const [rows] = await pool.query(
+      'SELECT link FROM documento WHERE cod_doc = ?',
+      [cod_doc]
+    );
+    
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Documento não encontrado' });
+    }
+    
+    const documento = rows[0];
+    const filePath = path.join(__dirname, '..', documento.link);
+    
+    // Remove do banco de dados
+    await pool.query('DELETE FROM documento WHERE cod_doc = ?', [cod_doc]);
+    
+    // Remove o arquivo físico
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+    
+    res.json({ success: true, message: 'Documento excluído com sucesso' });
+  } catch (error) {
+    next(error);
+  }
 };

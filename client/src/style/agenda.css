@@ -5,6 +5,7 @@
 .main-agenda{
     width: 100vw;
     height: 86.6vh;
+    overflow: hidden;
     background-color: #58462b;
     display: flex;
     flex-direction: column;

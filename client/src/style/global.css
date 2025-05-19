@@ -5,12 +5,17 @@
     font-weight: 200;
     box-sizing: border-box;
     text-decoration: none;
+    
     margin: 0;
     padding: 0;
     gap: 0;
 
     
 }
+
+*::-webkit-scrollbar {
+            display: none; /* Chrome, Safari e Opera */
+        }
 
 
 header{

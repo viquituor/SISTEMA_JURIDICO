@@ -36,7 +36,7 @@ INSERT INTO contrato (OAB, CPF, data_inicio, tipo_servico, status_contrato, desc
 
 -- INSERÇÕES NA TABELA: documento  
 -- Utilizando os cod_contrato gerados (1 a 10)
-INSERT INTO documento (cod_contrato, nome, link) VALUES
+INSERT INTO documento (cod_contrato, nome, conteudo) VALUES
 (1, 'Procuração', 'https://exemplo.com/docs/procuracao1.pdf'),
 (2, 'Contrato de Trabalho', 'https://exemplo.com/docs/contrato2.pdf'),
 (3, 'Sentença Judicial', 'https://exemplo.com/docs/sentenca3.pdf'),
