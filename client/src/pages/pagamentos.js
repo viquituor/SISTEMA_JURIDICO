@@ -207,10 +207,10 @@ const Pagamentos = () => {
                 <Link to="/"><h1>ADVOCACIA ALMEIDA</h1></Link>
 
                 <nav>
-                    <button className="agendaAtv" onClick={() => navigate(`/advogados/${oab}/Agenda`, { replace: true })}>AGENDA</button>
+                    <button className="agenda" onClick={() => navigate(`/advogados/${oab}/Agenda`, { replace: true })}>AGENDA</button>
                     <button className="contratos" onClick={() => navigate(`/advogados/${oab}/Contratos`, { replace: true })}>CONTRATOS</button>
-                    <button className="processos">PROCESSOS</button>
-                    <button className="pagamentos">PAGAMENTOS</button>
+                    <button className="processos" onClick={() => navigate(`/advogados/${oab}/Processos`, {replace: true})}>PROCESSOS</button>
+                    <button className="pagamentosAtv" onClick={() => navigate(`/advogados/${oab}/Pagamentos`, {replace: true})}>PAGAMENTOS</button>
                     <button className="clientes" onClick={() => navigate(`/advogados/${oab}/Clientes`, { replace: true })}>CLIENTES</button>
                 </nav>
             </header>

@@ -191,7 +191,7 @@ const Clientes = () => {
                 <nav>
                     <button className="agenda" onClick={() => navigate(`/advogados/${oab}/Agenda`, {replace: true})}>AGENDA</button>
                     <button className="contratos" onClick={() => navigate(`/advogados/${oab}/Contratos`, {replace: true})}>CONTRATOS</button>
-                    <button className="processos">PROCESSOS</button>
+                    <button className="processos" onClick={() => navigate(`/advogados/${oab}/Processos`, {replace: true})}>PROCESSOS</button>
                     <button className="pagamentos" onClick={() => navigate(`/advogados/${oab}/Pagamentos`, {replace: true})}>PAGAMENTOS</button>
                     <button className="clientesAtv" onClick={() => navigate (`/advogados/${oab}/Clientes`)}>CLIENTES</button>
                 </nav>

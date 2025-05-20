@@ -28,6 +28,13 @@ table{
     height: auto;
     border-collapse: collapse;
     overflow: scroll;
+
+
+tr:hover:nth-child(1n) {
+background-color: #58462b;
+color: #fff;
+}
+
     thead{
         background-color:#ffb801;
         th{
@@ -225,6 +232,13 @@ table{
             }
         a{
             all: unset;
+            font-size: 1rem;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+        a:hover{
+            color: #fff;
+
         }
             
         }

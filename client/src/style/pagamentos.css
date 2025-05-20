@@ -1,4 +1,7 @@
 
+.central nav .pagamentosAtv{
+    color: #ffb801;
+}
 
 
 .main-pag{
@@ -26,7 +29,8 @@
         background-color: #fff;
         border: #FFB801 1px solid;
         font-weight: 500;
-        letter-spacing: 1px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
         font-size: 1.5rem;
     }
     .falta{

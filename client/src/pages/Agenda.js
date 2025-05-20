@@ -203,7 +203,7 @@ const Agenda = () => {
                 <nav>
                     <button className="agendaAtv" onClick={() => navigate(`/advogados/${oab}/Agenda`, {replace: true})}>AGENDA</button>
                     <button className="contratos" onClick={() => navigate(`/advogados/${oab}/Contratos`, {replace: true})}>CONTRATOS</button>
-                    <button className="processos">PROCESSOS</button>
+                    <button className="processos" onClick={() => navigate(`/advogados/${oab}/Processos`, {replace: true})}>PROCESSOS</button>
                     <button className="pagamentos" onClick={() => navigate(`/advogados/${oab}/Pagamentos`, {replace: true})}>PAGAMENTOS</button>
                     <button className="clientes" onClick={() => navigate (`/advogados/${oab}/Clientes`, {replace: true})}>CLIENTES</button>
                 </nav>
@@ -219,6 +219,7 @@ const Agenda = () => {
                         onChange={(e) => setBusca(e.target.value)}
                         
                     />
+                    <button>PRAZOS DE PROCESSOS</button>
                     <button onClick={() => {setMostrarContrato(true)}}>ADICIONAR</button>
                 </div>
 

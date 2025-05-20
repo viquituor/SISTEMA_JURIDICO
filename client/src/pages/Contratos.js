@@ -236,7 +236,7 @@ const Contratos = () => {
                 <nav>
                     <button className="agenda" onClick={() => navigate(`/advogados/${oab}/Agenda`, {replace: true})}>AGENDA</button>
                     <button className="contratosAtv" onClick={() => navigate(`/advogados/${oab}/Contratos`, {replace: true})}>CONTRATOS</button>
-                    <button className="processos">PROCESSOS</button>
+                    <button className="processos" onClick={() => navigate(`/advogados/${oab}/Processos`, {replace: true})}>PROCESSOS</button>
                     <button className="pagamentos" onClick={() => navigate(`/advogados/${oab}/Pagamentos`, {replace: true})}>PAGAMENTOS</button>
                     <button className="clientes" onClick={() => navigate (`/advogados/${oab}/Clientes`, {replace: true})}>CLIENTES</button>
                 </nav>
@@ -555,9 +555,7 @@ const Contratos = () => {
                              placeholder="Descrição do contrato"
                              required
                          />
-                         <input
-                                type="file"
-                                />
+                     
                              </div>
                          </div>
 
