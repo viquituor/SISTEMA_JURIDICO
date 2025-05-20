@@ -18,6 +18,30 @@ return results;
     }
 };
 
+static async addProcesso(processo) {
+        const connection = await pool.getConnection();
+        try {
+            await connection.beginTransaction();
+            
+            const { cod_contrato, num_processo,status_processo, descricao } = processo;
+            
+            const [result] = await connection.query(`
+                INSERT INTO processo 
+                (cod_contrato, num_processo, status_processo, descricao) 
+                VALUES (?, ?, ?, ?);
+            `, [cod_contrato, num_processo, status_processo, descricao]);
+            
+            await connection.commit();
+            return result;
+        } catch (error) {
+            await connection.rollback();
+            console.error('Erro no model ao adicionar processo:', error);
+            throw error;
+        } finally {
+            connection.release();
+        }
+    };
+
 
 }
 

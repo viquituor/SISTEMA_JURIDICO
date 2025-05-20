@@ -65,7 +65,8 @@ footer{
 /* central de navegador*/
 
 .central{
-    
+    z-index: 1;
+    position: fixed;
     width: 100vw;
     height: 12vh;
     display: flex;
@@ -111,9 +112,10 @@ footer{
 }
 
 .buscar-add{
-    
+    position: fixed;
+    top: 13.4vh;
     width: 100vw;
-    height: 5vh;
+    height: 6vh;
     text-align: center;
     background-color: #000;
     display: flex;

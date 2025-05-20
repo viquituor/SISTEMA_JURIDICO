@@ -9,8 +9,8 @@
     overflow: hidden;
     width: 100%;
     height: 86.6vh;
-
-
+    position: relative;
+    top: 19vh;
 }
 
 .tabela-contrato{
@@ -20,7 +20,7 @@
     width: 100vw;
     height: 100vh;
     background-color: #555;
-    padding: 1rem;
+    padding: 2rem;
 }
 
 table{

@@ -7,11 +7,14 @@
     height: 86.6vh;
     background-color: #58462b;
     overflow: hidden;
+    position: relative;
+   
+    top: 19vh;
 
     
     .cont-cli{
-        gap: 2rem;
-        padding: 3rem;
+        gap: 3rem;
+        padding: 1rem;
         width: 100vw;
         display: flex;
         flex-direction: row;
