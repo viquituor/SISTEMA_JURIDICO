@@ -27,7 +27,7 @@ class Contratos {
             // Consultas separadas para cada tipo de dado
             const [documentos] = await pool.query(`SELECT * FROM documento WHERE cod_contrato = ?`, [cod_contrato]);
             const [pagamentos] = await pool.query(`SELECT * FROM pagamento WHERE cod_contrato = ?`, [cod_contrato]);
-            const [compromissos] = await pool.query(`SELECT * FROM agenda WHERE cod_contrato = ?`, [cod_contrato]);
+            const [compromissos] = await pool.query(`SELECT * FROM agenda WHERE cod_contrato = ? LIMIT 5`, [cod_contrato]);
             
             return {
                 documentos,

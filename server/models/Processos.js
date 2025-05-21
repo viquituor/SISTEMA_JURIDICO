@@ -18,6 +18,23 @@ return results;
     }
     };
 
+    static async listarPrazoProcessso(num_processo){
+        const connection = await pool.getConnection();
+        try {
+            const [results] = await pool.query(`
+                SELECT * FROM prazo_de_processo 
+                WHERE num_processo = ?
+                ORDER BY data_prapro ASC
+                LIMIT 10;
+                `, [num_processo]);
+                return results;
+        } catch (error) {
+            alert('erro ao buscar prazos de processo', Error);
+            throw Error;
+        }finally {
+        connection.release();
+    }};
+
     static async addProcesso(processo) {
         const connection = await pool.getConnection();
         try {
@@ -81,7 +98,7 @@ return results;
     } finally {
         connection.release();
     }
-}
+    };
 
 
 }

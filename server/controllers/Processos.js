@@ -9,6 +9,16 @@ try {
     }
 }
 
+exports.listarPrazo = async(req, res, next) => {
+    try {
+        const response = await Processos.listarPrazoProcessso(req.params.num_processo);
+        res.json(response);
+    } catch (error) {
+        next(error);
+        
+    }
+}
+
 exports.addProcesso = async(req, res, next) => {
     try {
         const response = await Processos.addProcesso(req.body);

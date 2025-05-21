@@ -13,6 +13,7 @@ const Processos = () => {
     const [busca, setBusca] = useState("");
     const [processos, setProcessos] = useState([]);
     const [contratos, setContratos] = useState([]);
+    const [prazoPro, setPrazoPro] = useState ([]);
     const [contratoSelecionado, setContratoSelecionado] = useState([]);
     const [processoSelecionado, setProcessoSelecionado] = useState([]);
     const [mostrarContratos, setMostrarContratos] = useState(false);
@@ -59,6 +60,8 @@ const Processos = () => {
                 status_processo: '',
                 descricao : ''
             });
+
+
         } catch (err) {
             setError(err.response?.data?.error || err.message);
         } finally {
@@ -71,24 +74,22 @@ const Processos = () => {
             setLoading(true);
             setError(null);
     
-    try {
-
-        const response = await axios.put(
+            try {
+                const response = await axios.put(
             `http://localhost:3001/advogados/${oab}/Processos/${processoSelecionado.num_processo}`,formData);
 
-        if (response.data.success) {
+                if (response.data.success) {
             alert("processo editado com sucesso!");
             const atual = await axios.get(`http://localhost:3001/advogados/${oab}/Processos`)
             setProcessos(atual.data);
             setMostrarEdit(false);
         }
-    } catch (err) {
+         } catch (err) {
         console.error("Erro detalhado:", err.response?.data);
         setError(err.response?.data?.error || "Erro ao editar processo");
-    } finally {
+         } finally {
         setLoading(false);
-    }
-    };
+                 }};
 
     const deletarProcesso = async (num_processo) =>{
         try {
@@ -123,6 +124,19 @@ const Processos = () => {
         carregarProcessos();
     },[oab]);
 
+    useEffect(()=> {
+        const listarPrazoProcessso = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3001/advogados/${oab}/Processos/${processoSelecionado.num_processo}/Prazos`)
+                setPrazoPro(response.data);
+            } catch (error) {
+                alert('erro ao buscar prazos', error);
+                throw error;
+            }
+        }
+        listarPrazoProcessso();
+    });
+
     useEffect(() => {
             const carregarContratos = async () => {
                 try {
@@ -136,6 +150,7 @@ const Processos = () => {
     }, [oab]);
 
 const processosFiltrados = processos.filter(processo =>
+        processo.cod_contrato.toString().includes(busca.toLowerCase())||
         processo.nome.toLowerCase().includes(busca.toLowerCase()) ||
         processo.status_contrato.toLowerCase().includes(busca.toLowerCase()) ||
         processo.tipo_servico.toLowerCase().includes(busca.toLowerCase()) ||
@@ -179,7 +194,7 @@ return (
                         onChange={(e) => setBusca(e.target.value)}
                         
                     />
-                    <button>PRAZOS DE PROCESSOS</button>
+                    <button onClick={() => navigate(`/advogados/${oab}/Prazos`)}>PRAZOS DE PROCESSOS</button>
                     <button onClick={()=>{setMostrarContratos(true)}}>ADICIONAR</button>
                 </div>
 
@@ -271,6 +286,7 @@ return (
                     {mostrarInfo && processoSelecionado && (
                         <div className="aba-info-pross">
                             <h3>INFORMAÇÕES DO PROCESSO</h3>
+                            <div className="lista" >
                                         <form>
                                             <div className="basico">
                                             <label>codigo do contrato<br/>
@@ -295,12 +311,20 @@ return (
                                             value={processoSelecionado.descricao}
                                             />
                                             </label>
+                                        </form>
+                                        <ul>
+                                            <h4>prazos do processo</h4>
+                                            {prazoPro.map((prazo)=>(
+                                                <li key={prazo.cod_prapro}>{prazo.nome_prapro} - {prazo.status_prapro} - {new Date(prazo.data_prapro).toLocaleDateString()}</li>
+                                            ))}
+                                        </ul>
+                            </div>
                             <div className="botoes">
                                 <button className="editar"  type="button" onClick={()=> {setMostrarInfo(false);setMostrarEdit(true); setFormData(processoSelecionado); setContratoSelecionado({cod_contrato: processoSelecionado.cod_contrato});}} >EDITAR</button>
                                 <button className="voltar"  type="button" onClick={()=> setMostrarInfo(false)}>VOLTAR</button>
                                 <button className="excluir" type="button" onClick={()=> deletarProcesso(processoSelecionado.num_processo)} >EXCLUIR</button>
                             </div>
-                                        </form>
+                                        
                         </div>
                     )}
                     {mostrarEdit && processoSelecionado && (

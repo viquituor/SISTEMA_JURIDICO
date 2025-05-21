@@ -5,7 +5,7 @@ import "../style/agenda.css";
 import "../style/global.css";
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
-const Agenda = () => {
+const PrazosProcesso = () => {
     const { oab } = useParams();
     const navigate = useNavigate();
     const [busca, setBusca] = useState("");
@@ -201,7 +201,7 @@ const Agenda = () => {
                 <Link to="/"><h1>ADVOCACIA ALMEIDA</h1></Link>
 
                 <nav>
-                    <button className="agendaAtv" onClick={() => navigate(`/advogados/${oab}/Agenda`, {replace: true})}>AGENDA</button>
+                    <button className="agenda" onClick={() => navigate(`/advogados/${oab}/Agenda`, {replace: true})}>AGENDA</button>
                     <button className="contratos" onClick={() => navigate(`/advogados/${oab}/Contratos`, {replace: true})}>CONTRATOS</button>
                     <button className="processos" onClick={() => navigate(`/advogados/${oab}/Processos`, {replace: true})}>PROCESSOS</button>
                     <button className="pagamentos" onClick={() => navigate(`/advogados/${oab}/Pagamentos`, {replace: true})}>PAGAMENTOS</button>
@@ -219,7 +219,7 @@ const Agenda = () => {
                         onChange={(e) => setBusca(e.target.value)}
                         
                     />
-                    <button onClick={() => navigate(`/advogados/${oab}/Prazos`)}>PRAZOS DE PROCESSOS</button>
+                    <button className="agenda" onClick={() => navigate(`/advogados/${oab}/Agenda`, {replace: true})}>AGENDA</button>
                     <button onClick={() => {setMostrarContrato(true)}}>ADICIONAR</button>
                 </div>
 
@@ -464,4 +464,4 @@ const Agenda = () => {
     );
 };
 
-export default Agenda;
+export default PrazosProcesso;

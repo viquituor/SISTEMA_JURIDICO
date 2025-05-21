@@ -8,6 +8,7 @@ import Clientes from './pages/Clientes';
 import Contratos from './pages/Contratos';
 import Pagamentos from './pages/pagamentos';
 import Processos from  './pages/Processos';
+import PrazosProcesso from './pages/PrazosProcesso';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="advogados/:oab/Contratos" element={<Contratos/>}/>
         <Route path="advogados/:oab/Pagamentos" element={<Pagamentos/>} />
         <Route path="advogados/:oab/Processos" element={<Processos/>} />
+        <Route path="advogados/:oab/Prazos" element={<PrazosProcesso/>}/>
       </Routes>
     </Router>
   );
