@@ -18,12 +18,12 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/cadastroadv" element={<CadastroAdv />} />
         <Route path="/editeadv/:oab" element={<EditeAdv />}/>
-        <Route path="advogados/:oab/Agenda" element={<Agenda/>}/>
-        <Route path="advogados/:oab/Clientes" element={<Clientes/>}/>
-        <Route path="advogados/:oab/Contratos" element={<Contratos/>}/>
-        <Route path="advogados/:oab/Pagamentos" element={<Pagamentos/>} />
-        <Route path="advogados/:oab/Processos" element={<Processos/>} />
-        <Route path="advogados/:oab/Prazos" element={<PrazosProcesso/>}/>
+        <Route path="/advogados/:oab/Agenda" element={<Agenda/>}/>
+        <Route path="/advogados/:oab/Clientes" element={<Clientes/>}/>
+        <Route path="/advogados/:oab/Contratos" element={<Contratos/>}/>
+        <Route path="/advogados/:oab/Pagamentos" element={<Pagamentos/>} />
+        <Route path="/advogados/:oab/Processos" element={<Processos/>} />
+        <Route path="/advogados/:oab/Prazos" element={<PrazosProcesso/>}/>
       </Routes>
     </Router>
   );
