@@ -78,7 +78,7 @@ const CadastroAdv = () => {
               />
               <input
                 type="email"
-                name="email"
+                name="email-adv"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="EMAIL"
