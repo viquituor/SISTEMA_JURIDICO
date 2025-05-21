@@ -61,7 +61,7 @@ const CadastroAdv = () => {
         <Link to="/"><h1>ADVOCACIA ALMEIDA</h1></Link>
       </header>
 
-      <main className="meio">
+      <main className="meio-adv">
         <h3>CADASTRE UM ADVOGADO</h3>
 
 
