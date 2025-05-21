@@ -7,6 +7,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 
 
 const Contratos = () => {
+    const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
     const { oab } = useParams();
     const navigate = useNavigate();
     const [busca, setBusca] = useState("");
@@ -40,12 +41,12 @@ const Contratos = () => {
           const confirmacao = window.confirm("Tem certeza que deseja excluir este contrato?");
           if (!confirmacao) return;
       
-          const response = await axios.delete(`http://localhost:3001/advogados/${oab}/Contratos/${cod_contrato}`);
+          const response = await axios.delete(`${API_BASE_URL}/advogados/${oab}/Contratos/${cod_contrato}`);
       
           if (response.data.success) {
             alert(response.data.message);
             // Atualiza a lista localmente
-            const res = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos`);
+            const res = await axios.get(`${API_BASE_URL}/advogados/${oab}/Contratos`);
             setContratos(res.data);
             setMostrarInfo(false);
           }
@@ -69,12 +70,12 @@ const Contratos = () => {
         setLoading(true);
         
         try {          
-          await axios.put(`http://localhost:3001/advogados/${oab}/Contratos/${cod_contratoSelecionado}`, formData);
+          await axios.put(`${API_BASE_URL}/advogados/${oab}/Contratos/${cod_contratoSelecionado}`, formData);
       
           alert("contrato editado!");
           setMostrarEdit(false);
           // Recarrega a lista
-          const res = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos`);
+          const res = await axios.get(`${API_BASE_URL}/advogados/${oab}/Contratos`);
           setContratos(res.data);
         } catch (err) {
           setError(err.response?.data?.error || err.message);
@@ -88,12 +89,12 @@ const Contratos = () => {
         setLoading(true);
         
         try {          
-          await axios.post(`http://localhost:3001/advogados/${oab}/Contratos`, formData);
+          await axios.post(`${API_BASE_URL}/advogados/${oab}/Contratos`, formData);
       
           alert("contrato cadastrado!");
           setMostrarAdd(false);
           // Recarrega a lista
-          const res = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos`);
+          const res = await axios.get(`${API_BASE_URL}/advogados/${oab}/Contratos`);
           setContratos(res.data);
           setFormData({
             OAB:oab,
@@ -121,7 +122,7 @@ const Contratos = () => {
     setUploadProgress(0);
     
     await axios.post(
-      `http://localhost:3001/advogados/${oab}/Contratos/${cod_contratoSelecionado}/doc`,
+      `${API_BASE_URL}/advogados/${oab}/Contratos/${cod_contratoSelecionado}/doc`,
       formData,
       {
         headers: {
@@ -138,7 +139,7 @@ const Contratos = () => {
 
     // Atualiza a lista de documentos
     const res = await axios.get(
-      `http://localhost:3001/advogados/${oab}/Contratos/${cod_contratoSelecionado}`
+      `${API_BASE_URL}/advogados/${oab}/Contratos/${cod_contratoSelecionado}`
     );
     setDocumentos(res.data.documentos);
     
@@ -159,12 +160,12 @@ const Contratos = () => {
     if (!confirmacao) return;
 
     await axios.delete(
-      `http://localhost:3001/advogados/${oab}/documentos/${cod_doc}`
+      `${API_BASE_URL}/advogados/${oab}/documentos/${cod_doc}`
     );
     
     // Atualiza a lista de documentos
     const res = await axios.get(
-      `http://localhost:3001/advogados/${oab}/Contratos/${cod_contratoSelecionado}`
+      `${API_BASE_URL}/advogados/${oab}/Contratos/${cod_contratoSelecionado}`
     );
     setDocumentos(res.data.documentos);
     
@@ -178,20 +179,20 @@ const Contratos = () => {
     useEffect(() => {
         const carregarClientes = async () => {
           try {
-            const response = await axios.get(`http://localhost:3001/advogados/${oab}/Clientes`);
+            const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Clientes`);
             setClientes(response.data);
           } catch (error) {
             console.error("Erro ao buscar advogados:", error);
           }
         };
         carregarClientes();
-        }, [oab]);
+        }, [API_BASE_URL, oab]);
 
     useEffect(() => {
             const carregarListas = async () => {
                 try {
                     if (cod_contratoSelecionado) {
-                        const response = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos/${cod_contratoSelecionado}`);
+                        const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Contratos/${cod_contratoSelecionado}`);
 
             setDocumentos(response.data.documentos);
             setPagamentos(response.data.pagamentos);
@@ -202,19 +203,19 @@ const Contratos = () => {
                 }
             }
         carregarListas();
-        }, [cod_contratoSelecionado, oab]);
+        }, [API_BASE_URL, cod_contratoSelecionado, oab]);
 
     useEffect(() => {
         const carregarContratos = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos`);
+                const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Contratos`);
                 setContratos(response.data);
             } catch (error) {
                 console.error("Erro ao buscar contratos:", error.response?.data || error.message);
             }
         };
         carregarContratos();
-        }, [oab]);
+        }, [API_BASE_URL, oab]);
 
     const contratosFiltrados = contratos.filter(contrato =>
         contrato.nome_cliente.toLowerCase().includes(busca.toLowerCase()) ||

@@ -6,6 +6,7 @@ import "../style/global.css";
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const Agenda = () => {
+    const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
     const { oab } = useParams();
     const navigate = useNavigate();
     const [busca, setBusca] = useState("");
@@ -55,13 +56,13 @@ const Agenda = () => {
                 throw new Error("Preencha todos os campos obrigatórios");
             }
     
-            await axios.post(`http://localhost:3001/advogados/${oab}/agenda`, formData);
+            await axios.post(`${API_BASE_URL}/advogados/${oab}/agenda`, formData);
         
             alert("Compromisso cadastrado com sucesso!");
             setMostrarAdd(false);
             
             // Recarrega a lista
-            const res = await axios.get(`http://localhost:3001/advogados/${oab}/agenda`);
+            const res = await axios.get(`${API_BASE_URL}/advogados/${oab}/agenda`);
             setCompromissos(res.data);
             
             // Reseta o formulário
@@ -92,7 +93,7 @@ const Agenda = () => {
         };
 
         const response = await axios.put(
-            `http://localhost:3001/advogados/${oab}/Agenda/${compromissoSelecionado.cod_compromisso}`,
+            `${API_BASE_URL}/advogados/${oab}/Agenda/${compromissoSelecionado.cod_compromisso}`,
             dadosParaEnviar,
             {
                 headers: {
@@ -125,7 +126,7 @@ const Agenda = () => {
             const confirmar = window.confirm("Tem certeza que deseja excluir este compromisso?");
             if (!confirmar) return;
 
-            const response = await axios.delete(`http://localhost:3001/advogados/${oab}/Agenda/${cod_compromisso}`);
+            const response = await axios.delete(`${API_BASE_URL}/advogados/${oab}/Agenda/${cod_compromisso}`);
 
             if (response.status === 200) {
                 alert("Compromisso excluído com sucesso!");
@@ -158,19 +159,19 @@ const Agenda = () => {
     useEffect(() => {
             const carregarContratos = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos`);
+                    const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Contratos`);
                     setContratos(response.data);
                 } catch (error) {
                     console.error("Erro ao buscar contratos:", error.response?.data || error.message);
                 }
             };
             carregarContratos();
-    }, [oab]);
+    }, [oab, API_BASE_URL]);
 
     useEffect(() => {
         const CarregarCompromissos = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:3001/advogados/${oab}/Agenda`);
+                    const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Agenda`);
                     setCompromissos(response.data);
                     console.log(response.data);
                 } catch (error) {
@@ -179,7 +180,7 @@ const Agenda = () => {
                 }
         }
         CarregarCompromissos();
-    },[oab]);
+    },[oab, API_BASE_URL]);
 
     const compromissosFiltrados = compromissos.filter(compromisso => {
         const buscaLower = busca.toLowerCase();

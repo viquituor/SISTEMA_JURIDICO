@@ -6,6 +6,7 @@ import "../style/global.css";
 import { Link, useNavigate, useParams  } from 'react-router-dom';
 
 const EditeAdv = () => {
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
   const { oab } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -28,7 +29,7 @@ const EditeAdv = () => {
   useEffect(() => {
     const fetchAdvogado = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/advogados/${oab}`);
+        const response = await axios.get(`${API_BASE_URL}/advogados/${oab}`);
         console.log('Dados recebidos:', response.data); // Para debug
 
         setFormData({
@@ -52,7 +53,7 @@ const EditeAdv = () => {
     };
   
     fetchAdvogado();
-  }, [oab]);
+  }, [API_BASE_URL, oab]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,7 +72,7 @@ const EditeAdv = () => {
         }
 
         const response = await axios.put(
-            `http://localhost:3001/advogados/${oab}`,
+            `${API_BASE_URL}/advogados/${oab}`,
             {
                 ...formData,
                 oab: formData.oab // Envia a OAB mesmo que seja a mesma

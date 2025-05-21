@@ -6,6 +6,7 @@ import "../style/global.css";
 import { Link, useNavigate } from 'react-router-dom';
 
 const CadastroAdv = () => {
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
@@ -40,7 +41,7 @@ const CadastroAdv = () => {
       }
       
       // Envia os dados para o backend
-      const response = await axios.post("http://localhost:3001/advogados", formData);
+      const response = await axios.post(`${API_BASE_URL}/advogados`, formData);
       
       // Feedback para o usuário
       alert(response.data.message || "Cadastro realizado com sucesso!");

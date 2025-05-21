@@ -6,6 +6,7 @@ import "../style/global.css";
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const PrazosProcesso = () => {
+    const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
     const { oab } = useParams();
     const navigate = useNavigate();
     const [busca, setBusca] = useState("");

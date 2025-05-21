@@ -32,3 +32,18 @@ PARA FAZER O TESTE DO SISTEMA:
  NO TERMINAL NAVEGUE ATE A PASTA RAIZ DO PROJETO E DIGITE O SEGUITE COMANDO
 
   npm run dev
+
+#### VARIAVEIS DE AMBIENTE
+
+### FRONT
+
+## URL do seu backend hospedado
+
+REACT_APP_API_URL
+
+### Para o backend (se hospedado separadamente)
+
+DB_HOST
+DB_USER
+DB_PASSWORD
+DB_NAME

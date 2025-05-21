@@ -6,6 +6,7 @@ import "../style/global.css";
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const Clientes = () => {
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
     const { oab } = useParams();
     const [clientes, setClientes] = useState([]);
     const [busca, setBusca] = useState("");
@@ -63,14 +64,14 @@ const Clientes = () => {
           }
       
           await axios.post(
-            `http://localhost:3001/advogados/${oab}/Clientes`,
+            `${API_BASE_URL}/advogados/${oab}/Clientes`,
             { ...formData, cpf: cpfFormatado }
           );
       
           alert("Cliente cadastrado!");
           setMostrarAdd(false);
           // Recarrega a lista
-          const res = await axios.get(`http://localhost:3001/advogados/${oab}/Clientes`);
+          const res = await axios.get(`${API_BASE_URL}/advogados/${oab}/Clientes`);
           setClientes(res.data);
 
           setFormData({
@@ -123,14 +124,14 @@ const Clientes = () => {
           
           // Envia os dados para o backend
           const response = await axios.put(
-            `http://localhost:3001/advogados/${oab}/Clientes/${clienteSelecionado.CPF}`,
+            `${API_BASE_URL}/advogados/${oab}/Clientes/${clienteSelecionado.CPF}`,
             dadosAtualizados
           );
           
           alert(response.data.message || "Cliente atualizado com sucesso!");
           
           // Recarrega a lista
-          const res = await axios.get(`http://localhost:3001/advogados/${oab}/Clientes`);
+          const res = await axios.get(`${API_BASE_URL}/advogados/${oab}/Clientes`);
           setClientes(res.data);
           setMostarEdit(false);
         } catch (err) {
@@ -144,22 +145,23 @@ const Clientes = () => {
       useEffect(() => {
     const carregarClientes = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/advogados/${oab}/Clientes`);
+        const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Clientes`);
         setClientes(response.data);
       } catch (error) {
         console.error("Erro ao buscar advogados:", error);
       }
     };
     carregarClientes();
-     }, [oab]);
+     }, [oab, API_BASE_URL]);
 
+     
     const excluirCliente = async (cpf) => {
     try {
       const confirmacao = window.confirm("Tem certeza que deseja excluir este cliente?");
       if (!confirmacao) return;
   
       const response = await axios.delete(
-        `http://localhost:3001/advogados/${oab}/Clientes/${cpf}`  // Usar CPF como parâmetro
+        `${API_BASE_URL}/advogados/${oab}/Clientes/${cpf}`  // Usar CPF como parâmetro
       );
   
       if (response.data.success) {

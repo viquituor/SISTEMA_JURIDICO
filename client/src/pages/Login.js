@@ -6,6 +6,7 @@ import "../style/global.css";
 import { Link, useNavigate} from 'react-router-dom';
 
 const Login = () => {
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
   const [advogados, setAdvogados] = useState([]);
   const [mostrarInfo, setMostrarInfo] = useState(false);
   const [advogadoSelecionado, setAdvogadoSelecionado] = useState(null);
@@ -16,26 +17,26 @@ const Login = () => {
   useEffect(() => {
     const carregarAdvogados = async () => {
       try {
-        const advogadosResponse = await axios.get("http://localhost:3001/advogados");
+        const advogadosResponse = await axios.get(`${API_BASE_URL}/advogados`);
         setAdvogados(advogadosResponse.data);
       } catch (error) {
         console.error("Erro ao buscar advogados:", error);
       }
     };
     carregarAdvogados();
-  }, []);
+  }, [API_BASE_URL]);
 
   const excluirAdvogado = async (oab) => {
     try{
         const confirmacao = window.confirm("tem certeza que deseja excluir este advogado?");
         if(!confirmacao) return;
 
-        const response = await axios.delete(`http://localhost:3001/advogados/${oab}`);
+        const response = await axios.delete(`${API_BASE_URL}/advogados/${oab}`);
 
         if(response.data.success){
           alert(response.data.message);
 
-          const atualizado = await axios.get("http://localhost:3001/advogados");
+          const atualizado = await axios.get(`${API_BASE_URL}/advogados`);
           setAdvogados(atualizado.data);
           setMostrarInfo(false);
         }

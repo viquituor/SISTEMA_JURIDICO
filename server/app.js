@@ -15,7 +15,17 @@ const fs = require('fs');
 const app = express();
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: ['https://gestao-juridica.vercel.app', 'http://localhost:3000'], // Ambientes permitidos
+  credentials: true
+}));
+
+app.use((req, res, next) => {
+  console.log(`Recebida requisição para: ${req.method} ${req.path}`);
+  next();
+});
+
+
 app.use(express.json());
 
 // Rotas

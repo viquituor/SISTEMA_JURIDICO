@@ -6,6 +6,7 @@ import "../style/global.css";
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const Pagamentos = () => {
+    const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
     const { oab } = useParams();
     const navigate = useNavigate();
     const [busca, setBusca] = useState("");
@@ -43,12 +44,12 @@ const Pagamentos = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const response = await axios.post(`http://localhost:3001/advogados/${oab}/Pagamentos`,{...formData, cod_contrato: contratoSelecionado.cod_cont});
+            const response = await axios.post(`${API_BASE_URL}/advogados/${oab}/Pagamentos`,{...formData, cod_contrato: contratoSelecionado.cod_cont});
             console.log("Pagamento criado com sucesso:", response.data);
             setError(null);
-            const contAtualizado = await axios.get(`http://localhost:3001/advogados/${oab}/Pagamentos`);
+            const contAtualizado = await axios.get(`${API_BASE_URL}/advogados/${oab}/Pagamentos`);
             setContratos(contAtualizado.data);
-            const pagAtualizado = await axios.get(`http://localhost:3001/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`);
+            const pagAtualizado = await axios.get(`${API_BASE_URL}/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`);
             setListaPagamentos(pagAtualizado.data);
                 
             setMostrarAdd(false);
@@ -76,12 +77,12 @@ const Pagamentos = () => {
             const confirmacao = window.confirm("Tem certeza que deseja excluir este pagamento?");
             if (!confirmacao) return;
             setLoading(true);
-            const response = await axios.delete(`http://localhost:3001/advogados/${oab}/Pagamentos/${cod_pagamento}`);
+            const response = await axios.delete(`${API_BASE_URL}/advogados/${oab}/Pagamentos/${cod_pagamento}`);
             console.log("Pagamento deletado com sucesso:", response.data);
             setError(null);
-            const contAtualizado = await axios.get(`http://localhost:3001/advogados/${oab}/Pagamentos`);
+            const contAtualizado = await axios.get(`${API_BASE_URL}/advogados/${oab}/Pagamentos`);
             setContratos(contAtualizado.data);
-            const pagAtualizado = await axios.get(`http://localhost:3001/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`);
+            const pagAtualizado = await axios.get(`${API_BASE_URL}/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`);
                 setListaPagamentos(pagAtualizado.data);
             setMostrarInfo(true);
             setMostrarInfoPag(false);
@@ -103,14 +104,14 @@ const Pagamentos = () => {
             data_vencimento: new Date(pagamentoSelecionado.data_vencimento).toISOString()
         };
 
-        const response = await axios.put(`http://localhost:3001/advogados/${oab}/Pagamentos/${cod_pagamento}`, dadosAtualizados);
+        const response = await axios.put(`${API_BASE_URL}/advogados/${oab}/Pagamentos/${cod_pagamento}`, dadosAtualizados);
         if(response.data.success) {
             console.log("Pagamento atualizado com sucesso:", response.data);   
         };
         // Atualizar a lista de pagamentos
-        const contAtualizado = await axios.get(`http://localhost:3001/advogados/${oab}/Pagamentos`);
+        const contAtualizado = await axios.get(`${API_BASE_URL}/advogados/${oab}/Pagamentos`);
         setContratos(contAtualizado.data);
-        const pagAtualizado = await axios.get(`http://localhost:3001/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`);
+        const pagAtualizado = await axios.get(`${API_BASE_URL}/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`);
         setListaPagamentos(pagAtualizado.data);
         
         // Fechar o formulário de edição
@@ -132,7 +133,7 @@ const Pagamentos = () => {
             try {
                 setLoading(true);
                 const response = await axios.get(
-                    `http://localhost:3001/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`
+                    `${API_BASE_URL}/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`
                 );
                 setListaPagamentos(response.data);
                 setError(null);
@@ -145,7 +146,7 @@ const Pagamentos = () => {
         };
 
         listarPagamentos();
-    }, [contratoSelecionado, oab]); // Adicionado dependências
+    }, [API_BASE_URL, contratoSelecionado, oab]); // Adicionado dependências
 
     // Carrega lista de contratos inicial
     useEffect(() => {
@@ -153,7 +154,7 @@ const Pagamentos = () => {
             try {
                 setLoading(true);
                 const response = await axios.get(
-                    `http://localhost:3001/advogados/${oab}/Pagamentos`
+                    `${API_BASE_URL}/advogados/${oab}/Pagamentos`
                 );
                 setContratos(response.data);
                 setError(null);
@@ -166,19 +167,19 @@ const Pagamentos = () => {
         };
 
         carregarContratosComPagamentos();
-    }, [oab]);
+    }, [API_BASE_URL, oab]);
 
     useEffect(() => {
             const carregarContratos = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos`);
+                    const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Contratos`);
                     setContratosAll(response.data);
                 } catch (error) {
                     console.error("Erro ao buscar contratos:", error.response?.data || error.message);
                 }
             };
             carregarContratos();
-    }, [oab]);
+    }, [API_BASE_URL, oab]);
 
     const contratosFiltrados = contratos.filter(contrato => {
     // Defina valores padrão para todos os campos

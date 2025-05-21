@@ -7,7 +7,8 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 
 
 const Processos = () => {
-
+    
+    const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
     const { oab } = useParams();
     const navigate = useNavigate();
     const [busca, setBusca] = useState("");
@@ -44,13 +45,13 @@ const Processos = () => {
         setLoading(true);
         
         try {
-            await axios.post(`http://localhost:3001/advogados/${oab}/Processos/${contratoSelecionado.cod_contrato}`, {...formData, cod_contrato: contratoSelecionado.cod_contrato});
+            await axios.post(`${API_BASE_URL}/advogados/${oab}/Processos/${contratoSelecionado.cod_contrato}`, {...formData, cod_contrato: contratoSelecionado.cod_contrato});
         
             alert("Processo cadastrado com sucesso!");
             setMostrarAdd(false);
             
             // Recarrega a lista
-            const response = await axios.get(`http://localhost:3001/advogados/${oab}/Processos`)
+            const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Processos`)
             setProcessos(response.data);
             
             // Reseta o formulário
@@ -115,19 +116,19 @@ const Processos = () => {
     useEffect (()=> {
         const carregarProcessos = async () => {
     try {
-            const response = await axios.get(`http://localhost:3001/advogados/${oab}/Processos`)
+            const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Processos`)
             setProcessos(response.data);
     } catch (error) {
             alert('erro ao buscar processos', error);
             throw error;
     }}
         carregarProcessos();
-    },[oab]);
+    },[API_BASE_URL, oab]);
 
     useEffect(()=> {
         const listarPrazoProcessso = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/advogados/${oab}/Processos/${processoSelecionado.num_processo}/Prazos`)
+                const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Processos/${processoSelecionado.num_processo}/Prazos`)
                 setPrazoPro(response.data);
             } catch (error) {
                 alert('erro ao buscar prazos', error);
@@ -135,19 +136,19 @@ const Processos = () => {
             }
         }
         listarPrazoProcessso();
-    });
+    }, [API_BASE_URL, oab, processoSelecionado.num_processo]);
 
     useEffect(() => {
             const carregarContratos = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:3001/advogados/${oab}/Contratos`);
+                    const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Contratos`);
                     setContratos(response.data);
                 } catch (error) {
                     console.error("Erro ao buscar contratos:", error.response?.data || error.message);
                 }
             };
             carregarContratos();
-    }, [oab]);
+    }, [API_BASE_URL, oab]);
 
 const processosFiltrados = processos.filter(processo =>
         processo.cod_contrato.toString().includes(busca.toLowerCase())||
