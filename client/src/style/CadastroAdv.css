@@ -6,7 +6,6 @@
     .meio{
     width: 100vw;
     height: 40vh;
-    gap: 0rem;
     display: flex;
     flex-direction: column;
     align-items: center;
