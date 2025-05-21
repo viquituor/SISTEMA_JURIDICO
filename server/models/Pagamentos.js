@@ -3,50 +3,51 @@ const pool = require('../config/database');
 class Pagamentos {
 
     static async buscarContratos(oab) {
-        const connection = await pool.getConnection();
-        try {
-            
-            const [results] = await pool.query(`
-                
-                SELECT 
-                    c.cod_contrato AS cod_cont,   
-                    cli.nome AS nome_cliente, 
-                    c.tipo_servico, 
-                    c.status_contrato, 
-                    p.*,
-                    c.valor, 
-                    COALESCE(SUM(p.valorPago), 0) AS valor_pago, 
-                    (c.valor - COALESCE(SUM(p.valorPago), 0)) AS faltante 
-                FROM contrato c
-                LEFT JOIN pagamento p ON c.cod_contrato = p.cod_contrato
-                JOIN cliente cli ON c.CPF = cli.CPF
-                WHERE c.OAB = ?
-                GROUP BY c.cod_contrato;
-            `, [oab]);
-            
-            return results;
-        } catch (error) {
-            console.error("Erro ao buscar pagamentos:", error);
-            throw error;
-        }
-    };
+    const connection = await pool.getConnection();
+    try {
+        const [results] = await pool.query(`
+            SELECT 
+                c.cod_contrato AS cod_cont,   
+                cli.nome AS nome_cliente, 
+                c.tipo_servico, 
+                c.status_contrato, 
+                c.valor, 
+                COALESCE(SUM(p.valorPago), 0) AS valor_pago, 
+                (c.valor - COALESCE(SUM(p.valorPago), 0)) AS faltante 
+            FROM contrato c
+            LEFT JOIN pagamento p ON c.cod_contrato = p.cod_contrato
+            JOIN cliente cli ON c.CPF = cli.CPF
+            WHERE c.OAB = ?
+            GROUP BY c.cod_contrato, cli.nome, c.tipo_servico, c.status_contrato, c.valor;
+        `, [oab]);
+        
+        return results;
+    } catch (error) {
+        console.error("Erro ao buscar pagamentos:", error);
+        throw error;
+    } finally {
+        connection.release();
+    }
+};
 
     static async listarPagamentos(cod_contrato) {
-        const connection = await pool.getConnection();
-        try {
-            const [results] = await connection.query(`
-                SELECT * FROM pagamento 
-                WHERE cod_contrato = ?
-                GROUP BY cod_pag;
-            `, [cod_contrato]);
-            return results;
-        } catch (error) {
-            console.error("Erro ao buscar pagamentos:", error);
-            throw error;
-        } finally {
-            connection.release();
-        }
-    };
+    const connection = await pool.getConnection();
+    try {
+        const [results] = await connection.query(`
+            SELECT cod_pag, cod_contrato, data_pag, data_vencimento, 
+                   descricao, status_pag, metodo, valorPago 
+            FROM pagamento 
+            WHERE cod_contrato = ?
+            ORDER BY cod_pag;
+        `, [cod_contrato]);
+        return results;
+    } catch (error) {
+        console.error("Erro ao buscar pagamentos:", error);
+        throw error;
+    } finally {
+        connection.release();
+    }
+};
 
     static async criarPagamento(pagamento) {
         const connection = await pool.getConnection();
