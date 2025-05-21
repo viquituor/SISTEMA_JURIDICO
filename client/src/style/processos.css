@@ -50,7 +50,7 @@ color: #000;
     }
 }
 
-.aba-info-pross,.aba-add-pross{
+.aba-info-pross,.aba-add-pross, .aba-edit-pross{
     position:fixed;
     width: 40vw;
     height: 60vh;
@@ -100,5 +100,9 @@ color: #000;
 }
 
 .aba-add-pross{
+     background-color: #322302;
+}
 
+.aba-edit-pross{
+    background-color: #322302;
 }

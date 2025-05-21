@@ -43,15 +43,16 @@ const Pagamentos = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const response = await axios.post(`http://localhost:3001/advogados/${oab}/Pagamentos`,{...formData, cod_contrato: contratoSelecionado.cod_contrato});
+            const response = await axios.post(`http://localhost:3001/advogados/${oab}/Pagamentos`,{...formData, cod_contrato: contratoSelecionado.cod_cont});
             console.log("Pagamento criado com sucesso:", response.data);
             setError(null);
             const contAtualizado = await axios.get(`http://localhost:3001/advogados/${oab}/Pagamentos`);
             setContratos(contAtualizado.data);
             const pagAtualizado = await axios.get(`http://localhost:3001/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`);
-                setListaPagamentos(pagAtualizado.data);
+            setListaPagamentos(pagAtualizado.data);
+                
             setMostrarAdd(false);
-            setMostrarInfo(true);
+            setMostrarInfo(false);
             setFormData({
                 cod_contrato: "",
                 data_pag: "",
@@ -340,8 +341,9 @@ const Pagamentos = () => {
                             </table>
                         )}
                         <div className="botoes">
-                        <button className="salva" onClick={()=>{setContratoSelecionado(contratoSelecionado); setMostrarInfo(false); setMostrarAdd(true)}}>ADICIONAR</button>
                         <button className="voltar" onClick={()=> setMostrarInfo(false)}>VOLTAR</button>
+                        <button className="salva" onClick={()=>{setContratoSelecionado(contratoSelecionado); setMostrarInfo(false); setMostrarAdd(true)}}>ADICIONAR</button>
+                        
                         </div>
                     </div>
 

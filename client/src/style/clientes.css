@@ -31,6 +31,7 @@
             border-radius: 50px;
             background-color: #fff;
             color: #ffb801;
+            border: #ffb801 solid 5px;
             gap: 0;
             button{
                 all: unset;

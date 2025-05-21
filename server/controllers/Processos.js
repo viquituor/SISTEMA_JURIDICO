@@ -30,3 +30,28 @@ exports.addProcesso = async(req, res, next) => {
         });
     }
 }
+
+exports.deleteProcesso = async(req, res, next) => {
+    try {
+        const response = await Processos.excluirProcesso(req.params.num_processo);
+        res.json(response);
+    } catch (error) {
+        next(Error);
+    }
+}
+
+exports.editarProcesso = async(req,res,next) => {
+    try {
+        const response = await Processos.editarProcesso(
+            req.params.num_processo, // Adiciona o num_processo da URL
+            req.body
+        );
+        res.json({
+            success: true,
+            message: "Processo atualizado com sucesso",
+            data: response
+        });
+    } catch (error) {
+        next(error); // Passa o error real, não o construtor Error
+    }
+}

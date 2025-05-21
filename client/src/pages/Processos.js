@@ -18,6 +18,7 @@ const Processos = () => {
     const [mostrarContratos, setMostrarContratos] = useState(false);
     const [mostrarAdd, setMostrarAdd] = useState (false);
     const [mostrarInfo, setMostrarInfo] = useState (false);
+    const [mostrarEdit, setMostrarEdit] = useState (false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -64,6 +65,50 @@ const Processos = () => {
             setLoading(false);
         }
     };
+
+     const editProcesso = async (e) => {
+            e.preventDefault();
+            setLoading(true);
+            setError(null);
+    
+    try {
+
+        const response = await axios.put(
+            `http://localhost:3001/advogados/${oab}/Processos/${processoSelecionado.num_processo}`,formData);
+
+        if (response.data.success) {
+            alert("processo editado com sucesso!");
+            const atual = await axios.get(`http://localhost:3001/advogados/${oab}/Processos`)
+            setProcessos(atual.data);
+            setMostrarEdit(false);
+        }
+    } catch (err) {
+        console.error("Erro detalhado:", err.response?.data);
+        setError(err.response?.data?.error || "Erro ao editar processo");
+    } finally {
+        setLoading(false);
+    }
+    };
+
+    const deletarProcesso = async (num_processo) =>{
+        try {
+            const confirmacao = window.confirm('Deseja excluir o processo definitivamente?');
+            if(!confirmacao){return;};
+            setLoading(true);
+            const response = await axios.delete(`http://localhost:3001/advogados/${oab}/Processos/${processoSelecionado.num_processo}`);
+            console.log('Processo deletado com sucesso!', response.data);
+            setError(null);
+            const atual = await axios.get(`http://localhost:3001/advogados/${oab}/Processos`)
+            setProcessos(atual.data);
+            setMostrarInfo(false);
+
+        } catch (error) {
+            console.error("Erro ao deletar processo:", error);
+            setError("Erro ao deletar processo");
+        }finally{
+            setLoading(false);
+        }
+    }
 
 
     useEffect (()=> {
@@ -251,9 +296,53 @@ return (
                                             />
                                             </label>
                             <div className="botoes">
-                                <button className="editar"  >EDITAR</button>
-                                <button className="voltar" onClick={()=> setMostrarInfo(false)}>VOLTAR</button>
-                                <button className="excluir" >EXCLUIR</button>
+                                <button className="editar"  type="button" onClick={()=> {setMostrarInfo(false);setMostrarEdit(true); setFormData(processoSelecionado); setContratoSelecionado({cod_contrato: processoSelecionado.cod_contrato});}} >EDITAR</button>
+                                <button className="voltar"  type="button" onClick={()=> setMostrarInfo(false)}>VOLTAR</button>
+                                <button className="excluir" type="button" onClick={()=> deletarProcesso(processoSelecionado.num_processo)} >EXCLUIR</button>
+                            </div>
+                                        </form>
+                        </div>
+                    )}
+                    {mostrarEdit && processoSelecionado && (
+                        <div className="aba-edit-pross">
+                             <h3>EDITE AS INFORMAÇÕES</h3>
+                                        <form onSubmit={editProcesso}>
+                                            <div className="basico">
+                                            <label>codigo do contrato<br/>
+                                            <input
+                                            nome='cod_contrato'
+                                            type="text"
+                                            value={formData.cod_contrato}
+                                            readOnly
+                                            /></label>
+                                            <label>numero do processo<br/>
+                                            <input
+                                            name="num_processo"
+                                            type="text"
+                                            value={formData.num_processo}
+                                            onChange={handleChange}
+                                            /></label>
+                                            <label>status do processo<br/>
+                                            <select name="status_processo" onChange={handleChange} value={formData.status_processo} >
+                                                <option value="" ></option>
+                                                <option value="em andamento">EM ANDAMENTO</option>
+                                                <option value="cancelado" >CANCELADO</option>
+                                                <option value="concluido" >CONCLUIDO</option>
+                                            </select>
+                                            </label>
+                                            </div>
+                                            <label>DESCRIÇÃO<br/>
+                                            <textarea 
+                                            type="text"
+                                            name="descricao"
+                                            onChange={handleChange}
+                                            value={formData.descricao}
+                                            />
+                                            </label>
+                            <div className="botoes">
+                                    <button className="voltar" onClick={() => {setMostrarEdit(false)}}>VOLTAR</button>
+                                 {error && <div className="error-message">{error}</div>}
+                                    <button className="salvar" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "SALVAR"}</button>
                             </div>
                                         </form>
                         </div>
