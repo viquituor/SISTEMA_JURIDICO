@@ -15,6 +15,7 @@ const Login = () => {
 
   // Busca os advogados da API
   useEffect(() => {
+    console.log('URL da API:', process.env.REACT_APP_API_URL);
     const carregarAdvogados = async () => {
       try {
         const advogadosResponse = await axios.get(`${API_BASE_URL}/advogados`);
@@ -94,7 +95,7 @@ const Login = () => {
 
               <div className="botoes">
                 <button className="editar" onClick={() => navigate(`/EditeAdv/${advogadoSelecionado.OAB}`, {state: {advogado: advogadoSelecionado}})}>EDITAR</button>
-                <button className="entrar" onClick={() => navigate(`advogados/${advogadoSelecionado.OAB}/Agenda`,{state: {advogado: advogadoSelecionado}})}>ENTRAR</button>
+                <button className="entrar" onClick={() => navigate(`/advogados/${advogadoSelecionado.OAB}/Agenda`,{state: {advogado: advogadoSelecionado}})}>ENTRAR</button>
                 <button className="excluir" onClick={() => excluirAdvogado(advogadoSelecionado.OAB)}>EXCLUIR</button>
               </div>
               </div>
