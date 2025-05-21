@@ -40,7 +40,7 @@ class Cliente {
         }
 
         await connection.execute(
-            'DELETE FROM telefone_CLI WHERE CPF = ?',
+            'DELETE FROM telefone_cli WHERE CPF = ?',
             [cpf]
         );
 
