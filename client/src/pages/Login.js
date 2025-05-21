@@ -47,10 +47,11 @@ const Login = () => {
   };
 
   // Filtra advogados conforme o texto de busca
-  const advogadosFiltrados = advogados.filter(advogado =>
-    advogado.nome.toLowerCase().includes(busca.toLowerCase())
-  );
-
+  const advogadosFiltrados = Array.isArray(advogados) 
+  ? advogados.filter(advogado =>
+      advogado.nome?.toLowerCase()?.includes(busca.toLowerCase())
+    )
+  : [];
   return (
     <div className="container">
       <header>
