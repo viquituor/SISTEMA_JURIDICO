@@ -55,10 +55,7 @@ form{
         justify-content: center;
         gap: 8rem;
         width: 100vw;
-        
-        div{
-            display: flex;
-        }
+
 
         input{
             all: unset;
@@ -66,9 +63,9 @@ form{
             text-align: left;
             padding-left: 1rem;
             background-color: #fff;
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             font-weight: 400;
-            height: 35px;
+            height: 37px;
             border-radius:40px;
 }
 
