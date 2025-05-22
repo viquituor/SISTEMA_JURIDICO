@@ -67,7 +67,7 @@ const CadastroAdv = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="dados-adv">
-            <div className="basico">
+            <div className="basico-adv">
               <input
                 type="text"
                 name="nome"
@@ -107,7 +107,7 @@ const CadastroAdv = () => {
               </div>
             </div>
             
-            <div className="endereco">
+            <div className="endereco-adv">
               <input
                 type="text"
                 name="cidade"
@@ -134,7 +134,7 @@ const CadastroAdv = () => {
               />
             </div>
             
-            <div className="numeros">
+            <div className="numeros-add">
               <input
                 type="text"
                 name="uf"
