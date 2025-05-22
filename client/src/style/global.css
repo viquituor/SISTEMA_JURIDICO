@@ -17,6 +17,10 @@
             display: none; /* Chrome, Safari e Opera */
         }
 
+div {
+    display: flex; /* Sobrescreve o display: block padrão */
+    unicode-bidi: normal; /* Altera o comportamento padrão */
+}
 
 header{
     width: 100vw;
