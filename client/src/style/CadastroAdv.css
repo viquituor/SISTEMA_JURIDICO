@@ -56,6 +56,9 @@ form{
         gap: 8rem;
         width: 100vw;
         
+        div{
+            display: flex;
+        }
 
         input{
             all: unset;
@@ -76,7 +79,7 @@ form{
 
         .basico-adv{
             
-            display: flex;
+            display: flex !important;
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -90,7 +93,7 @@ form{
 
             .numeros-adv{
                 width: 31rem;
-                display: flex;
+                display: flex !important;
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
@@ -107,7 +110,7 @@ form{
 
         .endereco-adv{
             
-            display: flex;
+            display: flex !important;
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -121,7 +124,7 @@ form{
 
         .numeros-add{
     
-            display: flex;
+            display: flex !important;
             flex-direction: column;
             align-items: center;
             justify-content: center;
