@@ -68,7 +68,7 @@ form{
              }
 
         .basico{
-            display: flex;
+            display: flex !important;
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -81,7 +81,7 @@ form{
 
             .numeros{
                 width: 616px;
-                display: flex;
+                display: flex !important;
                 flex-direction: row;
                 justify-content: center;
                 align-items: center;
@@ -97,7 +97,7 @@ form{
         }
 
         .endereco{
-            display: flex;
+            display: flex !important;
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -110,7 +110,7 @@ form{
         }
 
         .numeros{
-            display: flex;
+            display: flex !important;
             flex-direction: column;
             align-items: center;
             justify-content: center;
