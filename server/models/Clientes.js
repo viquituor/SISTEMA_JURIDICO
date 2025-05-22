@@ -156,13 +156,13 @@ class Cliente {
         
             // Atualiza telefone - primeiro remove todos os existentes
             await connection.query(
-                'DELETE FROM telefone_CLI WHERE CPF = ?',
+                'DELETE FROM telefone_cli WHERE CPF = ?',
                 [novaCPF]
             );
             
             // Insere o novo telefone (obrigatório)
             await connection.query(
-                'INSERT INTO telefone_CLI (telefone, CPF) VALUES (?, ?)',
+                'INSERT INTO telefone_cli (telefone, CPF) VALUES (?, ?)',
                 [telefone, novaCPF]
             );
         
