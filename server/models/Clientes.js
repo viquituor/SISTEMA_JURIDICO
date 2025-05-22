@@ -76,7 +76,7 @@ class Cliente {
 
         if(telefone) {
             await connection.execute(
-                'INSERT INTO telefone_CLI (telefone, CPF) VALUES (?, ?)',
+                'INSERT INTO telefone_cli (telefone, CPF) VALUES (?, ?)',
                 [telefone, cpf.toUpperCase()]
             );
         }
