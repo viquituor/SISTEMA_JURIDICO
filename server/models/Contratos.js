@@ -22,44 +22,25 @@ class Contratos {
         }
     }
 
-    static async buscarTodos(oab) {
-    try {
-        const [results] = await pool.query(`
-            SELECT 
-                c.cod_contrato,
-                c.OAB,
-                c.CPF,
-                c.data_inicio,
-                c.tipo_servico,
-                c.status_contrato,
-                c.descricao,
-                c.valor,
-                cli.nome AS nome_cliente, 
-                adv.nome AS nome_advogado 
-            FROM contrato c
-            JOIN cliente cli ON c.CPF = cli.CPF
-            JOIN advogado adv ON c.OAB = adv.OAB
-            WHERE c.OAB = ?
-            GROUP BY 
-                c.cod_contrato,
-                c.OAB,
-                c.CPF,
-                c.data_inicio,
-                c.tipo_servico,
-                c.status_contrato,
-                c.descricao,
-                c.valor,
-                cli.nome,
-                adv.nome
-        `, [oab]);
-
-        return results;
-    } catch (error) {
-        console.error("Erro ao buscar contratos:", error);
-        throw error;
+    static async buscarListas(cod_contrato) {
+        try {
+            // Consultas separadas para cada tipo de dado
+            const [documentos] = await pool.query(`SELECT * FROM documento WHERE cod_contrato = ?`, [cod_contrato]);
+            const [pagamentos] = await pool.query(`SELECT * FROM pagamento WHERE cod_contrato = ?`, [cod_contrato]);
+            const [compromissos] = await pool.query(`SELECT * FROM agenda WHERE cod_contrato = ? LIMIT 5`, [cod_contrato]);
+            
+            return {
+                documentos,
+                pagamentos,
+                compromissos
+            };
+        } catch (error) {
+            console.error("Erro ao buscar contratos:", error);
+            throw error;
+        }
     }
-}
-static async criarContrato(contrato) {
+
+    static async criarContrato(contrato) {
     const connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
@@ -83,7 +64,7 @@ static async criarContrato(contrato) {
         connection.release();
     }
 }
-
+    
     static async deletarContrato(cod_contrato) {    
         try {
             const [result] = await pool.query(`

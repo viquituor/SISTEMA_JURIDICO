@@ -55,7 +55,7 @@ CREATE TABLE processo (
     num_processo CHAR(18) PRIMARY KEY,
     cod_contrato SMALLINT UNSIGNED,
     status_processo ENUM('em andamento','cancelado','concluido') NOT NULL,
-    descricao VARCHAR(50) NOT NULL
+    descricao VARCHAR(500) NOT NULL
 );
 
 CREATE TABLE pagamento (
@@ -63,7 +63,7 @@ CREATE TABLE pagamento (
     cod_contrato SMALLINT UNSIGNED,
     data_pag DATETIME NOT NULL,
     data_vencimento DATE NOT NULL,
-    descricao VARCHAR(50) NOT NULL,
+    descricao VARCHAR(500) NOT NULL,
     status_pag ENUM('concluido', 'em andamento', 'em atraso') NOT NULL,
     metodo ENUM('pix','especie','parcelado', 'boleto','credito','debito') NOT NULL,
     valorPago DECIMAL(10,2) NOT NULL
@@ -74,17 +74,17 @@ CREATE TABLE agenda (
     cod_contrato SMALLINT UNSIGNED NULL,
     data_compromisso DATE NOT NULL,
     nome_compromisso VARCHAR(50) NOT NULL,
-    descricao VARCHAR(50),
-    status_compromisso ENUM('comparecido', 'perdido', 'cancelado','remarcado', 'marcado') NOT NULL
+    descricao VARCHAR(500),
+    status_compromisso ENUM('comparecido', 'perdido', 'cancelado','remarcado', 'pendente') NOT NULL
 );
 
 CREATE TABLE prazo_de_processo (
-    cod_prapro INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    cod_prapro smallint UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     num_processo CHAR(18),
     descritao_prapro VARCHAR(100) NOT NULL,
     data_prapro DATE NOT NULL,
     nome_prapro VARCHAR(50) NOT NULL,
-    status_prapro ENUM('pendente', 'concluído', 'adiado', 'cancelado') NOT NULL,
+    status_prapro ENUM('pendente', 'concluído', 'adiado', 'cancelado') NOT NULL
 
     );
 
@@ -148,3 +148,5 @@ ALTER TABLE prazo_de_processo ADD CONSTRAINT FK_prazo_processo FOREIGN KEY (num_
         REFERENCES processo (num_processo)
         ON DELETE CASCADE
         ON UPDATE CASCADE;
+        
+        
