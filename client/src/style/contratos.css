@@ -288,7 +288,7 @@ color: #fff;
             all: unset;
             background-color: #000;
             color: #ffb801 !important;
-            width: 15vw;
+            width: 13vw;
             height:3.5vh;
             text-align: center;
             border-radius: 10px;
@@ -307,7 +307,7 @@ color: #fff;
     .tipo-desc{
         display: flex;
         flex-direction: column;
-        gap: 1.2rem;
+        gap: 1.5rem;
         align-items: center;
 
         .descricao{
