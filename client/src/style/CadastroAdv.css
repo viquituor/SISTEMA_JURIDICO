@@ -75,18 +75,19 @@ form{
 }
 
         .basico{
+            height: 12rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 2rem;
+            justify-content: space-evenly;
+          
 
             input{
                 width: 30rem;
                 
             }
 
-            .numeros{
+            .numeros-adv{
                 width: 31rem;
                 display: flex;
                 flex-direction: row;
@@ -104,11 +105,11 @@ form{
         }
 
         .endereco{
+            height: 15rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 2rem;
+            justify-content: space-evenly;
 
             input{
                 width: 30rem;
@@ -117,11 +118,11 @@ form{
         }
 
         .numeros{
+            height: 15rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 2rem;
+            justify-content: space-evenly;
 
             input{
                 width: 20rem;

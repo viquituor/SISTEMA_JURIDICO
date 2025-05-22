@@ -84,7 +84,7 @@ const CadastroAdv = () => {
                 placeholder="EMAIL"
                 required
               />
-              <div className="numeros">
+              <div className="numeros-adv">
                 <input
                   type="text"
                   name="oab"
