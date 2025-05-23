@@ -115,12 +115,12 @@ class Pagamentos {
         const connection = await pool.getConnection();
         try {
             await connection.beginTransaction();
-            const { cod_contrato, data_pag, data_vencimento, descricao, status_pag, metodo, valorPago } = pagamento;
+            const {data_pag, data_vencimento, descricao, status_pag, metodo, valorPago, cod_pag } = pagamento;
             const [result] = await connection.query(`
                 UPDATE pagamento 
                 SET data_pag = ?, data_vencimento = ?, descricao = ?, status_pag = ?, metodo = ?, valorPago = ? 
                 WHERE cod_pag = ?;
-            `, [cod_contrato, data_pag, data_vencimento, descricao, status_pag, metodo, valorPago, cod_pagamento]);
+            `, [data_pag, data_vencimento, descricao, status_pag, metodo, valorPago, cod_pag]);
             await connection.commit();
             return result;
         } catch (error) {
