@@ -118,7 +118,7 @@ class Pagamentos {
             const { cod_contrato, data_pag, data_vencimento, descricao, status_pag, metodo, valorPago } = pagamento;
             const [result] = await connection.query(`
                 UPDATE pagamento 
-                SET cod_contrato = ?, data_pag = ?, data_vencimento = ?, descricao = ?, status_pag = ?, metodo = ?, valorPago = ? 
+                SET data_pag = ?, data_vencimento = ?, descricao = ?, status_pag = ?, metodo = ?, valorPago = ? 
                 WHERE cod_pag = ?;
             `, [cod_contrato, data_pag, data_vencimento, descricao, status_pag, metodo, valorPago, cod_pagamento]);
             await connection.commit();

@@ -84,7 +84,7 @@ const Pagamentos = () => {
             setContratos(contAtualizado.data);
             const pagAtualizado = await axios.get(`${API_BASE_URL}/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`);
                 setListaPagamentos(pagAtualizado.data);
-            setMostrarInfo(true);
+            setMostrarInfo(false);
             setMostrarInfoPag(false);
         } catch (error) {   
             console.error("Erro ao deletar pagamento:", error);
