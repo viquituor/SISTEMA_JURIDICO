@@ -20,15 +20,28 @@ exports.listaPagamentos = async (req, res, next) => {
 
 exports.criarPagamento = async (req, res, next) => {
     try {
+        // Validação básica
+        if (!req.body.data_pag || !req.body.valorPago || !req.body.cod_contrato) {
+            return res.status(400).json({
+                success: false,
+                error: "Campos obrigatórios faltando: data_pag, valorPago, cod_contrato"
+            });
+        }
+
         const result = await Pagamentos.criarPagamento(req.body);
+        
         res.status(201).json({
             success: true,
             message: "Pagamento criado com sucesso",
-            cod_pagamento: result.insertId
+            cod_pagamento: result.insertId,
+            data: req.body
         });
     } catch (err) {
         console.error("Erro ao criar pagamento:", err);
-        next(err);
+        res.status(500).json({
+            success: false,
+            error: err.message
+        });
     }
 }
 

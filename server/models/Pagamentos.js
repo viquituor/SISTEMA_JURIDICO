@@ -73,24 +73,53 @@ class Pagamentos {
 };
 
     static async criarPagamento(pagamento) {
-        const connection = await pool.getConnection();
-        try {
-            await connection.beginTransaction();
-            const { cod_contrato, data_pag, data_vencimento, descricao, status_pag, metodo, valorPago } = pagamento;
-            const [result] = await connection.query(`
-                INSERT INTO pagamento (cod_contrato, data_pag, data_vencimento, descricao, status_pag, metodo, valorPago) 
-                VALUES (?, ?, ?, ?, ?, ?, ?);
-            `, [cod_contrato, data_pag, data_vencimento, descricao, status_pag, metodo, valorPago]);
-            await connection.commit();
-            return result;
-        } catch (error) {
-            await connection.rollback();
-            console.error("Erro ao criar pagamento:", error);
-            throw error;
-        } finally {
-            connection.release();
-        }
-    };
+    const connection = await pool.getConnection();
+    try {
+        await connection.beginTransaction();
+        
+        // Converter datas para formato MySQL se necessário
+        const formatarData = (data) => {
+            if (!data) return null;
+            if (data.includes('T')) { // Se já estiver no formato ISO
+                return new Date(data).toISOString().split('T')[0];
+            }
+            return data; // Já está no formato correto
+        };
+
+        const dadosPagamento = {
+            cod_contrato: pagamento.cod_contrato,
+            data_pag: formatarData(pagamento.data_pag),
+            data_vencimento: formatarData(pagamento.data_vencimento),
+            descricao: pagamento.descricao || null,
+            status_pag: pagamento.status_pag || null,
+            metodo: pagamento.metodo || null,
+            valorPago: pagamento.valorPago
+        };
+
+        const [result] = await connection.query(`
+            INSERT INTO pagamento 
+            (cod_contrato, data_pag, data_vencimento, descricao, status_pag, metodo, valorPago) 
+            VALUES (?, ?, ?, ?, ?, ?, ?);
+        `, [
+            dadosPagamento.cod_contrato,
+            dadosPagamento.data_pag,
+            dadosPagamento.data_vencimento,
+            dadosPagamento.descricao,
+            dadosPagamento.status_pag,
+            dadosPagamento.metodo,
+            dadosPagamento.valorPago
+        ]);
+        
+        await connection.commit();
+        return result;
+    } catch (error) {
+        await connection.rollback();
+        console.error("Erro ao criar pagamento:", error);
+        throw error;
+    } finally {
+        connection.release();
+    }
+}
 
     static async deletarPagamento(cod_pagamento) {
         const connection = await pool.getConnection();

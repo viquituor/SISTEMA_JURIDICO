@@ -41,36 +41,66 @@ const Pagamentos = () => {
     };
 
     const criarPagamento = async (e) => {
-        e.preventDefault();
-        try {
-            setLoading(true);
-            const response = await axios.post(`${API_BASE_URL}/advogados/${oab}/Pagamentos`,{...formData, cod_contrato: contratoSelecionado.cod_cont});
-            console.log("Pagamento criado com sucesso:", response.data);
-            setError(null);
-            const contAtualizado = await axios.get(`${API_BASE_URL}/advogados/${oab}/Pagamentos`);
-            setContratos(contAtualizado.data);
-            const pagAtualizado = await axios.get(`${API_BASE_URL}/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`);
-            setListaPagamentos(pagAtualizado.data);
-                
-            setMostrarAdd(false);
-            setMostrarInfo(false);
-            setFormData({
-                cod_contrato: "",
-                data_pag: "",
-                data_vencimento: "",
-                descricao: "",
-                status_pag: "",
-                metodo: "",
-                valorPago: ""
-            });
-            
-        } catch (error) {
-            console.error("Erro ao criar pagamento:", error);
-            setError("Erro ao criar pagamento");
-        } finally {
-            setLoading(false);
+    e.preventDefault();
+    try {
+        setLoading(true);
+        
+        // Validar campos obrigatórios
+        if (!formData.data_pag || !formData.valorPago) {
+            setError("Data de pagamento e valor são obrigatórios");
+            return;
         }
-    };
+
+        // Converter datas para formato MySQL (YYYY-MM-DD)
+        const formatarData = (data) => {
+            if (!data) return null;
+            return new Date(data).toISOString().split('T')[0];
+        };
+
+        const dadosPagamento = {
+            ...formData,
+            cod_contrato: contratoSelecionado.cod_cont,
+            data_pag: formatarData(formData.data_pag),
+            data_vencimento: formatarData(formData.data_vencimento)
+        };
+
+        const response = await axios.post(
+            `${API_BASE_URL}/advogados/${oab}/Pagamentos`,
+            dadosPagamento
+        );
+        
+        console.log("Pagamento criado com sucesso:", response.data);
+        setError(null);
+        
+        // Atualizar listas
+        const contAtualizado = await axios.get(`${API_BASE_URL}/advogados/${oab}/Pagamentos`);
+        setContratos(contAtualizado.data);
+        
+        const pagAtualizado = await axios.get(
+            `${API_BASE_URL}/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_cont}`
+        );
+        setListaPagamentos(pagAtualizado.data);
+            
+        // Resetar formulário e estados
+        setMostrarAdd(false);
+        setMostrarInfo(false);
+        setFormData({
+            cod_contrato: "",
+            data_pag: "",
+            data_vencimento: "",
+            descricao: "",
+            status_pag: "",
+            metodo: "",
+            valorPago: ""
+        });
+        
+    } catch (error) {
+        console.error("Erro ao criar pagamento:", error);
+        setError("Erro ao criar pagamento: " + (error.response?.data?.error || error.message));
+    } finally {
+        setLoading(false);
+    }
+};
 
     const deletarPagamento = async (cod_pagamento) => {
         try {
