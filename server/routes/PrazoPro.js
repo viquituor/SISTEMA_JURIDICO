@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
 const PrazoController = require('../controllers/PrazoPro');
-const { validatePrazo } = require('../middleware/validation');
 
 // Prazo routes
 router.get('/Prazo', PrazoController.getAllPrazos);
