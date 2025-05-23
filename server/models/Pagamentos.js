@@ -111,26 +111,29 @@ class Pagamentos {
         }
     };
 
-    static async atualizarPagamento(pagamento) {
-        const connection = await pool.getConnection();
-        try {
-            await connection.beginTransaction();
-            const {data_pag, data_vencimento, descricao, status_pag, metodo, valorPago, cod_pag } = pagamento;
-            const [result] = await connection.query(`
-                UPDATE pagamento 
-                SET data_pag = ?, data_vencimento = ?, descricao = ?, status_pag = ?, metodo = ?, valorPago = ? 
-                WHERE cod_pag = ?;
-            `, [data_pag, data_vencimento, descricao, status_pag, metodo, valorPago, cod_pag]);
-            await connection.commit();
-            return result;
-        } catch (error) {
-            await connection.rollback();
-            console.error("Erro ao atualizar pagamento:", error);
-            throw error;
-        } finally {
-            connection.release();
-        }
+    static async atualizarPagamento(cod_pagamento, pagamento) {
+    const connection = await pool.getConnection();
+    try {
+        await connection.beginTransaction();
+        const { data_pag, data_vencimento, descricao, status_pag, metodo, valorPago } = pagamento;
+        
+        const [result] = await connection.query(`
+            UPDATE pagamento 
+            SET data_pag = ?, data_vencimento = ?, descricao = ?, 
+                status_pag = ?, metodo = ?, valorPago = ? 
+            WHERE cod_pag = ?;
+        `, [data_pag, data_vencimento, descricao, status_pag, metodo, valorPago, cod_pagamento]);
+        
+        await connection.commit();
+        return result;
+    } catch (error) {
+        await connection.rollback();
+        console.error("Erro ao atualizar pagamento:", error);
+        throw error;
+    } finally {
+        connection.release();
     }
+}
 
 }
 

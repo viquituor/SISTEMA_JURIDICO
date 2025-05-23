@@ -56,14 +56,26 @@ exports.deletarPagamento = async (req, res, next) => {
 
 exports.atualizarPagamento = async (req, res, next) => {
     try {
-        const result = await Pagamentos.atualizarPagamento(req.params.cod_pagamento, req.body);
+        // Validação básica
+        if (!req.body.data_pag || !req.body.valorPago) {
+            return res.status(400).json({
+                success: false,
+                error: "Data de pagamento e valor são obrigatórios"
+            });
+        }
+
+        const result = await Pagamentos.atualizarPagamento(
+            req.params.cod_pagamento, // Usando o mesmo nome em todos os lugares
+            req.body
+        );
     
-        if (result.affectedRows === 0) { // Verifica se alguma linha foi afetada
+        if (result.affectedRows === 0) {
             return res.status(404).json({
                 success: false,
                 error: "Pagamento não encontrado"
             });
         }
+        
         res.json({
             success: true,
             message: "Pagamento atualizado com sucesso"
@@ -72,8 +84,7 @@ exports.atualizarPagamento = async (req, res, next) => {
         console.error("Erro ao atualizar pagamento:", error);
         res.status(500).json({
             success: false,
-            error: "Erro interno do servidor"
+            error: error.message // Mostrar a mensagem real do erro
         });
-        
     }
 }

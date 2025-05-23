@@ -97,29 +97,34 @@ const Pagamentos = () => {
     const atualizarPagamento = async (cod_pagamento) => {
     try {
         setLoading(true);
-        // Converter datas para o formato esperado pelo backend
+        
+        // Verificar e formatar datas corretamente
         const dadosAtualizados = {
             ...pagamentoSelecionado,
-            data_pag: new Date(pagamentoSelecionado.data_pag).toISOString(),
-            data_vencimento: new Date(pagamentoSelecionado.data_vencimento).toISOString()
+            data_pag: pagamentoSelecionado.data_pag ? new Date(pagamentoSelecionado.data_pag).toISOString() : null,
+            data_vencimento: pagamentoSelecionado.data_vencimento ? new Date(pagamentoSelecionado.data_vencimento).toISOString() : null,
+            cod_pag: cod_pagamento // Garantir que o código está incluído
         };
 
-        const response = await axios.put(`${API_BASE_URL}/advogados/${oab}/Pagamentos/${cod_pagamento}`, dadosAtualizados);
-        if(response.data.success) {
-            console.log("Pagamento atualizado com sucesso:", response.data);   
-        };
-        // Atualizar a lista de pagamentos
-        const contAtualizado = await axios.get(`${API_BASE_URL}/advogados/${oab}/Pagamentos`);
-        setContratos(contAtualizado.data);
-        const pagAtualizado = await axios.get(`${API_BASE_URL}/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`);
-        setListaPagamentos(pagAtualizado.data);
+        const response = await axios.put(
+            `${API_BASE_URL}/advogados/${oab}/Pagamentos/${cod_pagamento}`, 
+            dadosAtualizados
+        );
         
-        // Fechar o formulário de edição
-        setMostrarEdit(false);
-        setMostrarInfoPag(true);
+        if(response.data.success) {
+            // Atualizar a lista de pagamentos antes de fechar
+            const pagAtualizado = await axios.get(
+                `${API_BASE_URL}/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_cont}`
+            );
+            setListaPagamentos(pagAtualizado.data);
+            
+            // Fechar o formulário de edição só depois de atualizar
+            setMostrarEdit(false);
+            setMostrarInfoPag(true);
+        }
     } catch (error) {
         console.error("Erro ao atualizar pagamento:", error);
-        setError("Erro ao atualizar pagamento");
+        setError("Erro ao atualizar pagamento: " + (error.response?.data?.error || error.message));
     } finally {
         setLoading(false);
     }
