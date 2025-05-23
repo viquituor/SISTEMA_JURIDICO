@@ -12,7 +12,8 @@ class Pagamentos {
                 cli.nome AS nome_cliente,
                 c.tipo_servico,
                 c.status_contrato,
-                c.valor
+                c.valor,
+                cli.CPF
             FROM contrato c
             JOIN cliente cli ON c.CPF = cli.CPF
             WHERE c.OAB = ?
@@ -23,16 +24,25 @@ class Pagamentos {
         for (const contrato of contratos) {
             const [pagamentos] = await connection.query(`
                 SELECT 
-                    SUM(valorPago) AS valor_pago,
-                    status_pag
+                    SUM(valorPago) AS total_pago
                 FROM pagamento
-                WHERE cod_contrato = ?
-                GROUP BY status_pag;
+                WHERE cod_contrato = ?;
             `, [contrato.cod_cont]);
             
-            contrato.valor_pago = pagamentos.reduce((sum, p) => sum + (p.valor_pago || 0), 0);
+            // Calcula os valores totais
+            contrato.valor_pago = pagamentos[0].total_pago || 0;
             contrato.faltante = contrato.valor - contrato.valor_pago;
-            contrato.status_pag = pagamentos.length > 0 ? pagamentos[0].status_pag : 'sem pagamento';
+            
+            // Busca o status mais recente do pagamento
+            const [status] = await connection.query(`
+                SELECT status_pag 
+                FROM pagamento 
+                WHERE cod_contrato = ?
+                ORDER BY data_pag DESC
+                LIMIT 1;
+            `, [contrato.cod_cont]);
+            
+            contrato.status_pag = status.length > 0 ? status[0].status_pag : 'sem pagamento';
         }
 
         return contratos;
