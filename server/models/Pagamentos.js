@@ -111,7 +111,7 @@ class Pagamentos {
         }
     };
 
-    static async atualizarPagamento(cod_pagamento, pagamento) {
+    static async atualizarPagamento(pagamento) {
         const connection = await pool.getConnection();
         try {
             await connection.beginTransaction();
