@@ -57,13 +57,16 @@ class Pagamentos {
     static async criarPagamento(pagamento) {
         const connection = await pool.getConnection();
         try {
+            await connection.beginTransaction();
             const { cod_contrato, data_pag, data_vencimento, descricao, status_pag, metodo, valorPago } = pagamento;
             const [result] = await connection.query(`
                 INSERT INTO pagamento (cod_contrato, data_pag, data_vencimento, descricao, status_pag, metodo, valorPago) 
                 VALUES (?, ?, ?, ?, ?, ?, ?);
             `, [cod_contrato, data_pag, data_vencimento, descricao, status_pag, metodo, valorPago]);
+            await connection.commit();
             return result;
         } catch (error) {
+            await connection.rollback();
             console.error("Erro ao criar pagamento:", error);
             throw error;
         } finally {
@@ -74,12 +77,15 @@ class Pagamentos {
     static async deletarPagamento(cod_pagamento) {
         const connection = await pool.getConnection();
         try {
+            await connection.beginTransaction();
             const [result] = await connection.query(`
                 DELETE FROM pagamento 
                 WHERE cod_pag = ?;
             `, [cod_pagamento]);
+            await connection.commit();
             return result;
         } catch (error) {
+            await connection.rollback();
             console.error("Erro ao deletar pagamento:", error);
             throw error;
         } finally {
@@ -90,14 +96,17 @@ class Pagamentos {
     static async atualizarPagamento(cod_pagamento, pagamento) {
         const connection = await pool.getConnection();
         try {
+            await connection.beginTransaction();
             const { cod_contrato, data_pag, data_vencimento, descricao, status_pag, metodo, valorPago } = pagamento;
             const [result] = await connection.query(`
                 UPDATE pagamento 
                 SET cod_contrato = ?, data_pag = ?, data_vencimento = ?, descricao = ?, status_pag = ?, metodo = ?, valorPago = ? 
                 WHERE cod_pag = ?;
             `, [cod_contrato, data_pag, data_vencimento, descricao, status_pag, metodo, valorPago, cod_pagamento]);
+            await connection.commit();
             return result;
         } catch (error) {
+            await connection.rollback();
             console.error("Erro ao atualizar pagamento:", error);
             throw error;
         } finally {
