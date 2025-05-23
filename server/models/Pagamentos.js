@@ -7,11 +7,11 @@ class Pagamentos {
     try {
         const [results] = await pool.query(`
             SELECT 
-                p.status_pag,
                 c.cod_contrato AS cod_cont,   
                 cli.nome AS nome_cliente, 
                 c.tipo_servico, 
                 c.status_contrato, 
+                p.status_pag,
                 c.valor, 
                 COALESCE(SUM(p.valorPago), 0) AS valor_pago, 
                 (c.valor - COALESCE(SUM(p.valorPago), 0)) AS faltante 
