@@ -9,46 +9,74 @@ const PrazosProcesso = () => {
     const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
     const { oab, num_processo } = useParams();
     const navigate = useNavigate();
+    
+    // State management
     const [busca, setBusca] = useState("");
     const [prazos, setPrazos] = useState([]);
     const [processos, setProcessos] = useState([]);
     const [processoSelecionado, setProcessoSelecionado] = useState(null);
-    const [mostrarInfo, setMostrarInfo] = useState(false);
-    const [mostrarEdit, setMostrarEdit] = useState(false);
-    const [mostrarAdd, setMostrarAdd] = useState(false);
-    const [mostrarProcesso, setMostrarProcesso] = useState(false);
     const [prazoSelecionado, setPrazoSelecionado] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    
+    // Modal states
+    const [modalState, setModalState] = useState({
+        info: false,
+        edit: false,
+        add: false,
+        processo: false
+    });
+
+    // Form data
     const [formData, setFormData] = useState({
-        num_processo: '',
+        num_processo: num_processo || '',
         nome_prapro: '',
         data_prapro: '',
         descritao_prapro: '',
         status_prapro: 'pendente'
     });
 
+    // Helper functions
+    const toggleModal = (modalName, value = !modalState[modalName]) => {
+        setModalState(prev => ({ ...prev, [modalName]: value }));
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const selecionarProcesso = (processo) => {
-        setProcessoSelecionado(processo);
-        setFormData(prev => ({
-            ...prev,
-            num_processo: processo.num_processo
-        }));
-        setMostrarAdd(true);
-        setMostrarProcesso(false);
+    // API calls
+    const fetchPrazos = async () => {
+        try {
+            setLoading(true);
+            const endpoint = num_processo 
+                ? `${API_BASE_URL}/advogados/${oab}/Prazo/${num_processo}`
+                : `${API_BASE_URL}/advogados/${oab}/Prazo`;
+            const response = await axios.get(endpoint);
+            setPrazos(response.data);
+        } catch (error) {
+            setError("Erro ao carregar prazos");
+            console.error("Erro ao buscar prazos:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
+    const fetchProcessos = async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Processos`);
+            setProcessos(response.data);
+        } catch (error) {
+            console.error("Erro ao buscar processos:", error);
+        }
+    };
+
+    // CRUD operations
     const criarPrazo = async (e) => {
         e.preventDefault();
         setLoading(true);
+        setError(null);
         
         try {
             if (!formData.num_processo || !formData.data_prapro || !formData.nome_prapro) {
@@ -56,17 +84,13 @@ const PrazosProcesso = () => {
             }
 
             await axios.post(`${API_BASE_URL}/advogados/${oab}/Prazo`, formData);
-            
             alert("Prazo cadastrado com sucesso!");
-            setMostrarAdd(false);
+            toggleModal('add', false);
+            await fetchPrazos();
             
-            // Recarrega a lista
-            const res = await axios.get(`${API_BASE_URL}/advogados/${oab}/Prazo`);
-            setPrazos(res.data);
-            
-            // Reseta o formulário
+            // Reset form
             setFormData({
-                num_processo: '',
+                num_processo: num_processo || '',
                 nome_prapro: '',
                 data_prapro: '',
                 descritao_prapro: '',
@@ -85,27 +109,17 @@ const PrazosProcesso = () => {
         setError(null);
         
         try {
-            const dadosParaEnviar = {
-                ...formData,
-                data_prapro: new Date(formData.data_prapro).toISOString()
-            };
-
             const response = await axios.put(
                 `${API_BASE_URL}/advogados/${oab}/Prazo/${prazoSelecionado.cod_prapro}`,
-                dadosParaEnviar
+                formData
             );
 
             if (response.data.success) {
                 alert("Prazo editado com sucesso!");
-                setPrazos(prev => prev.map(item => 
-                    item.cod_prapro === prazoSelecionado.cod_prapro 
-                        ? { ...item, ...formData } 
-                        : item
-                ));
-                setMostrarEdit(false);
+                toggleModal('edit', false);
+                await fetchPrazos();
             }
         } catch (err) {
-            console.error("Erro detalhado:", err.response?.data);
             setError(err.response?.data?.error || "Erro ao editar prazo");
         } finally {
             setLoading(false);
@@ -113,25 +127,26 @@ const PrazosProcesso = () => {
     };
 
     const deletarPrazo = async (cod_prapro) => {
+        if (!window.confirm("Tem certeza que deseja excluir este prazo?")) return;
+        
         try {
-            const confirmar = window.confirm("Tem certeza que deseja excluir este prazo?");
-            if (!confirmar) return;
-
-            const response = await axios.delete(`${API_BASE_URL}/advogados/${oab}/Prazo/${cod_prapro}`);
-
-            if (response.status === 200) {
-                alert("Prazo excluído com sucesso!");
-                setMostrarInfo(false);
-                setPrazos(prev => prev.filter(prazo => prazo.cod_prapro !== cod_prapro));
-            }
+            await axios.delete(`${API_BASE_URL}/advogados/${oab}/Prazo/${cod_prapro}`);
+            alert("Prazo excluído com sucesso!");
+            toggleModal('info', false);
+            await fetchPrazos();
         } catch (error) {
-            const errorMessage = error.response?.data?.error || "Erro ao excluir prazo";
-            alert(errorMessage);
+            alert(error.response?.data?.error || "Erro ao excluir prazo");
         }
-    }
+    };
+
+    // Effects
+    useEffect(() => {
+        fetchProcessos();
+        fetchPrazos();
+    }, [oab, num_processo]);
 
     useEffect(() => {
-        if (mostrarEdit && prazoSelecionado) {
+        if (modalState.edit && prazoSelecionado) {
             const dataFormatada = prazoSelecionado.data_prapro 
                 ? new Date(prazoSelecionado.data_prapro).toISOString().split('T')[0]
                 : '';
@@ -144,34 +159,9 @@ const PrazosProcesso = () => {
                 status_prapro: prazoSelecionado.status_prapro || 'pendente'
             });
         }
-    }, [mostrarEdit, prazoSelecionado]);
+    }, [modalState.edit, prazoSelecionado]);
 
-    useEffect(() => {
-        const carregarProcessos = async () => {
-            try {
-                const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Processos`);
-                setProcessos(response.data);
-            } catch (error) {
-                console.error("Erro ao buscar processos:", error.response?.data || error.message);
-            }
-        };
-        carregarProcessos();
-    }, [oab, API_BASE_URL]);
-
-    useEffect(() => {
-        const carregarPrazos = async () => {
-            try {
-                const response = num_processo 
-                    ? await axios.get(`${API_BASE_URL}/advogados/${oab}/Prazo/${num_processo}`)
-                    : await axios.get(`${API_BASE_URL}/advogados/${oab}/Prazo`);
-                setPrazos(response.data);
-            } catch (error) {
-                console.error("Erro ao buscar prazos:", error);
-            }
-        };
-        carregarPrazos();
-    }, [oab, num_processo, API_BASE_URL]);
-
+    // Filtering
     const prazosFiltrados = prazos.filter(prazo => {
         const buscaLower = busca.toLowerCase();
         return (
@@ -183,6 +173,7 @@ const PrazosProcesso = () => {
         );
     });
 
+    // Render
     return (
         <div className="container">
             <header className="central">
@@ -190,25 +181,24 @@ const PrazosProcesso = () => {
                 <Link to="/"><h1>ADVOCACIA ALMEIDA</h1></Link>
 
                 <nav>
-                    <button className="agenda" onClick={() => navigate(`/advogados/${oab}/Agenda`, {replace: true})}>AGENDA</button>
-                    <button className="contratos" onClick={() => navigate(`/advogados/${oab}/Contratos`, {replace: true})}>CONTRATOS</button>
-                    <button className="processos" onClick={() => navigate(`/advogados/${oab}/Processos`, {replace: true})}>PROCESSOS</button>
-                    <button className="pagamentos" onClick={() => navigate(`/advogados/${oab}/Pagamentos`, {replace: true})}>PAGAMENTOS</button>
-                    <button className="clientes" onClick={() => navigate(`/advogados/${oab}/Clientes`, {replace: true})}>CLIENTES</button>
+                    <button className="agenda" onClick={() => navigate(`/advogados/${oab}/Agenda`)}>AGENDA</button>
+                    <button className="contratos" onClick={() => navigate(`/advogados/${oab}/Contratos`)}>CONTRATOS</button>
+                    <button className="processos" onClick={() => navigate(`/advogados/${oab}/Processos`)}>PROCESSOS</button>
+                    <button className="pagamentos" onClick={() => navigate(`/advogados/${oab}/Pagamentos`)}>PAGAMENTOS</button>
+                    <button className="clientes" onClick={() => navigate(`/advogados/${oab}/Clientes`)}>CLIENTES</button>
                 </nav>
             </header>
 
             <main className="main-agenda">
                 <div className="buscar-add">
                     <input
-                        name="input-busca"
                         type="text"
                         placeholder="Buscar"
                         value={busca}
                         onChange={(e) => setBusca(e.target.value)}
                     />
                     <button onClick={() => navigate(`/advogados/${oab}/Agenda`)}>AGENDA</button>
-                    <button onClick={() => {setMostrarProcesso(true)}}>ADICIONAR</button>
+                    <button onClick={() => toggleModal('processo')}>ADICIONAR</button>
                 </div>
 
                 {error && <div className="error-message">{error}</div>}
@@ -218,8 +208,9 @@ const PrazosProcesso = () => {
                     {prazosFiltrados.map((prazo) => (
                         <li className="li-comp" key={prazo.cod_prapro}>
                             <button onClick={() => {
-                                setMostrarInfo(true);
-                                setPrazoSelecionado(prazo)}}>
+                                setPrazoSelecionado(prazo);
+                                toggleModal('info', true);
+                            }}>
                                 <p className="data">{new Date(prazo.data_prapro).toLocaleDateString()}</p>
                                 <p>{prazo.nome_prapro}</p><hr/>
                                 <p>{prazo.status_prapro}</p>
@@ -228,110 +219,69 @@ const PrazosProcesso = () => {
                     ))}
                 </ul>
                 
-                {mostrarInfo && prazoSelecionado && (
+                {/* Info Modal */}
+                {modalState.info && prazoSelecionado && (
                     <div className="aba-comp">
                         <h3>PRAZO DO PROCESSO</h3>
-
                         <div className="info">
                             <div className="inputers">
                                 <div className="basicoc">
-                                    <input
-                                        value={prazoSelecionado.nome_prapro}
-                                        readOnly
-                                    />
-                                    <input
-                                        value={prazoSelecionado.num_processo}
-                                        readOnly
-                                    />
-                                    <input
-                                        value={new Date(prazoSelecionado.data_prapro).toLocaleDateString()}
-                                        readOnly
-                                    />
+                                    <input value={prazoSelecionado.nome_prapro} readOnly />
+                                    <input value={prazoSelecionado.num_processo} readOnly />
+                                    <input value={new Date(prazoSelecionado.data_prapro).toLocaleDateString()} readOnly />
                                 </div>
                                 <div className="dadosc">
-                                    <input
-                                        value={prazoSelecionado.status_prapro}
-                                        readOnly
-                                    />
+                                    <input value={prazoSelecionado.status_prapro} readOnly />
                                 </div>
                             </div>
-
-                            <textarea
-                                value={prazoSelecionado.descritao_prapro}
-                                readOnly
-                            />
+                            <textarea value={prazoSelecionado.descritao_prapro} readOnly />
                         </div>
-
                         <div className="botoes">
-                            <button className="editar" onClick={() => {setMostrarEdit(true); setMostrarInfo(false)}}>EDITAR</button>
-                            <button className="voltar" onClick={() => setMostrarInfo(false)}>VOLTAR</button>
+                            <button className="editar" onClick={() => {
+                                toggleModal('info', false);
+                                toggleModal('edit', true);
+                            }}>EDITAR</button>
+                            <button className="voltar" onClick={() => toggleModal('info', false)}>VOLTAR</button>
                             <button className="excluir" onClick={() => deletarPrazo(prazoSelecionado.cod_prapro)}>EXCLUIR</button>
                         </div>
                     </div>
                 )}
 
-                {mostrarEdit && prazoSelecionado && (
+                {/* Edit Modal */}
+                {modalState.edit && (
                     <div className="aba-edit-comp">
                         <h3>EDITAR PRAZO</h3>
-
                         <form onSubmit={editarPrazo}>
                             <div className="campos">
                                 <label>
                                     Número do Processo
-                                    <input
-                                        name="num_processo"
-                                        value={formData.num_processo}
-                                        readOnly
-                                    />
+                                    <input name="num_processo" value={formData.num_processo} readOnly />
                                 </label>
-
                                 <label>
                                     Nome do Prazo
-                                    <input
-                                        type="text"
-                                        name="nome_prapro"
-                                        onChange={handleChange}
-                                        value={formData.nome_prapro}
-                                        required
-                                    />
+                                    <input type="text" name="nome_prapro" onChange={handleChange} 
+                                        value={formData.nome_prapro} required />
                                 </label>
-
                                 <label>
                                     Data
-                                    <input
-                                        type="date"
-                                        name="data_prapro"
-                                        onChange={handleChange}
-                                        value={formData.data_prapro}
-                                        required
-                                    />
+                                    <input type="date" name="data_prapro" onChange={handleChange} 
+                                        value={formData.data_prapro} required />
                                 </label>
-
                                 <label>
                                     Status
-                                    <select 
-                                        name="status_prapro" 
-                                        onChange={handleChange} 
-                                        value={formData.status_prapro} 
-                                        required
-                                    >
+                                    <select name="status_prapro" onChange={handleChange} 
+                                        value={formData.status_prapro} required>
                                         <option value="pendente">Pendente</option>
                                         <option value="concluido">Concluído</option>
                                         <option value="cancelado">Cancelado</option>
                                     </select>
                                 </label>
                             </div>
-
-                            <textarea
-                                className="descricao"
-                                name="descritao_prapro"
-                                onChange={handleChange}
-                                value={formData.descritao_prapro}
-                                placeholder="Descrição do prazo"
-                            />
-
+                            <textarea className="descricao" name="descritao_prapro" onChange={handleChange} 
+                                value={formData.descritao_prapro} placeholder="Descrição do prazo" />
                             <div className="botoes">
-                                <button className="voltar" onClick={() => {setMostrarEdit(false)}}>VOLTAR</button>
+                                <button className="voltar" type="button" 
+                                    onClick={() => toggleModal('edit', false)}>VOLTAR</button>
                                 {error && <div className="error-message">{error}</div>}
                                 <button className="salvar" type="submit" disabled={loading}>
                                     {loading ? "SALVANDO..." : "SALVAR"}
@@ -341,7 +291,8 @@ const PrazosProcesso = () => {
                     </div>
                 )}
 
-                {mostrarProcesso && (
+                {/* Process Selection Modal */}
+                {modalState.processo && (
                     <div className="aba-contrato-compromisso">
                         <h3>SELECIONE O PROCESSO</h3>
                         <table className="contratos-compromisso">
@@ -355,7 +306,12 @@ const PrazosProcesso = () => {
                             </thead>
                             <tbody>
                                 {processos.map((processo) => (
-                                    <tr key={processo.num_processo} onClick={() => {selecionarProcesso(processo)}}>
+                                    <tr key={processo.num_processo} onClick={() => {
+                                        setProcessoSelecionado(processo);
+                                        setFormData(prev => ({ ...prev, num_processo: processo.num_processo }));
+                                        toggleModal('processo', false);
+                                        toggleModal('add', true);
+                                    }}>
                                         <td>{processo.num_processo}</td>
                                         <td>{processo.nome_cliente}</td>
                                         <td>{processo.status_processo}</td>
@@ -364,75 +320,50 @@ const PrazosProcesso = () => {
                                 ))}
                             </tbody>
                         </table>
-
                         <div className="botoes">
-                            <button className="voltar" onClick={() => setMostrarProcesso(false)}>VOLTAR</button>
+                            <button className="voltar" onClick={() => toggleModal('processo', false)}>VOLTAR</button>
                         </div>
                     </div>
                 )}
 
-                {mostrarAdd && processoSelecionado && (
+                {/* Add Modal */}
+                {modalState.add && (
                     <div className="aba-add-compromisso">
                         <h3>ADICIONAR PRAZO</h3>
-
                         <form onSubmit={criarPrazo}>
                             <div className="campos">
                                 <label>
                                     Número do Processo
-                                    <input
-                                        name="num_processo"
-                                        value={formData.num_processo}
-                                        readOnly
-                                    />
+                                    <input name="num_processo" value={formData.num_processo} readOnly />
                                 </label>
-
                                 <label>
                                     Nome do Prazo
-                                    <input
-                                        type="text"
-                                        name="nome_prapro"
-                                        onChange={handleChange}
-                                        value={formData.nome_prapro}
-                                        required
-                                    />
+                                    <input type="text" name="nome_prapro" onChange={handleChange} 
+                                        value={formData.nome_prapro} required />
                                 </label>
-
                                 <label>
                                     Data
-                                    <input
-                                        type="date"
-                                        name="data_prapro"
-                                        onChange={handleChange}
-                                        value={formData.data_prapro}
-                                        required
-                                    />
+                                    <input type="date" name="data_prapro" onChange={handleChange} 
+                                        value={formData.data_prapro} required />
                                 </label>
-
                                 <label>
                                     Status
-                                    <select 
-                                        name="status_prapro" 
-                                        onChange={handleChange} 
-                                        value={formData.status_prapro} 
-                                        required
-                                    >
+                                    <select name="status_prapro" onChange={handleChange} 
+                                        value={formData.status_prapro} required>
                                         <option value="pendente">Pendente</option>
                                         <option value="concluido">Concluído</option>
                                         <option value="cancelado">Cancelado</option>
                                     </select>
                                 </label>
                             </div>
-
-                            <textarea
-                                className="descricao"
-                                name="descritao_prapro"
-                                onChange={handleChange}
-                                value={formData.descritao_prapro}
-                                placeholder="Descrição do prazo"
-                            />
-
+                            <textarea className="descricao" name="descritao_prapro" onChange={handleChange} 
+                                value={formData.descritao_prapro} placeholder="Descrição do prazo" />
                             <div className="botoes">
-                                <button className="voltar" onClick={() => {setMostrarAdd(false); setMostrarProcesso(true)}}>VOLTAR</button>
+                                <button className="voltar" type="button" 
+                                    onClick={() => {
+                                        toggleModal('add', false);
+                                        toggleModal('processo', true);
+                                    }}>VOLTAR</button>
                                 {error && <div className="error-message">{error}</div>}
                                 <button className="salvar" type="submit" disabled={loading}>
                                     {loading ? "SALVANDO..." : "SALVAR"}

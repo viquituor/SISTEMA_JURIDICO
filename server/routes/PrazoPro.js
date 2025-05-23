@@ -1,12 +1,13 @@
 const express = require('express');
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 const PrazoController = require('../controllers/PrazoPro');
+const { validatePrazo } = require('../middleware/validation');
 
-// Rotas da Agenda
-router.get('/Prazo', PrazoController.buscarPrazos);
-router.post('/Prazo', PrazoController.criarPrazo);
-router.delete('/Prazo/:cod_prapro', PrazoController.deletarPrazo);
-router.put('/Prazo/:cod_prapro', PrazoController.editarPrazo);
-
+// Prazo routes
+router.get('/Prazo', PrazoController.getAllPrazos);
+router.get('/Prazo/:num_processo', PrazoController.getPrazosByProcesso);
+router.post('/Prazo', validatePrazo, PrazoController.createPrazo);
+router.put('/Prazo/:cod_prapro', validatePrazo, PrazoController.updatePrazo);
+router.delete('/Prazo/:cod_prapro', PrazoController.deletePrazo);
 
 module.exports = router;

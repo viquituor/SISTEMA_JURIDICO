@@ -1,90 +1,121 @@
 const PrazoPro = require('../models/PrazoPro');
 
-exports.buscarPrazos = async (req, res, next) => {
+exports.getAllPrazos = async (req, res) => {
     try {
-        const { num_processo } = req.params;
-        const prazos = await PrazoPro.buscarPrazos(num_processo);
+        const prazos = await PrazoPro.getAll();
         res.json(prazos);
     } catch (err) {
-        next(err);
+        res.status(500).json({ error: err.message });
     }
 };
 
-exports.criarPrazo = async (req, res, next) => {
+exports.getPrazosByProcesso = async (req, res) => {
     try {
         const { num_processo } = req.params;
-        const { descritao_prapro, data_prapro, nome_prapro, status_prapro } = req.body;
-        
-        // Validação básica
-        if (!descritao_prapro || !data_prapro || !nome_prapro) {
-            return res.status(400).json({ error: 'Campos obrigatórios faltando' });
-        }
-
-        const resultado = await PrazoPro.criarPrazo(
-            num_processo,
-            descritao_prapro,
-            data_prapro,
-            nome_prapro,
-            status_prapro || 'pendente' // Valor padrão
-        );
-        
-        res.status(201).json({ 
-            success: true,
-            id: resultado 
-        });
+        const prazos = await PrazoPro.getByProcesso(num_processo);
+        res.json(prazos);
     } catch (err) {
-        next(err);
+        res.status(500).json({ error: err.message });
     }
 };
 
-exports.deletarPrazo = async (req, res, next) => {
+exports.createPrazo = async (req, res) => {
     try {
-        const { cod_prapro } = req.params;
-        const resultado = await PrazoPro.deletarPrazo(cod_prapro);
-        res.status(200).json({ 
-            success: true,
-            message: 'Prazo deletado com sucesso',
-            affectedRows: resultado 
-        });
+        const { num_processo, nome_prapro, data_prapro, descritao_prapro, status_prapro } = req.body;
+        const id = await PrazoPro.create({ num_processo, nome_prapro, data_prapro, descritao_prapro, status_prapro });
+        res.status(201).json({ id });
     } catch (err) {
-        next(err);
+        res.status(500).json({ error: err.message });
     }
 };
 
-exports.editarPrazo = async (req, res, next) => {
+exports.updatePrazo = async (req, res) => {
     try {
         const { cod_prapro } = req.params;
-        const { 
-            descritao_prapro, 
-            data_prapro, 
-            nome_prapro, 
-            status_prapro 
-        } = req.body;
-
-        // Validação básica
-        if (!descritao_prapro || !data_prapro || !nome_prapro) {
-            return res.status(400).json({ 
-                error: 'Descrição, data e nome do prazo são obrigatórios' 
-            });
-        }
-
-        const resultado = await PrazoPro.editarPrazo(
-            cod_prapro,
-            descritao_prapro,
-            data_prapro,
-            nome_prapro,
-            status_prapro
-        );
+        const { nome_prapro, data_prapro, descritao_prapro, status_prapro } = req.body;
+        const affectedRows = await PrazoPro.update(cod_prapro, { nome_prapro, data_prapro, descritao_prapro, status_prapro });
         
-        res.status(200).json({ 
-            success: true,
-            resultado 
-        });
+        if (affectedRows === 0) {
+            return res.status(404).json({ error: 'Prazo não encontrado' });
+        }
+        
+        res.json({ success: true });
     } catch (err) {
-        console.error("Erro no controller:", err);
-        res.status(500).json({ 
-            success: false,
-            error: err.message 
-        });
+        res.status(500).json({ error: err.message });
+    }
+};
+
+exports.deletePrazo = async (req, res) => {
+    try {
+        const { cod_prapro } = req.params;
+        const affectedRows = await PrazoPro.delete(cod_prapro);
+        
+        if (affectedRows === 0) {
+            return res.status(404).json({ error: 'Prazo não encontrado' });
+        }
+        
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};const PrazoPro = require('../models/PrazoPro');
+
+exports.getAllPrazos = async (req, res) => {
+    try {
+        const prazos = await PrazoPro.getAll();
+        res.json(prazos);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+exports.getPrazosByProcesso = async (req, res) => {
+    try {
+        const { num_processo } = req.params;
+        const prazos = await PrazoPro.getByProcesso(num_processo);
+        res.json(prazos);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+exports.createPrazo = async (req, res) => {
+    try {
+        const { num_processo, nome_prapro, data_prapro, descritao_prapro, status_prapro } = req.body;
+        const id = await PrazoPro.create({ num_processo, nome_prapro, data_prapro, descritao_prapro, status_prapro });
+        res.status(201).json({ id });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+exports.updatePrazo = async (req, res) => {
+    try {
+        const { cod_prapro } = req.params;
+        const { nome_prapro, data_prapro, descritao_prapro, status_prapro } = req.body;
+        const affectedRows = await PrazoPro.update(cod_prapro, { nome_prapro, data_prapro, descritao_prapro, status_prapro });
+        
+        if (affectedRows === 0) {
+            return res.status(404).json({ error: 'Prazo não encontrado' });
+        }
+        
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+exports.deletePrazo = async (req, res) => {
+    try {
+        const { cod_prapro } = req.params;
+        const affectedRows = await PrazoPro.delete(cod_prapro);
+        
+        if (affectedRows === 0) {
+            return res.status(404).json({ error: 'Prazo não encontrado' });
+        }
+        
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 };
