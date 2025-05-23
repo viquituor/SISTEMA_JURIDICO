@@ -7,6 +7,7 @@ class Pagamentos {
     try {
         const [results] = await pool.query(`
             SELECT 
+                p.status_pag,
                 c.cod_contrato AS cod_cont,   
                 cli.nome AS nome_cliente, 
                 c.tipo_servico, 
@@ -18,7 +19,7 @@ class Pagamentos {
             LEFT JOIN pagamento p ON c.cod_contrato = p.cod_contrato
             JOIN cliente cli ON c.CPF = cli.CPF
             WHERE c.OAB = ?
-            GROUP BY c.cod_contrato, cli.nome, c.tipo_servico, c.status_contrato, c.valor;
+            GROUP BY c.cod_contrato, cli.nome, c.tipo_servico, c.status_contrato, p.status_pag , c.valor;
         `, [oab]);
         
         return results;
@@ -30,16 +31,15 @@ class Pagamentos {
     }
 };
 
-    static async listarPagamentos(cod_contrato) {
+    static async listarPagamentos(cod_cont) {
     const connection = await pool.getConnection();
     try {
         const [results] = await connection.query(`
-            SELECT cod_pag, cod_contrato, data_pag, data_vencimento, 
-                   descricao, status_pag, metodo, valorPago 
-            FROM pagamento 
+            SELECT  p.*
+            FROM pagamento p
             WHERE cod_contrato = ?
             ORDER BY cod_pag;
-        `, [cod_contrato]);
+        `, [cod_cont]);
         return results;
     } catch (error) {
         console.error("Erro ao buscar pagamentos:", error);

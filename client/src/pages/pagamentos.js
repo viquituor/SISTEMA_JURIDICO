@@ -128,12 +128,11 @@ const Pagamentos = () => {
     // Carrega pagamentos quando um contrato é selecionado
     useEffect(() => {
         const listarPagamentos = async () => {
-            if (!contratoSelecionado?.cod_contrato) return;
-            
+            if (!contratoSelecionado || !contratoSelecionado.cod_cont) return;
             try {
                 setLoading(true);
                 const response = await axios.get(
-                    `${API_BASE_URL}/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_contrato}`
+                    `${API_BASE_URL}/advogados/${oab}/Pagamentos/${contratoSelecionado.cod_cont}`
                 );
                 setListaPagamentos(response.data);
                 setError(null);
@@ -146,7 +145,7 @@ const Pagamentos = () => {
         };
 
         listarPagamentos();
-    }, [API_BASE_URL, oab, contratoSelecionado?.cod_contrato]); // Adicionado dependências
+    }, [API_BASE_URL, oab, contratoSelecionado]); // Atualizado dependências
 
     // Carrega lista de contratos inicial
     useEffect(() => {
