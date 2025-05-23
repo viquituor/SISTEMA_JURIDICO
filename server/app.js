@@ -6,6 +6,7 @@ const contratosRouter = require('./routes/Contratos');
 const PagamentosRouter = require('./routes/Pagamentos');
 const agendaRouter = require('./routes/Agenda');
 const ProcessosRouter = require('./routes/Processos')
+const PrazoRouter = require('./routes/PrazoPro')
 const errorHandler = require('./middlewares/errorHandler');
 const multer = require('multer');
 const path = require('path');
@@ -35,6 +36,7 @@ app.use('/advogados/:oab/', contratosRouter );
 app.use('/advogados/:oab/', agendaRouter);
 app.use('/advogados/:oab/', PagamentosRouter);
 app.use('/advogados/:oab/', ProcessosRouter );
+app.use('/advogados/:oab/',PrazoRouter)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 

@@ -5,36 +5,44 @@ class Pagamentos {
     static async buscarContratos(oab) {
     const connection = await pool.getConnection();
     try {
-        const [results] = await pool.query(`
+        // Primeiro busca os contratos
+        const [contratos] = await connection.query(`
             SELECT 
-                c.cod_contrato AS cod_cont,   
-                cli.nome AS nome_cliente, 
-                c.tipo_servico, 
-                c.status_contrato, 
-                p.status_pag,
-                c.valor, 
-                COALESCE(SUM(p.valorPago), 0) AS valor_pago, 
-                (c.valor - COALESCE(SUM(p.valorPago), 0)) AS faltante 
+                c.cod_contrato AS cod_cont,
+                cli.nome AS nome_cliente,
+                c.tipo_servico,
+                c.status_contrato,
+                c.valor
             FROM contrato c
-            LEFT JOIN pagamento p ON c.cod_contrato = p.cod_contrato
             JOIN cliente cli ON c.CPF = cli.CPF
             WHERE c.OAB = ?
-            GROUP BY  c.cod_contrato, 
-                      cli.nome, 
-                      c.tipo_servico, 
-                      c.status_contrato, 
-                      p.status_pag, 
-                      c.valor;
+            ORDER BY c.cod_contrato;
         `, [oab]);
-        
-        return results;
+
+        // Depois busca os totais de pagamento para cada contrato
+        for (const contrato of contratos) {
+            const [pagamentos] = await connection.query(`
+                SELECT 
+                    SUM(valorPago) AS valor_pago,
+                    status_pag
+                FROM pagamento
+                WHERE cod_contrato = ?
+                GROUP BY status_pag;
+            `, [contrato.cod_cont]);
+            
+            contrato.valor_pago = pagamentos.reduce((sum, p) => sum + (p.valor_pago || 0), 0);
+            contrato.faltante = contrato.valor - contrato.valor_pago;
+            contrato.status_pag = pagamentos.length > 0 ? pagamentos[0].status_pag : 'sem pagamento';
+        }
+
+        return contratos;
     } catch (error) {
-        console.error("Erro ao buscar pagamentos:", error);
+        console.error("Erro ao buscar contratos:", error);
         throw error;
     } finally {
         connection.release();
     }
-};
+}
 
     static async listarPagamentos(cod_cont) {
     const connection = await pool.getConnection();
