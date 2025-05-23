@@ -448,7 +448,7 @@ const Pagamentos = () => {
                             <label>codigo do contrato <br/>
                             <input
                                 type="text"
-                                value={contratoSelecionado.cod_cont}
+                                value={contratoSelecionado.cod_contrato}
                                 readOnly
                                 required
                                 name="cod_contrato"
