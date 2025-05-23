@@ -98,12 +98,17 @@ const Pagamentos = () => {
     try {
         setLoading(true);
         
-        // Verificar e formatar datas corretamente
+        // Converter para formato MySQL (YYYY-MM-DD)
+        const formatarData = (data) => {
+            if (!data) return null;
+            return new Date(data).toISOString().split('T')[0];
+        };
+
         const dadosAtualizados = {
             ...pagamentoSelecionado,
-            data_pag: pagamentoSelecionado.data_pag,
-            data_vencimento: pagamentoSelecionado.data_vencimento,
-            cod_pag: cod_pagamento 
+            data_pag: formatarData(pagamentoSelecionado.data_pag),
+            data_vencimento: formatarData(pagamentoSelecionado.data_vencimento),
+            cod_pag: cod_pagamento
         };
 
         const response = await axios.put(

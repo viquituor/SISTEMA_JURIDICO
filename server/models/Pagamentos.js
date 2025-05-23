@@ -115,14 +115,36 @@ class Pagamentos {
     const connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
-        const { data_pag, data_vencimento, descricao, status_pag, metodo, valorPago } = pagamento;
         
+        // Converter datas ISO para formato MySQL (YYYY-MM-DD HH:mm:ss)
+        const formatarDataParaMySQL = (dataISO) => {
+            if (!dataISO) return null;
+            return new Date(dataISO).toISOString().replace('T', ' ').replace(/\..+/, '');
+        };
+
+        const dadosAtualizados = {
+            data_pag: formatarDataParaMySQL(pagamento.data_pag),
+            data_vencimento: formatarDataParaMySQL(pagamento.data_vencimento),
+            descricao: pagamento.descricao,
+            status_pag: pagamento.status_pag,
+            metodo: pagamento.metodo,
+            valorPago: pagamento.valorPago
+        };
+
         const [result] = await connection.query(`
             UPDATE pagamento 
             SET data_pag = ?, data_vencimento = ?, descricao = ?, 
                 status_pag = ?, metodo = ?, valorPago = ? 
             WHERE cod_pag = ?;
-        `, [data_pag, data_vencimento, descricao, status_pag, metodo, valorPago, cod_pagamento]);
+        `, [
+            dadosAtualizados.data_pag,
+            dadosAtualizados.data_vencimento,
+            dadosAtualizados.descricao,
+            dadosAtualizados.status_pag,
+            dadosAtualizados.metodo,
+            dadosAtualizados.valorPago,
+            cod_pagamento
+        ]);
         
         await connection.commit();
         return result;

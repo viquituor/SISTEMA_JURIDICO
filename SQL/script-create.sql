@@ -61,7 +61,7 @@ CREATE TABLE processo (
 CREATE TABLE pagamento (
     cod_pag SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     cod_contrato SMALLINT UNSIGNED,
-    data_pag DATETIME NOT NULL,
+    data_pag DATE NOT NULL,
     data_vencimento DATE NOT NULL,
     descricao VARCHAR(500) NOT NULL,
     status_pag ENUM('concluido', 'em andamento', 'em atraso') NOT NULL,
