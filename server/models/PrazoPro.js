@@ -1,5 +1,4 @@
-
-module.exports = PrazoPro;const pool = require('../config/database');
+const pool = require('../config/database');
 
 class PrazoPro {
     static async getAll() {
