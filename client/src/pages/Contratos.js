@@ -583,7 +583,7 @@ const Contratos = () => {
 
                                 <div className="botoes">
                                 {error && <div className="error-message">{error}</div>}
-                             <button className="salvar" type="submit" disabled={loading} >{loading ? "SALVANDO..." : "ADICIONAR"}</button>
+                             <button className="salvar" type="submit" disabled={uploadProgress} >{uploadProgress + "%" ? "SALVANDO..." : "ADICIONAR"}</button>
                                 <button onClick={() => {setMostrarAddDocumento(false); setMostrarInfo(true)}}>VOLTAR</button>
                                 </div>
                             </form>

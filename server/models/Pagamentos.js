@@ -19,7 +19,7 @@ class Pagamentos {
             LEFT JOIN pagamento p ON c.cod_contrato = p.cod_contrato
             JOIN cliente cli ON c.CPF = cli.CPF
             WHERE c.OAB = ?
-            GROUP BY c.cod_contrato, cli.nome, c.tipo_servico, c.status_contrato, p.status_pag , c.valor;
+            GROUP BY c.cod_contrato;
         `, [oab]);
         
         return results;
