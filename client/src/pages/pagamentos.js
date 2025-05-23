@@ -101,9 +101,9 @@ const Pagamentos = () => {
         // Verificar e formatar datas corretamente
         const dadosAtualizados = {
             ...pagamentoSelecionado,
-            data_pag: pagamentoSelecionado.data_pag ? new Date(pagamentoSelecionado.data_pag).toISOString() : null,
-            data_vencimento: pagamentoSelecionado.data_vencimento ? new Date(pagamentoSelecionado.data_vencimento).toISOString() : null,
-            cod_pag: cod_pagamento // Garantir que o código está incluído
+            data_pag: pagamentoSelecionado.data_pag,
+            data_vencimento: pagamentoSelecionado.data_vencimento,
+            cod_pag: cod_pagamento 
         };
 
         const response = await axios.put(
