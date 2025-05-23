@@ -77,11 +77,11 @@ const Processos = () => {
     
             try {
                 const response = await axios.put(
-            `http://localhost:3001/advogados/${oab}/Processos/${processoSelecionado.num_processo}`,formData);
+            `${API_BASE_URL}/advogados/${oab}/Processos/${processoSelecionado.num_processo}`,formData);
 
                 if (response.data.success) {
             alert("processo editado com sucesso!");
-            const atual = await axios.get(`http://localhost:3001/advogados/${oab}/Processos`)
+            const atual = await axios.get(`${API_BASE_URL}/advogados/${oab}/Processos`)
             setProcessos(atual.data);
             setMostrarEdit(false);
         }
@@ -97,10 +97,10 @@ const Processos = () => {
             const confirmacao = window.confirm('Deseja excluir o processo definitivamente?');
             if(!confirmacao){return;};
             setLoading(true);
-            const response = await axios.delete(`http://localhost:3001/advogados/${oab}/Processos/${processoSelecionado.num_processo}`);
+            const response = await axios.delete(`${API_BASE_URL}/advogados/${oab}/Processos/${processoSelecionado.num_processo}`);
             console.log('Processo deletado com sucesso!', response.data);
             setError(null);
-            const atual = await axios.get(`http://localhost:3001/advogados/${oab}/Processos`)
+            const atual = await axios.get(`${API_BASE_URL}/advogados/${oab}/Processos`)
             setProcessos(atual.data);
             setMostrarInfo(false);
 

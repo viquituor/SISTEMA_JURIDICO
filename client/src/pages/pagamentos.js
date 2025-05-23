@@ -146,7 +146,7 @@ const Pagamentos = () => {
         };
 
         listarPagamentos();
-    }, [API_BASE_URL, contratoSelecionado.cod_contrato, oab]); // Adicionado dependências
+    }, [API_BASE_URL, oab, contratoSelecionado?.cod_contrato]); // Adicionado dependências
 
     // Carrega lista de contratos inicial
     useEffect(() => {

@@ -81,7 +81,9 @@ class Contratos {
     }
 
     static async atualizarContrato(cod_contrato, contrato) {
+        const connection = await pool.getConnection();
         try {
+            await connection.beginTransaction();
             const [result] = await pool.query(`
                 UPDATE contrato 
                 SET OAB = ?, CPF = ?, data_inicio = ?, tipo_servico = ?, status_contrato = ?, descricao = ?, valor = ? 
@@ -97,11 +99,14 @@ class Contratos {
                 cod_contrato
             ]);
             
+            await connection.commit();
             return result;
     
         } catch (error) {
-            console.error("Erro ao atualizar contrato:", error);
+            await connection.rollback();
             throw error;
+        }finally{
+            connection.release();
         }
     }
 
