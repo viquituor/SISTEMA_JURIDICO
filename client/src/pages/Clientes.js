@@ -154,7 +154,7 @@ const Clientes = () => {
     carregarClientes();
      }, [oab, API_BASE_URL]);
 
-     
+
     const excluirCliente = async (cpf) => {
     try {
       const confirmacao = window.confirm("Tem certeza que deseja excluir este cliente?");
@@ -227,6 +227,7 @@ const Clientes = () => {
                             <form onSubmit={handleSubmit}>
                                 <div className="info">
                             <div className="basico">
+                              <label>NOME DO CLIENTE<br/>
                               <input
                                 type="text"
                                 name="nome"
@@ -235,7 +236,8 @@ const Clientes = () => {
                                 labell='NOME'
                                 placeholder="NOME"
                                 required
-                              />
+                              /></label>
+                              <label>EMAIL<br/>
                               <input
                                 type="email"
                                 name="email"
@@ -244,8 +246,10 @@ const Clientes = () => {
                                 labell='EMAIL'
                                 placeholder="EMAIL"
                                 required
-                              />
+                              /></label>
+                              
                               <div className="numeros">
+                                <label>CPF<br/>
                                 <input
                                   type="text"
                                   name="cpf"
@@ -254,7 +258,8 @@ const Clientes = () => {
                                     labell='CPF'
                                   placeholder="cpf"
                                   required
-                                />
+                                /></label>
+                                <label>TELEFONE<br/>
                                 <input
                                   type="tel"
                                   name="telefone"
@@ -264,11 +269,12 @@ const Clientes = () => {
                                   maxLength="11"
                                   placeholder="TEL"
                                   required
-                                />
+                                /></label>
                               </div>
                             </div>
                             
                             <div className="endereco">
+                              <label>CIDADE<br/>
                               <input
                                 type="text"
                                 name="cidade"
@@ -277,7 +283,8 @@ const Clientes = () => {
                                 labell='CIDADE'
                                 placeholder="CIDADE"
                                 required
-                              />
+                              /></label>
+                              <label>BAIRRO<br/>
                               <input
                                 type="text"
                                 name="bairro"
@@ -286,7 +293,8 @@ const Clientes = () => {
                                 labell='BAIRRO'
                                 placeholder="BAIRRO"
                                 required
-                              />
+                              /></label>
+                              <label>RUA<br/>
                               <input
                                 type="text"
                                 name="logradouro"
@@ -295,10 +303,11 @@ const Clientes = () => {
                                 labell='LOGRADOURO'
                                 placeholder="LOGRADOURO"
                                 required
-                              />
+                              /></label>
                             </div>
                             
                             <div className="numeros">
+                              <label>ESTADO<br/>
                               <input
                                 type="text"
                                 name="uf"
@@ -308,7 +317,8 @@ const Clientes = () => {
                                 maxLength="2"
                                 placeholder="UF"
                                 required
-                              />
+                              /></label>
+                              <label>NUMERO<br/>
                               <input
                                 type="text"
                                 name="numero"
@@ -317,7 +327,8 @@ const Clientes = () => {
                                 labell='NUMERO'
                                 placeholder="NUMERO"
                                 required
-                              />
+                              /></label>
+                              <label>CEP<br/>
                               <input
                                 type="text"
                                 name="cep"
@@ -327,7 +338,7 @@ const Clientes = () => {
                                 maxLength="8"
                                 placeholder="CEP"
                                 required
-                              />
+                              /></label>
                             </div>
                             </div>
                             <div className="botoes"
@@ -347,6 +358,7 @@ const Clientes = () => {
                             <h3>INFORMAÇÕES DO CLIENTE</h3>
                                 <div className="info">
                             <div className="basico">
+                              <label>NOME DO CLIENTE<br/>
                               <input
                                 type="text"
                                 name="nome"
@@ -354,7 +366,8 @@ const Clientes = () => {
                                 labell='NOME'
                                 placeholder="NOME"
                                 required
-                              />
+                              /></label>
+                              <label>EMAIL<br/>
                               <input
                                 type="email"
                                 name="email"
@@ -362,16 +375,19 @@ const Clientes = () => {
                                 labell='EMAIL'
                                 placeholder="EMAIL"
                                 required
-                              />
+                              /></label>
+                              
                               <div className="numeros">
+                                <label>CPF<br/>
                                 <input
                                   type="text"
-                                  name="cpl"
+                                  name="cpf"
                                   value={clienteSelecionado.CPF}
                                     labell='CPF'
                                   placeholder="cpf"
                                   required
-                                />
+                                /></label>
+                                <label>TELEFONE<br/>
                                 <input
                                   type="tel"
                                   name="telefone"
@@ -380,11 +396,12 @@ const Clientes = () => {
                                   maxLength="11"
                                   placeholder="TEL"
                                   required
-                                />
+                                /></label>
                               </div>
                             </div>
                             
                             <div className="endereco">
+                              <label>CIDADE<br/>
                               <input
                                 type="text"
                                 name="cidade"
@@ -392,7 +409,8 @@ const Clientes = () => {
                                 labell='CIDADE'
                                 placeholder="CIDADE"
                                 required
-                              />
+                              /></label>
+                              <label>BAIRRO<br/>
                               <input
                                 type="text"
                                 name="bairro"
@@ -400,7 +418,8 @@ const Clientes = () => {
                                 labell='BAIRRO'
                                 placeholder="BAIRRO"
                                 required
-                              />
+                              /></label>
+                              <label>RUA<br/>
                               <input
                                 type="text"
                                 name="logradouro"
@@ -408,10 +427,11 @@ const Clientes = () => {
                                 labell='LOGRADOURO'
                                 placeholder="LOGRADOURO"
                                 required
-                              />
+                              /></label>
                             </div>
                             
                             <div className="numeros">
+                              <label>ESTADO<br/>
                               <input
                                 type="text"
                                 name="uf"
@@ -420,7 +440,8 @@ const Clientes = () => {
                                 maxLength="2"
                                 placeholder="UF"
                                 required
-                              />
+                              /></label>
+                              <label>NUMERO<br/>
                               <input
                                 type="text"
                                 name="numero"
@@ -428,7 +449,8 @@ const Clientes = () => {
                                 labell='NUMERO'
                                 placeholder="NUMERO"
                                 required
-                              />
+                              /></label>
+                              <label>CEP<br/>
                               <input
                                 type="text"
                                 name="cep"
@@ -437,7 +459,7 @@ const Clientes = () => {
                                 maxLength="8"
                                 placeholder="CEP"
                                 required
-                              />
+                              /></label>
                             </div>
                             </div>
                             <div className="botoes">
@@ -459,6 +481,7 @@ const Clientes = () => {
                           <form onSubmit={handleSubmitEdit}>
                               <div className="edit-cli">
                           <div className="basico">
+                            <label>NOME DO CLIENTE<br/>
                             <input
                               type="text"
                               name="nome"
@@ -467,7 +490,8 @@ const Clientes = () => {
                               label='NOME'
                               placeholder="NOME"
                               required
-                            />
+                            /></label>
+                            <label>EMAIL<br/>
                             <input
                               type="email"
                               name="email"
@@ -476,8 +500,9 @@ const Clientes = () => {
                               label='EMAIL'
                               placeholder="EMAIL"
                               required
-                            />
+                            /></label>
                             <div className="numeros">
+                              <label>CPF<br/>
                               <input
                                 type="text"
                                 name="cpf"
@@ -486,7 +511,8 @@ const Clientes = () => {
                                 label='CPF'
                                 placeholder="cpf"
                                 required
-                              />
+                              /></label>
+                              <label>TELEFONE<br/>
                               <input
                                 type="tel"
                                 name="telefone"
@@ -496,11 +522,12 @@ const Clientes = () => {
                                 maxLength="11"
                                 placeholder="TEL"
                                 required
-                              />
+                              /></label>
                             </div>
                           </div>
                           
                           <div className="endereco">
+                            <label>CIDADE<br/>
                             <input
                               type="text"
                               name="cidade"
@@ -509,7 +536,8 @@ const Clientes = () => {
                               label='CIDADE'
                               placeholder="CIDADE"
                               required
-                            />
+                            /></label>
+                            <label>BAIRRO<br/>
                             <input
                               type="text"
                               name="bairro"
@@ -518,7 +546,8 @@ const Clientes = () => {
                               label='BAIRRO'
                               placeholder="BAIRRO"
                               required
-                            />
+                            /></label>
+                            <label>RUA<br/>
                             <input
                               type="text"
                               name="logradouro"
@@ -527,10 +556,11 @@ const Clientes = () => {
                               label='LOGRADOURO'
                               placeholder="LOGRADOURO"
                               required
-                            />
+                            /></label>
                           </div>
                           
                           <div className="numeros">
+                            <label>ESTADO<br/>
                             <input
                               type="text"
                               name="uf"
@@ -540,7 +570,8 @@ const Clientes = () => {
                               maxLength="2"
                               placeholder="UF"
                               required
-                            />
+                            /></label>
+                            <label>NUMERO<br/>
                             <input
                               type="text"
                               name="numero"
@@ -549,7 +580,8 @@ const Clientes = () => {
                               label='NUMERO'
                               placeholder="NUMERO"
                               required
-                            />
+                            /></label>
+                            <label>CEP<br/>
                             <input
                               type="text"
                               name="cep"
@@ -559,7 +591,7 @@ const Clientes = () => {
                               maxLength="8"
                               placeholder="CEP"
                               required
-                            />
+                            /></label>
                           </div>
                           </div>
                           <div className="botoes"

@@ -245,39 +245,52 @@ const Agenda = () => {
                         <div className="info">
                             <div className="inputers">
                             <div className="basicoc">
+                                <label> NOME DO COMPROMISSO<br/>
                                 <input
                                 value={compromissoSelecionado.nome_compromisso}
                                 readOnly
                                 />
+                                </label>
+                                <label> NOME DO CLIENTE<br/>
                                 <input
                                 value={compromissoSelecionado.nome_cliente}
                                 readOnly
                                 />
+                                </label>
+                                <label> CPF DO CLIENTE<br/>
                                 <input
                                 value={compromissoSelecionado.CPF}
                                 readOnly
                                 />
+                                </label>
                             </div>
                             <div className="dadosc">
-                            <input
+                                <label> DATA DO COMPROMISSO<br/>
+                                <input
                                 value={new Date (compromissoSelecionado.data_compromisso).toLocaleDateString()}
                                 readOnly
                                 />
+                                </label>
+                                <label> STATUS DO COMPROMISSO<br/>
                                 <input
                                 value={compromissoSelecionado.status_compromisso}
                                 readOnly
                                 />
+                                </label>
+                                <label> STATUS DO CONTRATO<br/>
                                 <input
                                 value={compromissoSelecionado.status_contrato}
                                 readOnly
                                 />
+                                </label>
                             </div>
                             </div>
-
+                            <label> DESCRIÇÃO DO COMPROMISSO<br/>
                             <textarea
                             value={compromissoSelecionado.descricao}
                             readOnly
                             />
+                            </label>
 
                         </div>
 

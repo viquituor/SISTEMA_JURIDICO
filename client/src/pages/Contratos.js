@@ -77,6 +77,16 @@ const Contratos = () => {
           // Recarrega a lista
           const res = await axios.get(`${API_BASE_URL}/advogados/${oab}/Contratos`);
           setContratos(res.data);
+
+          setFormData({
+            OAB:oab,
+        CPF:'',
+        data_inicio:'',
+        tipo_servico:'',
+        status_contrato:'',
+        descricao:'',
+        valor:''
+          })
         } catch (err) {
           setError(err.response?.data?.error || err.message);
         } finally {
@@ -270,6 +280,7 @@ const Contratos = () => {
                         ))}
                         </tbody>
                     </table>
+                    
                     {mostrarInfo && contratoSelecionado && cod_contratoSelecionado && (
                         <div className="aba">
                             <h3>INFORMAÇÕES DO CONTRATO</h3>
@@ -407,6 +418,7 @@ const Contratos = () => {
                             <form onSubmit={handleSubmit} className="form-add">
                                 <div className="form-cont">
                                         <div className="basico">
+                                <label>OAB<br/> 
                                 <input
                                     name="OAB"
                                     defaultValue={oab}
@@ -414,7 +426,7 @@ const Contratos = () => {
                                     value={oab}
                                     readOnly
                                     required
-                                />
+                                /></label>
 
                                 <select name="CPF" onChange={handleChange} value={formData.CPF} required>
                                     <option value="" >-Nome do cliente-</option>
@@ -423,20 +435,22 @@ const Contratos = () => {
                                     ))}
                                 </select>
 
+                                <label>DATA DE INICIO<br/>
                                 <input
                                     name="data_inicio"
                                     type="date"
                                     onChange={handleChange}
                                     value={formData.data_inicio}
                                     required
-                                />
+                                /></label>
+                                <label>VALOR<br/>
                                 <input
                                     name="valor"
                                     onChange={handleChange}
                                     value={formData.valor}
                                     placeholder="Valor do contrato"
                                     required
-                                />
+                                /></label>
                                     </div>
                                         <div className="tipo-desc">
                                     <div className="tipo">
@@ -492,36 +506,39 @@ const Contratos = () => {
                      <form onSubmit={handleEdit} className="form-add">
                          <div className="form-cont">
                                  <div className="basico">
-                         <input
+                        <label>OAB<br/> 
+                        <input
                              name="OAB"
                              defaultValue={oab}
                              onChange={handleChange}
                              value={oab}
                              readOnly
                              required
-                         />
-
+                         /></label>
+                        <label>NOME DO CLIENTE<br/> 
                          <select name="CPF" onChange={handleChange} value={formData.CPF} required>
                              <option value="" >-Nome do cliente-</option>
                              {clientes.map((cliente) => (
                                  <option key={cliente.CPF} value={cliente.CPF}>{cliente.nome}</option>
                              ))}
                          </select>
-
+                         </label>
+                         <label>DATA DE INICIO<br/> 
                          <input
                              name="data_inicio"
                              type="date"
                              onChange={handleChange}
                              value={formData.data_inicio.split('T')[0]}
                              required
-                         />
+                         /></label>
+                         <label>VALOR<br/> 
                          <input
                              name="valor"
                              onChange={handleChange}
                              value={formData.valor}
                              placeholder="Valor do contrato"
                              required
-                         />
+                         /></label>
                              </div>
                                  <div className="tipo-desc">
                              <div className="tipo">
