@@ -44,7 +44,7 @@ h3{
     .li-prazo{
         padding: 0.2rem 2rem 1rem;
         text-align: center;
-        background-color: #2d2a26;
+        background-color: #fff;
         border-radius: 30px;
         color:#ffb801   ;
         font-size: 1.3rem;
@@ -57,13 +57,13 @@ h3{
         hr{
             border: none;
             height: 0.9px;
-            background-color:   #fff;
+            background-color:#58462b;
         }
 
         .data{
             padding: 0rem 4rem;
-            background-color: #000;
-            color: #ffb801;
+            background-color: #ffb801;
+            color: #000
             border-radius: 20px;
             font-size: 1.5rem;
             font-weight: 100;
