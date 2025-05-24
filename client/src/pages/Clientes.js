@@ -187,8 +187,8 @@ const Clientes = () => {
     return(
         <div className="container">
             <header className="central">
-                <Link to="/"><img src={logo} alt="logo" /></Link>
-                <Link to="/"><h1>ADVOCACIA ALMEIDA</h1></Link>
+                <Link to="/advogados"><img src={logo} alt="logo" /></Link>
+                <Link to="/advogados"><h1>ADVOCACIA ALMEIDA</h1></Link>
 
                 <nav>
                     <button className="agenda" onClick={() => navigate(`/advogados/${oab}/Agenda`, {replace: true})}>AGENDA</button>

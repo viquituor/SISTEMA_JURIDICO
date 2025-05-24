@@ -1,0 +1,41 @@
+form{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+
+    button{
+        width: 10rem;
+        font-size: 2rem;
+        font-weight: 400;
+        background-color: #ffb801;
+        border-radius: 30px;
+    }
+    button:hover{
+        background-color: #58462b;
+        color: #ffb801;
+    }
+    label{
+        text-align: center;
+        font-size: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 1rem;
+        font-weight: 500;
+
+        input{
+            all: unset;
+            width: 20rem;
+            height: 3rem;
+            border-radius: 30px;
+            background-color: #262626;
+            color: #ffb801;
+            text-align: center;
+            font-size: 1.5rem;
+            letter-spacing: 2rem;
+            border: #58462b  solid 3px;
+}
+    }
+}

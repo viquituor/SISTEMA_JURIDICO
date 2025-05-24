@@ -9,13 +9,15 @@ import Contratos from './pages/Contratos';
 import Pagamentos from './pages/pagamentos';
 import Processos from  './pages/Processos';
 import PrazosProcesso from './pages/PrazosProcesso';
+import CONTROL from './pages/CONTROL.js';
 
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<CONTROL/>}/>
+        <Route path="/advogados" element={<Login />} />
         <Route path="/cadastroadv" element={<CadastroAdv />} />
         <Route path="/editeadv/:oab" element={<EditeAdv />}/>
         <Route path="/advogados/:oab/Agenda" element={<Agenda/>}/>
