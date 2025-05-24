@@ -206,7 +206,7 @@ const PrazosProcesso = () => {
 
                 <ul className="ul-comp">
                     {prazosFiltrados.map((prazo) => (
-                        <li className="li-comp" key={prazo.cod_prapro}>
+                        <li className="li-prazo" key={prazo.cod_prapro}>
                             <button onClick={() => {
                                 setPrazoSelecionado(prazo);
                                 toggleModal('info', true);

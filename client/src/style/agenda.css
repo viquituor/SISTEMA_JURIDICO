@@ -41,6 +41,35 @@ h3{
     align-items: center;
     justify-content: space-evenly;
     
+    .li-prazo{
+        padding: 0.2rem 2rem 1rem;
+        text-align: center;
+        background-color: #2d2a26;
+        border-radius: 30px;
+        color:#ffb801   ;
+        font-size: 1.3rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: pointer;
+
+
+        hr{
+            border: none;
+            height: 0.9px;
+            background-color:   #fff;
+        }
+
+        .data{
+            padding: 0rem 4rem;
+            background-color: #000;
+            color: #ffb801;
+            border-radius: 20px;
+            font-size: 1.5rem;
+            font-weight: 100;
+            
+}
+    }
     
     .li-comp{
         padding: 0.2rem 2rem 1rem;

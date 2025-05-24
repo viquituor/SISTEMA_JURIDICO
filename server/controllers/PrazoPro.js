@@ -10,15 +10,6 @@ exports.getAllPrazos = async (req, res) => {
     }
 };
 
-exports.getPrazosByProcesso = async (req, res) => {
-    try {
-        const { num_processo } = req.params;
-        const prazos = await PrazoPro.getByProcesso(num_processo);
-        res.json(prazos);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-};
 
 exports.createPrazo = async (req, res) => {
     try {

@@ -1,6 +1,7 @@
 const pool = require('../config/database');
 
 class PrazoPro {
+
     static async getAll() {
         const connection = await pool.getConnection();
         try {
@@ -13,21 +14,7 @@ class PrazoPro {
             connection.release();
         }
     }
-
-    static async getByProcesso(num_processo) {
-        const connection = await pool.getConnection();
-        try {
-            const [results] = await connection.query(`
-                SELECT * FROM prazo_de_processo
-                WHERE num_processo = ?
-                ORDER BY data_prapro DESC
-            `, [num_processo]);
-            return results;
-        } finally {
-            connection.release();
-        }
-    }
-
+    
     static async create({ num_processo, nome_prapro, data_prapro, descritao_prapro, status_prapro }) {
         const connection = await pool.getConnection();
         try {
