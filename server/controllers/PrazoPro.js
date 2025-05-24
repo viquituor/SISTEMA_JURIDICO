@@ -1,9 +1,9 @@
 
 const PrazoPro = require('../models/PrazoPro');
 
-exports.getAllPrazos = async (req, res) => {
+exports.BuscarPrazos = async (req, res) => {
     try {
-        const prazos = await PrazoPro.getAll();
+        const prazos = await PrazoPro.BuscarPrazos();
         res.json(prazos);
     } catch (err) {
         res.status(500).json({ error: err.message });

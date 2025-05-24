@@ -2,7 +2,7 @@ const pool = require('../config/database');
 
 class PrazoPro {
 
-    static async getAll() {
+    static async BuscarPrazos() {
         const connection = await pool.getConnection();
         try {
             const [results] = await connection.query(`

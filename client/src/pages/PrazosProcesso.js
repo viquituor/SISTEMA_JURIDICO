@@ -16,6 +16,10 @@ const PrazosProcesso = () => {
     const [processos, setProcessos] = useState([]);
     const [processoSelecionado, setProcessoSelecionado] = useState(null);
     const [prazoSelecionado, setPrazoSelecionado] = useState(null);
+    const [setMostrarProcessos, MostrarProcesso] = useState(false);
+    const [setMostrarAdd, MostrarAdd] = useState(false);
+    const [setMostrarEdit, MostrarEdit] = useState(false);
+    const [setMostrarInfo, MostrarInfo] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     
@@ -47,37 +51,16 @@ const PrazosProcesso = () => {
     };
 
     // API calls
-    const fetchPrazos = async () => {
-        try {
-            setLoading(true);
-            const endpoint = num_processo 
-                ? `${API_BASE_URL}/advogados/${oab}/Prazo/${num_processo}`
-                : `${API_BASE_URL}/advogados/${oab}/Prazo`;
-            const response = await axios.get(endpoint);
-            setPrazos(response.data);
-        } catch (error) {
-            setError("Erro ao carregar prazos");
-            console.error("Erro ao buscar prazos:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    
 
-    const fetchProcessos = async () => {
-        try {
-            const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Processos`);
-            setProcessos(response.data);
-        } catch (error) {
-            console.error("Erro ao buscar processos:", error);
-        }
-    };
+    
 
     // CRUD operations
     const criarPrazo = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
-        
+
         try {
             if (!formData.num_processo || !formData.data_prapro || !formData.nome_prapro) {
                 throw new Error("Preencha todos os campos obrigatórios");
@@ -85,10 +68,7 @@ const PrazosProcesso = () => {
 
             await axios.post(`${API_BASE_URL}/advogados/${oab}/Prazo`, formData);
             alert("Prazo cadastrado com sucesso!");
-            toggleModal('add', false);
-            await fetchPrazos();
-            
-            // Reset form
+
             setFormData({
                 num_processo: num_processo || '',
                 nome_prapro: '',
@@ -109,15 +89,9 @@ const PrazosProcesso = () => {
         setError(null);
         
         try {
-            const response = await axios.put(
-                `${API_BASE_URL}/advogados/${oab}/Prazo/${prazoSelecionado.cod_prapro}`,
-                formData
-            );
-
+            const response = await axios.put(`${API_BASE_URL}/advogados/${oab}/Prazo/${prazoSelecionado.cod_prapro}`,formData);
             if (response.data.success) {
                 alert("Prazo editado com sucesso!");
-                toggleModal('edit', false);
-                await fetchPrazos();
             }
         } catch (err) {
             setError(err.response?.data?.error || "Erro ao editar prazo");
@@ -132,8 +106,6 @@ const PrazosProcesso = () => {
         try {
             await axios.delete(`${API_BASE_URL}/advogados/${oab}/Prazo/${cod_prapro}`);
             alert("Prazo excluído com sucesso!");
-            toggleModal('info', false);
-            await fetchPrazos();
         } catch (error) {
             alert(error.response?.data?.error || "Erro ao excluir prazo");
         }
@@ -141,12 +113,35 @@ const PrazosProcesso = () => {
 
     // Effects
     useEffect(() => {
-        fetchProcessos();
-        fetchPrazos();
-    }, [oab, num_processo]);
+        const listarProcessos = async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/advogados/${oab}/Processos`);
+            setProcessos(response.data);
+        } catch (error) {
+            console.error("Erro ao buscar processos:", error);
+        }
+    };
+    const listarPrazos = async () => {
+        try {
+            setLoading(true);
+            const endpoint = num_processo 
+                ? `${API_BASE_URL}/advogados/${oab}/Prazo/${num_processo}`
+                : `${API_BASE_URL}/advogados/${oab}/Prazo`;
+            const response = await axios.get(endpoint);
+            setPrazos(response.data);
+        } catch (error) {
+            setError("Erro ao carregar prazos");
+            console.error("Erro ao buscar prazos:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+        listarPrazos();
+        listarProcessos();
+    }, [oab, num_processo, API_BASE_URL]);
 
     useEffect(() => {
-        if (modalState.edit && prazoSelecionado) {
+        if (MostrarEdit && prazoSelecionado) {
             const dataFormatada = prazoSelecionado.data_prapro 
                 ? new Date(prazoSelecionado.data_prapro).toISOString().split('T')[0]
                 : '';
@@ -198,7 +193,7 @@ const PrazosProcesso = () => {
                         onChange={(e) => setBusca(e.target.value)}
                     />
                     <button onClick={() => navigate(`/advogados/${oab}/Agenda`)}>AGENDA</button>
-                    <button onClick={() => toggleModal('processo')}>ADICIONAR</button>
+                    <button onClick={() => setMostrarProcessos(true)}>ADICIONAR</button>
                 </div>
 
                 {error && <div className="error-message">{error}</div>}
@@ -209,7 +204,7 @@ const PrazosProcesso = () => {
                         <li className="li-prazo" key={prazo.cod_prapro}>
                             <button onClick={() => {
                                 setPrazoSelecionado(prazo);
-                                toggleModal('info', true);
+                                setMostrarInfo(true);
                             }}>
                                 <p className="data">{new Date(prazo.data_prapro).toLocaleDateString()}</p>
                                 <p>{prazo.nome_prapro}</p><hr/>
@@ -220,7 +215,7 @@ const PrazosProcesso = () => {
                 </ul>
                 
                 {/* Info Modal */}
-                {modalState.info && prazoSelecionado && (
+                {MostrarInfo && prazoSelecionado && (
                     <div className="aba-comp">
                         <h3>PRAZO DO PROCESSO</h3>
                         <div className="info">
@@ -237,18 +232,15 @@ const PrazosProcesso = () => {
                             <textarea value={prazoSelecionado.descritao_prapro} readOnly />
                         </div>
                         <div className="botoes">
-                            <button className="editar" onClick={() => {
-                                toggleModal('info', false);
-                                toggleModal('edit', true);
-                            }}>EDITAR</button>
-                            <button className="voltar" onClick={() => toggleModal('info', false)}>VOLTAR</button>
+                            <button className="editar" onClick={() => {setMostrarEdit(true);setMostrarInfo(false)}}>EDITAR</button>
+                            <button className="voltar" onClick={() => setMostrarInfo(false)}>VOLTAR</button>
                             <button className="excluir" onClick={() => deletarPrazo(prazoSelecionado.cod_prapro)}>EXCLUIR</button>
                         </div>
                     </div>
                 )}
 
                 {/* Edit Modal */}
-                {modalState.edit && (
+                {MostrarEdit && prazoSelecionado && (
                     <div className="aba-edit-comp">
                         <h3>EDITAR PRAZO</h3>
                         <form onSubmit={editarPrazo}>
@@ -281,7 +273,7 @@ const PrazosProcesso = () => {
                                 value={formData.descritao_prapro} placeholder="Descrição do prazo" />
                             <div className="botoes">
                                 <button className="voltar" type="button" 
-                                    onClick={() => toggleModal('edit', false)}>VOLTAR</button>
+                                    onClick={() => setMostrarEdit(false)}>VOLTAR</button>
                                 {error && <div className="error-message">{error}</div>}
                                 <button className="salvar" type="submit" disabled={loading}>
                                     {loading ? "SALVANDO..." : "SALVAR"}
@@ -292,42 +284,32 @@ const PrazosProcesso = () => {
                 )}
 
                 {/* Process Selection Modal */}
-                {modalState.processo && (
+                {MostrarProcesso && (
                     <div className="aba-contrato-compromisso">
                         <h3>SELECIONE O PROCESSO</h3>
-                        <table className="contratos-compromisso">
-                            <thead>
-                                <tr>
-                                    <th>Número</th>
-                                    <th>Cliente</th>
-                                    <th>Status</th>
-                                    <th>Tipo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {processos.map((processo) => (
-                                    <tr key={processo.num_processo} onClick={() => {
-                                        setProcessoSelecionado(processo);
-                                        setFormData(prev => ({ ...prev, num_processo: processo.num_processo }));
-                                        toggleModal('processo', false);
-                                        toggleModal('add', true);
-                                    }}>
-                                        <td>{processo.num_processo}</td>
-                                        <td>{processo.nome_cliente}</td>
-                                        <td>{processo.status_processo}</td>
-                                        <td>{processo.tipo_processo}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                        <table className="table-pross">
+                    <thead>
+                        <tr>
+                            <th>cod de contrato</th><th>nome</th><th>CPF</th><th>tipo de serviço</th><th>numero do processo</th><th>status do processo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {processos.map((processo)=>(                       
+                             <tr key={processo.num_processo} onClick={()=>{setMostrarAdd(true);setProcessoSelecionado(processo)}}>
+                            <td>{processo.cod_contrato}</td><td>{processo.nome}</td><td>{processo.CPF}</td><td>{processo.tipo_servico}</td><td>{processo.num_processo}</td><td>{processo.status_processo}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+
+                    </table>
                         <div className="botoes">
-                            <button className="voltar" onClick={() => toggleModal('processo', false)}>VOLTAR</button>
+                            <button className="voltar" onClick={() => MostrarProcesso(false)}>VOLTAR</button>
                         </div>
                     </div>
                 )}
 
                 {/* Add Modal */}
-                {modalState.add && (
+                {MostrarAdd && processoSelecionado && (
                     <div className="aba-add-compromisso">
                         <h3>ADICIONAR PRAZO</h3>
                         <form onSubmit={criarPrazo}>
@@ -360,10 +342,7 @@ const PrazosProcesso = () => {
                                 value={formData.descritao_prapro} placeholder="Descrição do prazo" />
                             <div className="botoes">
                                 <button className="voltar" type="button" 
-                                    onClick={() => {
-                                        toggleModal('add', false);
-                                        toggleModal('processo', true);
-                                    }}>VOLTAR</button>
+                                    onClick={() =>{setMostrarEdit(false)}}>VOLTAR</button>
                                 {error && <div className="error-message">{error}</div>}
                                 <button className="salvar" type="submit" disabled={loading}>
                                     {loading ? "SALVANDO..." : "SALVAR"}
