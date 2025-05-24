@@ -16,7 +16,7 @@ const PrazosProcesso = () => {
     const [processos, setProcessos] = useState([]);
     const [processoSelecionado, setProcessoSelecionado] = useState(null);
     const [prazoSelecionado, setPrazoSelecionado] = useState(null);
-    const [setMostrarProcessos, MostrarProcesso] = useState(false);
+    const [setMostrarProcessos, MostrarProcessos] = useState(false);
     const [setMostrarAdd, MostrarAdd] = useState(false);
     const [setMostrarEdit, MostrarEdit] = useState(false);
     const [setMostrarInfo, MostrarInfo] = useState(false);
@@ -269,7 +269,7 @@ const PrazosProcesso = () => {
                 )}
 
                 {/* Process Selection Modal */}
-                {MostrarProcesso && (
+                {MostrarProcessos && (
                     <div className="aba-contrato-compromisso">
                         <h3>SELECIONE O PROCESSO</h3>
                         <table className="table-pross">
@@ -288,7 +288,7 @@ const PrazosProcesso = () => {
 
                     </table>
                         <div className="botoes">
-                            <button className="voltar" onClick={() => MostrarProcesso(false)}>VOLTAR</button>
+                            <button className="voltar" onClick={() => MostrarProcessos(false)}>VOLTAR</button>
                         </div>
                     </div>
                 )}
