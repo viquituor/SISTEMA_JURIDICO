@@ -68,7 +68,7 @@ const CONTROL = () => {
       <main className="login-main">
         <form onSubmit={handleLogin} className="login-form">
           <div className="form-group">
-            <label htmlFor="password">Senha de Acesso<br/>
+            <label className="label-control" htmlFor="password">Senha de Acesso<br/>
             <input
               id="password"
               type="password"

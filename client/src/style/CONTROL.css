@@ -18,7 +18,7 @@ form{
         background-color: #58462b;
         color: #ffb801;
     }
-    label{
+    .label-control{
         text-align: center;
         font-size: 2rem;
         text-transform: uppercase;
@@ -39,3 +39,4 @@ form{
 }
     }
 }
+
