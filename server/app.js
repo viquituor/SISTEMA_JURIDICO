@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 const advogadosRouter = require('./routes/advogados');
 const clientesRouter = require('./routes/Clientes'); 
 const contratosRouter = require('./routes/Contratos');
@@ -17,7 +18,7 @@ const app = express();
 
 // Middlewares
 app.use(cors({
-  origin: ['https://gestao-juridica.vercel.app', 'http://localhost:3000'], // Ambientes permitidos
+  origin: [`${API_BASE_URL}`], // Ambientes permitidos
   credentials: true
 }));
 
