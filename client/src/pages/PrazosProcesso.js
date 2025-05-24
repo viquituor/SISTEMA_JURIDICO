@@ -23,13 +23,7 @@ const PrazosProcesso = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     
-    // Modal states
-    const [modalState, setModalState] = useState({
-        info: false,
-        edit: false,
-        add: false,
-        processo: false
-    });
+
 
     // Form data
     const [formData, setFormData] = useState({
@@ -40,20 +34,11 @@ const PrazosProcesso = () => {
         status_prapro: 'pendente'
     });
 
-    // Helper functions
-    const toggleModal = (modalName, value = !modalState[modalName]) => {
-        setModalState(prev => ({ ...prev, [modalName]: value }));
-    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
-
-    // API calls
-    
-
-    
 
     // CRUD operations
     const criarPrazo = async (e) => {
@@ -154,7 +139,7 @@ const PrazosProcesso = () => {
                 status_prapro: prazoSelecionado.status_prapro || 'pendente'
             });
         }
-    }, [modalState.edit, prazoSelecionado]);
+    }, [prazoSelecionado]);
 
     // Filtering
     const prazosFiltrados = prazos.filter(prazo => {
