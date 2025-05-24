@@ -227,15 +227,31 @@ const PrazosProcesso = () => {
                         <div className="info">
                             <div className="inputers">
                                 <div className="basicoc">
+                                    <label>
+                                        NOME DO PRAZO <br/>
                                     <input value={prazoSelecionado.nome_prapro} readOnly />
+                                    </label>
+                                    <label>
+                                        NUMERO DO PROCESSO <br/>
                                     <input value={prazoSelecionado.num_processo} readOnly />
-                                    <input value={formatarData(prazoSelecionado.data_prapro)} readOnly />
+                                    </label>
+                                    
                                 </div>
                                 <div className="dadosc">
+                                    <label>
+                                        DATA DO PRAZO <br/>
+                                    <input value={formatarData(prazoSelecionado.data_prapro)} readOnly />
+                                    </label>
+                                    <label>
+                                        STATUS DO PRAZO <br/>
                                     <input value={prazoSelecionado.status_prapro} readOnly />
+                                    </label>
                                 </div>
                             </div>
+                            <label>
+                                DESCRIÇÃO <br/>
                             <textarea value={prazoSelecionado.descritao_prapro} readOnly />
+                            </label>
                         </div>
                         <div className="botoes">
                             <button className="editar" onClick={() => {
