@@ -144,6 +144,7 @@ const PrazosProcesso = () => {
     useEffect(() => {
         listarPrazos();
         listarProcessos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [oab, num_processo]);
 
     useEffect(() => {
@@ -302,9 +303,11 @@ const PrazosProcesso = () => {
                                         value={formData.status_prapro} 
                                         required
                                     >
-                                        <option value="pendente">Pendente</option>
-                                        <option value="concluido">Concluído</option>
-                                        <option value="cancelado">Cancelado</option>
+                                        <option value="">SELECIONE</option>
+                             <option value="pendente">pendente</option>
+                             <option value="remarcado">REMARCADO</option>
+                             <option value="perdido">PERDIDO</option>
+                             <option value="cancelado">CANCELADO</option>
                                     </select>
                                 </label>
                             </div>
@@ -425,9 +428,11 @@ const PrazosProcesso = () => {
                                         value={formData.status_prapro} 
                                         required
                                     >
-                                        <option value="pendente">Pendente</option>
-                                        <option value="concluido">Concluído</option>
-                                        <option value="cancelado">Cancelado</option>
+                                        <option value="">SELECIONE</option>
+                             <option value="pendente">pendente</option>
+                             <option value="remarcado">REMARCADO</option>
+                             <option value="perdido">PERDIDO</option>
+                             <option value="cancelado">CANCELADO</option>
                                     </select>
                                 </label>
                             </div>
