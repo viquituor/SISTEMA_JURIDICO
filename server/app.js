@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 const advogadosRouter = require('./routes/advogados');
 const clientesRouter = require('./routes/Clientes'); 
 const contratosRouter = require('./routes/Contratos');
@@ -18,7 +18,11 @@ const app = express();
 
 // Middlewares
 app.use(cors({
-  origin: [`${API_BASE_URL}`], // Ambientes permitidos
+  origin: [
+    'https://advocacia-almeida.vercel.app',
+    'http://localhost:3000', // Para desenvolvimento local
+     API_BASE_URL // Se houver outros ambientes
+  ],
   credentials: true
 }));
 
