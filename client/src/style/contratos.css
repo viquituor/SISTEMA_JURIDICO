@@ -251,7 +251,7 @@ color: #fff;
     top: 22vh  ;
     background-color: #58462b;
     width: 50vw;
-    height: 50vh;
+    height: 55vh;
     border-radius: 50px;
     display: flex;
     flex-direction: column;
@@ -313,9 +313,10 @@ color: #fff;
         .descricao{
             display: flex;
             width: 30vw;
-            height: 18.7vh;
+            height: 25vh;
             text-align:left;
             align-items: center;
+            padding-left: 1rem;
         }
         .tipo{
 
@@ -324,7 +325,7 @@ color: #fff;
             }
             display: flex !important;
             flex-direction: row;
-            gap: 2rem;
+            gap: 5.7rem;
        }
     }
 

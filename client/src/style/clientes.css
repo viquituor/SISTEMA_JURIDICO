@@ -88,6 +88,7 @@
         color: #58462b !important;
         font-weight: 400 !important;
         font-size: 1.2rem !important;
+        text-align: left !important;
         all: unset;
         width: 17vw;
         height: 2vh;
@@ -154,6 +155,7 @@
         color: #ffb801!important;
         font-weight: 400 !important;
         font-size: 1.2rem !important;
+        text-align: left !important;
         all: unset;
         width: 17vw;
         height: 2vh;

@@ -427,14 +427,14 @@ const Contratos = () => {
                                     readOnly
                                     required
                                 /></label>
-
+                                <label>NOME DO CLIENTE<br/> 
                                 <select name="CPF" onChange={handleChange} value={formData.CPF} required>
                                     <option value="" >-Nome do cliente-</option>
                                     {clientes.map((cliente) => (
                                         <option key={cliente.CPF} value={cliente.CPF}>{cliente.nome}</option>
                                     ))}
                                 </select>
-
+                                </label>
                                 <label>DATA DE INICIO<br/>
                                 <input
                                     name="data_inicio"
