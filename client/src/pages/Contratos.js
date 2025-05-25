@@ -377,7 +377,7 @@ const Contratos = () => {
                                          <h4>DOCUMENTOS <br/> <em>clique para baixar</em></h4>
                                     {documentos.map((documento) => (
                                         <li key={documento.cod_doc}>
-                            <a href={`${API_BASE_URL}/${documento.link}`} target="_blank" rel="noopener noreferrer" download={documento.nome}>
+                            <a href={`${API_BASE_URL}${documento.link}`} target="_blank" rel="noopener noreferrer" download={documento.nome}>
                                          {documento.nome}
                             </a>
                             <button className="red" onClick={() => excluirDocumento(documento.cod_doc)}>x</button>
