@@ -59,7 +59,7 @@ const CONTROL = () => {
   return (
     <div className="container login-container">
       <header className="login-header">
-        <Link to="/advogados">
+        <Link to="/">
           <img src={logo} alt="Logo da Advocacia Almeida" />
           <h1>ADVOCACIA ALMEIDA</h1>
         </Link>
