@@ -61,7 +61,7 @@ CREATE TABLE processo (
 CREATE TABLE pagamento (
     cod_pag SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     cod_contrato SMALLINT UNSIGNED,
-    data_pag DATE NOT NULL,
+    data_pag DATETIME NOT NULL,
     data_vencimento DATE NOT NULL,
     descricao VARCHAR(500) NOT NULL,
     status_pag ENUM('concluido', 'em andamento', 'em atraso') NOT NULL,
@@ -141,12 +141,12 @@ ALTER TABLE telefone_cli ADD CONSTRAINT FK_telefone_cliente
 
 ALTER TABLE telefone_ADV ADD CONSTRAINT FK_telefone_advogado
     FOREIGN KEY (OAB) REFERENCES advogado (OAB)
-    ON DELETE CASCADE
     ON UPDATE CASCADE;
 
 ALTER TABLE prazo_de_processo ADD CONSTRAINT FK_prazo_processo FOREIGN KEY (num_processo) 
         REFERENCES processo (num_processo)
         ON DELETE CASCADE
         ON UPDATE CASCADE;
+        
         
         
