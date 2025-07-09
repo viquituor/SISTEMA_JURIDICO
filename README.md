@@ -74,6 +74,7 @@ npm run dev  # Execute na raiz do projeto
 ## 🌐 Endpoints da API (Backend)
 
 |Rota|Método|Descrição|
+|----|------|---------|
 |---|-ADVOGADOS-|---|
 |/advogados |GET |Lista todos os advogados|
 |/advogados/:oab |GET| Busca dados de um advogado|
@@ -163,6 +164,7 @@ Portas em uso: Feche outros programas usando as portas 3000 ou 3001.
 ## ✨ Recursos do Sistema
 
 |MODULOS|RECURSOS|
+|-------|--------|
 | Gestão de Advogados:| Cadastro, edição e exclusão de advogados|
 | Gestão de Clientes:| Cadastro e gerenciamento de clientes|
 | Contratos:| Criação e acompanhamento de contratos|
