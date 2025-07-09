@@ -5,7 +5,7 @@
     "concurrently": "^9.1.2"
   },
   "scripts": {
-    "dev": "concurrently \"cd client && npm run start\" \"cd server && npm run dev\""
+    "dev": "concurrently \"cd FRONT-END && npm run start\" \"cd BACK-END && npm run dev\""
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
