@@ -13,8 +13,8 @@ Git (opcional)
 ### 1. Clone o repositório (ou baixe os arquivos)
 
 ```bash
-git clone [URL do repositório]  
-cd [nome-da-pasta-do-projeto]  
+git clone https://github.com/viquituor/SISTEMA_JURIDICO.git  
+cd Sistema juridico  
 ```
 
 ### 2. Configure o Backend
