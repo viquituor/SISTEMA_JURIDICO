@@ -75,45 +75,45 @@ npm run dev  # Execute na raiz do projeto
 
 |Rota|Método|Descrição|
 |----|------|---------|
-|---|-ADVOGADOS-|---|
+||ADVOGADOS||
 |/advogados |GET |Lista todos os advogados|
 |/advogados/:oab |GET| Busca dados de um advogado|
 |/advogados |POST| Cadastra um novo advogado|
 |/advogados/:oab |PUT| Atualiza um advogado|
 |/advogados/:oab |DELETE| Remove um advogado|
-|---|-CLIENTES-|---|
+||CLIENTES||
 |/advogados/:oab/Clientes |GET| Lista clientes de um advogado|
 |/advogados/:oab/Clientes/:cpf |DELETE| Remove um cliente|
 |/advogados/:oab/Clientes |POST| Cadastra um novo cliente|
 |/advogados/:oab/Clientes/:cpf |PUT| Atualiza um cliente|
-|---|-CONTRATOS-|---|
+||CONTRATOS||
 |/advogados/:oab/Contratos |GET| Lista contratos de um advogado|
 |/advogados/:oab/Contratos/:cod_contrato |DELETE| Remove um contrato|
 |/advogados/:oab/Contratos |POST| Cadastra um novo contrato|
 |/advogados/:oab/Contratos/:cod_contrato |PUT| Atualiza um contrato|
 |/advogados/:oab/Contratos/:cod_contrato |GET| Busca listas de pagamentos, documentos e compromissos de um contrato|
-|---|-DOCUMENTOS-|---|
+||DOCUMENTOS||
 |/advogados/:oab/Contratos/:cod_contrato/doc |POST| Cadastra um novo documento|
 |/advogados/:oab/documentos/:cod_doc |GET| Abri o documento em uma nova pagina|
 |/advogados/:oab/documentos/:cod_doc |DELETE| Remove um documento|
-|---|-AGENDA-|---|
+||AGENDA||
 |/advogados/:oab/Agenda |GET| Lista compromissos de um advogado|
 |/advogados/:oab/Agenda |POST| Agenda um novo compromisso|
 |/advogados/:oab/Agenda/:cod_compromisso |DELETE| Remove um compromisso|
 |/advogados/:oab/Agenda/:cod_compromisso |PUT| Atualiza um compromisso|
-|---|-PAGAMEMTOS-|---|
+||PAGAMEMTOS||
 |/advogados/:oab/Pagamentos |GET| Lista pagamentos de um advogado|
 |/advogados/:oab/Pagamentos/:cod_contrato |GET| Lista pagamentos por contrato|
 |/advogados/:oab/Pagamentos |POST| Agenda um novo pagamento|
 |/advogados/:oab/Pagamentos/:cod_pagamento |DELETE| Remove um pagamento|
 |/advogados/:oab/Pagamentos/:cod_pagamento |PUT| Atualiza um pagamento|
-|---|-PROCESSOS-|---|
+||PROCESSOS||
 |/advogados/:oab/Processos |GET| Lista processos de um advogado|
 |/advogados/:oab/Processos/:num_processo/Prazos |GET| Lista prazos de um processo|
 |/advogados/:oab/Processos/:num_processo |DELETE| Remove um processo|
 |/advogados/:oab/Processos/:num_processo |PUT| Atualiza um processo|
 |/advogados/:oab/Processos |POST| Cadastra um novo processo|
-|---|-PRAZOS DE PROCESSOS-|---|
+||PRAZOS DE PROCESSOS||
 |/advogados/:oab/Prazo |GET| Lista prazos de processos de um advogado|
 |/advogados/:oab/Prazo/:cod_prapro |DELETE| Remove um prazo|
 |/advogados/:oab/Prazo |POST| Agenda um novo prazo|
