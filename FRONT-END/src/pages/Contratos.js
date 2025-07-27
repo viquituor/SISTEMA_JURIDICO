@@ -36,13 +36,13 @@ const Contratos = () => {
         valor:''
         });
 
-    const excluirContrato = async (cod_contrato) => {
+    const cancelarContrato = async (cod_contrato) => {
         try {
-          const confirmacao = window.confirm("Tem certeza que deseja excluir este contrato?");
+          const confirmacao = window.confirm("Tem certeza que deseja cancelar este contrato?");
           if (!confirmacao) return;
-      
-          const response = await axios.delete(`${API_BASE_URL}/advogados/${oab}/Contratos/${cod_contrato}`);
-      
+
+          const response = await axios.put(`${API_BASE_URL}/advogados/${oab}/Contratos/${cod_contrato}/cancelar`);
+            setContratoSelecionado(null);
           if (response.data.success) {
             alert(response.data.message);
             // Atualiza a lista localmente
@@ -236,8 +236,6 @@ const Contratos = () => {
         contrato.CPF.toString().includes(busca.toLowerCase())
         );
 
-
-
     return(
         <div className="container">
             <header className="central">
@@ -407,7 +405,7 @@ const Contratos = () => {
                             <div className="botoes">
                                 <button className="editar" onClick={() => {setMostrarEdit(true); setMostrarInfo(false);setFormData({...contratoSelecionado,OAB:oab})}}>EDITAR</button>
                                 <button className="voltar" onClick={() => setMostrarInfo(false)}>VOLTAR</button>
-                                <button className="excluir" onClick={() => excluirContrato(contratoSelecionado.cod_contrato)} >EXCLUIR</button>
+                                <button className="excluir" onClick={() => cancelarContrato(contratoSelecionado.cod_contrato)} >CANCELAR</button>
                             </div>
                         </div>
                     )}

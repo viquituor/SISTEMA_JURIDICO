@@ -80,6 +80,21 @@ class Contratos {
         }
     }
 
+    static async cancelarContrato(cod_contrato) {
+        try {
+            const [result] = await pool.query(`
+                CALL cancelar_contrato(?,?)
+            `, [cod_contrato, Date.now()]);
+            
+            return result;
+
+        } catch (error) {
+            console.error("Erro ao cancelar contrato:", error);
+            throw error;
+        }
+    }
+
+
     static async atualizarContrato(cod_contrato, contrato) {
         const connection = await pool.getConnection();
         try {

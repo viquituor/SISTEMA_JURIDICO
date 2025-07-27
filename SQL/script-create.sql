@@ -148,5 +148,17 @@ ALTER TABLE prazo_de_processo ADD CONSTRAINT FK_prazo_processo FOREIGN KEY (num_
         ON DELETE CASCADE
         ON UPDATE CASCADE;
         
-        
-        
+
+
+  DELIMITER //
+CREATE procedure cancelar_contrato
+(in p_cod_contrato SMALLINT unsigned, in p_data_distrato DATE)
+begin
+update contrato 
+set   status_contrato = "cancelado",
+	  data_distrato = p_data_distrato
+where cod_contrato = p_cod_contrato;
+
+select 'contrato cancelado e data de distrato registrata' as resultado;
+END// 
+DELIMITER;     

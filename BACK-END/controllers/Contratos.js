@@ -88,6 +88,28 @@ exports.deletarContrato = async (req, res, next) => {
     }
 };
 
+exports.cancelarContrato = async (req, res, next) => {
+    try {
+        const result = await Contratos.cancelarContrato(req.params.cod_contrato);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                success: false,
+                error: "Contrato não encontrado"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Contrato cancelado com sucesso"
+        });
+
+    } catch (err) {
+        console.error("Erro ao cancelar contrato:", err);
+        next(err);
+    }
+};
+
 exports.atualizarContrato = async (req, res, next) => {
 try {
     const result = await Contratos.atualizarContrato(req.params.cod_contrato, req.body);
